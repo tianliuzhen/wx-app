@@ -1,7 +1,7 @@
 // 引入用来发送请求的方法
 import {
   request
-} from "../../../request/index.js";
+} from "../../../component/request/index.js";
 const app=getApp()
 
 Page({

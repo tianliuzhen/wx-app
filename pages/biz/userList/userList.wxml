@@ -1,8 +1,8 @@
 <view class="content">
-<view class="hr"></view>
+  <view class="hr"></view>
   <view class="meet">
     <view class="frame">
-      <input placeholder="请输入用户姓名" value="{{shoopingtext}}" bindinput="shoppinginput"></input>
+      <input placeholder="请输入用户姓名" value="{{shoopingtext}}" bindinput="searchPhone"></input>
     </view>
     <view class="btn" bindtap="search" bindtap="fun_register">查询</view>
   </view>
@@ -14,27 +14,73 @@
           <view class="detail_right">{{item.type}}</view>
         </view>
         <view class="flex_1_1">
-            <view class="detail_left">手机号：</view>
-            <view class="detail_right">{{item.phone}}</view>
+          <view class="detail_left">手机号：</view>
+          <view class="detail_right">{{item.phone}}</view>
         </view>
         <view class="flex_1_1">
-            <view class="detail_left">小区编码：</view>
-            <view class="detail_right">{{item.code}}</view>
+          <view class="detail_left">小区编码：</view>
+          <view class="detail_right">{{item.code}}</view>
         </view>
         <view class="flex_1_1">
           <view class="detail_left">申请时间：</view>
           <view class="detail_right">{{item.createTime}}</view>
         </view>
       </view>
-      <view class="flex_2" >
-        <view decode="{{true}}"  class="flex_2_top" >
-          <text decode="{{true}}"> &nbsp;审批&nbsp; </text>
-        </view >
-        <view class="flex_2_bottom">
-          <text decode="{{true}}"> &nbsp;编辑&nbsp; </text>
+      <view class="flex_2">
+        <view decode="{{true}}" data-userinfo="{{item}}" data-id="{{item.id}}" bindtap="audit" class="flex_2_top">
+          <text bindtap="powerDrawer" data-statu="open" decode="{{true}}"> &nbsp;操作&nbsp; </text>
         </view>
+
       </view>
     </view>
   </block>
 
+</view>
+<!-- 弹窗代码 -->
+
+<!--mask-->
+<view class="drawer_screen" bindtap="powerDrawer" data-statu="close" wx:if="{{showModalStatus}}"></view>
+<!--content-->
+<!--使用animation属性指定需要执行的动画-->
+<view animation="{{animationData}}" class="drawer_box" wx:if="{{showModalStatus}}">
+
+  <!--drawer content-->
+  <view class="drawer_title">用户操作</view>
+  <view class="drawer_content">
+    <view class="top grid">
+      <label class="title col-0">姓名:</label>
+      <input class="input_base input_h30 col-1" bindinput="inputedit" data-obj="name" name="rName"
+        value="{{userinfo.name}}"></input>
+    </view>
+    <view class="top grid">
+      <label class="title col-0">手机号：</label>
+      <input class="input_base input_h30 col-1" bindinput="inputedit" data-obj="name" name="phone"
+        value="{{userinfo.phone}}"></input>
+    </view>
+    <view class="top grid">
+      <label class="title col-0">小区编码：</label>
+      <input class="input_base input_h30 col-1" name="phone" bindinput="inputedit" data-obj="code"
+        value="{{userinfo.code}}"></input>
+    </view>
+    <view class="top grid">
+      <label class="title col-0">申请时间：</label>
+      <input class="input_base input_h30 col-1" bindinput="inputedit" data-obj="createTime" name="createTime"
+        value="{{userinfo.createTime}}"></input>
+    </view>
+    <view class="top grid">
+      <label class="title col-0">限制次数：</label>
+      <input class="input_base input_h30 col-1" bindinput="inputedit" data-obj="limitCount" name="Email"
+        value="{{userinfo.limitCount}}"></input>
+    </view>
+    <view class="top bottom grid">
+      <label class="title col-0">备注</label>
+      <input class="input_base input_h30 col-1" name="bz"></input>
+    </view>
+
+  </view>
+  <view class="btn_ok">
+    <view bindtap="powerDrawer" data-statu="close" class=''>返回</view>
+    <view bindtap="editUser"><text style="color:#0094aa">更新</text></view>
+    <view><text style="color:red">禁用</text></view>
+  </view>
 </view>

@@ -1,4 +1,7 @@
 {
-  "usingComponents": {},
+  "usingComponents": {
+    "popup": "/component/popup/popup"
+  },
   "navigationBarTitleText": "用户列表"
+  
 }
