@@ -1,0 +1,40 @@
+<view class="content">
+<view class="hr"></view>
+  <view class="meet">
+    <view class="frame">
+      <input placeholder="请输入用户姓名" value="{{shoopingtext}}" bindinput="shoppinginput"></input>
+    </view>
+    <view class="btn" bindtap="search" bindtap="fun_register">查询</view>
+  </view>
+  <block wx:for="{{userList}}" wx:key="id">
+    <view class="meet">
+      <view class="flex_1">
+        <view class="flex_1_1">
+          <view class="detail_left">姓名：</view>
+          <view class="detail_right">{{item.type}}</view>
+        </view>
+        <view class="flex_1_1">
+            <view class="detail_left">手机号：</view>
+            <view class="detail_right">{{item.phone}}</view>
+        </view>
+        <view class="flex_1_1">
+            <view class="detail_left">小区编码：</view>
+            <view class="detail_right">{{item.code}}</view>
+        </view>
+        <view class="flex_1_1">
+          <view class="detail_left">申请时间：</view>
+          <view class="detail_right">{{item.createTime}}</view>
+        </view>
+      </view>
+      <view class="flex_2" >
+        <view decode="{{true}}"  class="flex_2_top" >
+          <text decode="{{true}}"> &nbsp;审批&nbsp; </text>
+        </view >
+        <view class="flex_2_bottom">
+          <text decode="{{true}}"> &nbsp;编辑&nbsp; </text>
+        </view>
+      </view>
+    </view>
+  </block>
+
+</view>

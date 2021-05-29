@@ -1,0 +1,30 @@
+{
+  "setting": {},
+  "condition": {
+    "plugin": {
+      "list": []
+    },
+    "game": {
+      "list": []
+    },
+    "gamePlugin": {
+      "list": []
+    },
+    "miniprogram": {
+      "list": [
+        {
+          "name": "pages/biz/userList/userList",
+          "pathName": "pages/biz/userList/userList",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/biz/banner/banner",
+          "pathName": "pages/biz/banner/banner",
+          "query": "",
+          "scene": null
+        }
+      ]
+    }
+  }
+}

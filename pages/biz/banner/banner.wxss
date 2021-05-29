@@ -1,0 +1,57 @@
+/* pages/biz/banner/banner.wxss */
+.box{
+  background-color:#fff;
+  background-origin: padding-box;
+   /* 默认：横排 */
+   flex-direction: row;  
+  display: flex;
+  width: 300px;
+  height:200px;
+  /* 横排时，justify-content 控制左右  */
+  justify-content: flex-end;
+  /* 横排时，align-items 控制上下  */
+  align-items:center;
+}
+.a{
+  background-color: black;
+  width: 40px;
+  height:40px;
+}
+.b{
+  background-color: blue;
+  width: 40px;
+  height:40px;
+ 
+}
+
+.box2{
+  background-color:pink;
+  background-origin: padding-box;
+  /* 竖排 */
+  flex-direction: column;  
+  display: flex;
+  width: 300px;
+  height:200px;
+  /* 竖排时，justify-conten 控制上下  */
+  justify-content: flex-start;
+  /* 竖排时，align-items 控制左右  */
+  align-items: flex-end;
+}
+ .c{
+  background-color: blue;
+  width: 40px;
+  height:30%;
+  text-align: right;
+}
+.middle{
+  background-color: #fff;
+  width: 40px;
+  height:40%;
+}
+
+.d{
+  background-color: blue;
+  width: 40px;
+  height:30%;
+  text-align: right;
+}

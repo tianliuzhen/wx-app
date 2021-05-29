@@ -1,0 +1,30 @@
+<!--pages/biz/set/set.wxml-->
+<!-- <text>pages/biz/set/set.wxml</text> -->
+<!-- <navigator url="../../biz/userList/userList" >注册列表</navigator> -->
+<view class="content">
+  <view class="hr"></view>
+  <view class="choice-bar">
+    <view bindtap="opens" class="item" bindtap="clickToUserList">访客记录
+    </view>
+    <view>
+      <image class="icon-chioce" src="{{openimg}}"></image>
+    </view>
+  </view>
+
+  <view class="choice-bar">
+    <view bindtap="opens" class="item" bindtap="clickToUserList">开锁记录
+    </view>
+    <view>
+      <image class="icon-chioce" src="{{openimg}}"></image>
+    </view>
+  </view>
+  <view class="choice-bar">
+    <view bindtap="opens" class="item" bindtap="clickToUserList">用户审批
+
+    </view>
+    <view class="item2">
+      <image class="icon-chioce" src="{{openimg}}"></image>
+    </view>
+  </view>
+
+</view>
