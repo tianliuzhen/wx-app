@@ -89,7 +89,8 @@
 .detail_left{
   width:78px;
   display: flex;
-  justify-content:flex-start
+  justify-content:flex-start;
+  font: 300 14px "microsoft yahei";
 }
 
 .flex_2_top{
@@ -138,7 +139,7 @@
   width: 650rpx;
   overflow: hidden;
   position: fixed;
-  top: 50%;
+  top: 30%;
   left: 0;
   z-index: 1001;
   background: #FAFAFA;
@@ -147,12 +148,12 @@
 }
  
 .drawer_title{
-  padding:15px;
+  padding:10px;
   font: 20px "microsoft yahei";
   text-align: center;
 }
 .drawer_content {
-  height: 250px;
+  height: 370px;
   overflow-y: scroll; /*超出父盒子高度可滚动*/
 }
  
@@ -175,9 +176,10 @@
 	height: 30px;
 	line-height: 30px;
 	width: 160rpx;
-	text-align: center;
+	text-align: l;
 	display: inline-block;
-	font: 300 28rpx/30px "microsoft yahei";
+  font: 300 28rpx/30px "microsoft yahei";
+  padding-left: 10px;
 }
  
 .input_base {
@@ -185,10 +187,23 @@
 	padding-left: 10rpx;
 	margin-right: 50rpx;
 }
+.input_base2 {
+  border: 2rpx solid #ccc;
+  border-right: 0rpx solid #ccc;
+}
+.input_base3 {
+  border-top: 2rpx solid #ccc;
+  border-bottom: 2rpx solid #ccc;
+  border-right: 2rpx solid #ccc;
+}
 .input_h30{
 	height: 30px;
 	line-height: 30px;
 }
+.input_w50{
+	width: 50%;
+}
+
 .input_h60{
 	height: 60px;
 }
@@ -212,3 +227,56 @@ radio{
 .col-1 {-webkit-box-flex:1;box-flex:1;}
 .fl { float: left;}
 .fr { float: right;}
+
+.cancel{
+  position: absolute;
+  left: 10px;
+  top: 8px;
+  color:gray;
+}
+.cancel_img{
+  width: 30px;
+  height: 30px;
+}
+.operateBtn{
+  height: 26px;
+  width: 45px;
+  background-color: #0094aa;
+  margin-bottom:5px ;
+  font-size: 14px;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.limitStyle{
+  background-color:#f3704b;color:#f6f5ec
+}
+
+.deleteStyle{
+  background-color:#d71345;color:#f6f5ec
+}
+
+.index--weui-input{
+	border: 2rpx solid #ccc;
+	padding-left: 10rpx;
+  margin-right: 50rpx;
+  height: 30px;
+  line-height: 30px;
+  -webkit-box-flex:1;box-flex:1;
+  
+  }
+
+  .timeChoose{
+    display: flex;
+    padding:0px;
+
+  }
+  .timeChooseDate{
+    width: 90px;
+  }
+
+  .timeChooseTime{
+    width: 60px;
+  }

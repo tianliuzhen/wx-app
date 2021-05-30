@@ -10,8 +10,8 @@ App({
     // 登录
     wx.login({
       success: res => {
-        console.log("res.code:"+res.code);
-        wx.setStorageSync('user', {})
+        // console.log("res.code:"+res.code);
+        wx.setStorageSync('user', {openid:"123xxx456"})
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
       }
     })

@@ -6,7 +6,10 @@
       <input type="text" name="userName" placeholder="请输入用户姓名" placeholder-class="holder" bingblur="accountblur" />
     </view>
     <view class="item">
-      <input type="text" name="phone" placeholder="请填写手机号、卡号" placeholder-class="holder" />
+      <input type="text" name="phone" placeholder="请填写手机号" placeholder-class="holder" />
+    </view>
+    <view class="item">
+      <input type="text" name="cardCode" placeholder="请填写卡号（非必填）" placeholder-class="holder" />
     </view>
     <view class="mobileInfo">
       <view class="mobile">
