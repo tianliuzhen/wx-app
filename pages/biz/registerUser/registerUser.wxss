@@ -102,5 +102,19 @@ item switch{
   height:300px;
   width: 90%;
   margin: 0 auto;
+  border: 2px solid #0094aa;
 }
-
+.qrcodeTop{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column;
+}
+.getQrcode {
+  width: 160px;
+  height: 35px;
+  background-color: #0094aa;
+  color: white;
+  border-radius: 38rpx; 
+  line-height: 35px;
+}

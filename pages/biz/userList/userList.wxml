@@ -70,9 +70,15 @@
         value="{{userinfo.createTime}}"></input>
     </view>
     <view class="top grid">
+      
       <label class="title col-0">限制次数：</label>
-      <input class="input_base input_h30 col-1" bindinput="inputedit" data-obj="limitCount" name="Email"
-        value="{{userinfo.limitCount}}"></input>
+      <view class='computeCount'>
+        <view class='sub_add_input' type='number'  bindtap='bindMinus'>-</view>
+        <input class="input_base_count input_w30 col-1" bindinput="inputedit" data-obj="limitCount" name="Email"
+        value="{{count}}"></input>
+        <view  class='sub_add_input' bindtap='bindPlus'>+</view>
+      </view>
+
     </view>
     <view class="top grid">
       <label class="title col-0">有效起始时间：</label>

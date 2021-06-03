@@ -12,7 +12,7 @@ Page({
         "createTime": "2021-12-22 10:22:11",
         "type": "普通用户",
         "code": "dx100",
-        "limitCount": 255,
+        "limitCount": 21,
         "startTime": "2021-06-22 10:22:11",
         "endTime": "2021-08-22 10:22:11"
       },
@@ -23,7 +23,7 @@ Page({
         "createTime": "2021-12-23 10:22:11",
         "type": "管理员",
         "code": "dx101",
-        "limitCount": 255,
+        "limitCount": 45,
         "startTime": "2021-07-22 10:27:11",
         "endTime": "2021-09-22 10:21:11"
       }
@@ -41,7 +41,8 @@ Page({
     endTime: {
       time: "00:00",
       date: "2021-08-01"
-    }
+    },
+    count:0
   },
 
   /**
@@ -52,7 +53,7 @@ Page({
 
   },
 
-
+  // 点击编辑按钮
   audit(e) {
     var res = e.currentTarget.dataset.userinfo;
     // console.log(res.startTime.substring(0, 10));
@@ -66,7 +67,8 @@ Page({
       endTime: {
         date: res.endTime.substring(0, 10),
         time: res.endTime.substring(11, 16)
-      }
+      },
+      count:res.limitCount
     })
   },
   powerDrawer: function (e) {
@@ -175,4 +177,32 @@ Page({
       endTime: res
     })
   },
+
+  //事件处理函数
+  /*点击减号*/
+  bindMinus: function () {
+    var userInfo = this.data.userinfo
+    var num = userInfo.limitCount;
+    if (num > 1) {
+      num--;
+    }
+    console.log(num);
+    userInfo.limitCount = num
+    this.setData({
+      count: num
+    })
+  },
+  /*点击加号*/
+  bindPlus: function () {
+    var userInfo = this.data.userinfo
+    var num = userInfo.limitCount;
+    num++;
+    console.log(num);
+    userInfo.limitCount = num
+    this.setData({
+      count: num
+    })
+    console.log(userInfo);
+  }
+
 })

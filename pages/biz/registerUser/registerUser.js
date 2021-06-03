@@ -2,8 +2,7 @@
 import {
   request
 } from "../../../component/request/index.js";
-const app=getApp()
-
+const app = getApp()
 Page({
   /**
    * 页面的初始数据
@@ -12,10 +11,11 @@ Page({
     color: '#0094aa',
     user: {},
     qrCode: "",
-    isShowForm: true,
     isShowQrCode: false,
-    time: 10,
-    count: 0
+    time: 10 * 600,
+    count: 0,
+    jsCode: "",
+    isNewUser: true
   },
 
   /**
@@ -23,66 +23,99 @@ Page({
    */
   onLoad: function (options) {
     console.log("onLoad")
+    console.log(wx.getStorageSync("userInfo") != null);
+   if( wx.getStorageSync("userInfo") != null){
+     this.setData({
+      isNewUser:false,
+      isShowQrCode: true,
+     })
+   }
     // 一般这里发送页面请求初始化页面
-
-
-  },
-  fun_register() {
-    console.log(this.data.user.name);
+    // 登录
+    wx.login({
+      success: res => {
+        // 获取code换openid
+        // console.log("res.code:"+res.code);
+        this.setData({
+          jsCode: res.code
+        })
+      }
+    })
   },
   formSubmit: function (e) {
     console.log('form发生了submit事件，携带数据为：', e.detail.value);
     let {
-      phone,
-      userName,
-      code,
-      roomCode,
-      verificationCode
+      mobile,
+      name,
+      cardId,
+      door
+      // verificationCode
     } = e.detail.value;
-    if (!(/^1[34578]\d{9}$/.test(phone))) {
+    if (!(/^1[34578]\d{9}$/.test(mobile))) {
       wx.showToast({
         title: '手机号码有误',
         duration: 2000,
         icon: 'none'
       });
-      return ;
+      return;
     }
-    if (!phone || !userName || !code || !roomCode || !verificationCode) {
+    // 待确定1：是否需要短信验证 （|| !verificationCode ）
+    if (!mobile || !name || !cardId || !door) {
       wx.showToast({
         title: '提交内容不能为空！',
         icon: 'none',
         duration: 1500,
       })
-      return ;
+      return;
     }
     // 调用接口注册，注册之后弹窗提示注册成功
-    this.getQrcode()
+    this.addUser(e.detail.value)
   },
-  getQrcode() {
-    console.log("user："+wx.getStorageSync('user'));
-
+  getQrocdeByClick(){
+    wx.showToast({
+      title: '审批未通过,请稍等！',
+      icon: 'none',
+      duration: 1500,
+    })
+  }
+  ,
+  addUser(requestData) {
     // 1、 清理之前数据
     this.setData({
       qrCode: ""
     })
+
     // 2、发送数据换取开锁二维码
-    wx.request({
-      url: app.globalData2.domain+ '/shared/getQRCode',
-      header: {
-        userToken: 'no2RPgdNqokTSqWTV2Ae3G+8pzALzeW4UPv5UpJk8tE='
-      },
-      method: 'GET',
-      success: (res) => {
-        this.setData({
-          qrCode: res.data.data,
-          isShowForm: false,
-          isShowQrCode: true
+    requestData.jsCode = this.data.jsCode
+    console.log(requestData);
+    request({
+      url: app.globalData.api_addUser,
+      data: requestData,
+      method: 'POST',
+    }).then(res => {
+      console.log(res);
+      if (res.data.success) {
+        wx.showToast({
+          title: '已经提交，等待审核',
+          icon: 'none',
+          duration: 2000,
         })
-        this.setTime()
-      },
-      fail: (res) => {},
-      complete: (res) => {},
-    })
+      }
+      if (!res.data.success) {
+        wx.showToast({
+          title: res.data.message,
+          icon: 'none',
+          duration: 2000,
+        })
+      }
+      this.setData({
+        isNewUser: false,
+        isShowQrCode: true
+      })
+      this.setTime()
+    });
+
+
     // 3、如果是新用户刷新缓存
   },
   checkPhoneCode(e) {

@@ -1,4 +1,8 @@
 // app.js
+
+import {
+  request
+} from "/component/request/index.js";
 App({
   // 1、生命周期回调——监听小程序初始化
   onLaunch() {
@@ -11,8 +15,16 @@ App({
     wx.login({
       success: res => {
         // console.log("res.code:"+res.code);
-        wx.setStorageSync('user', {openid:"123xxx456"})
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
+        request({
+          url:'http://localhost:9999/deviceUser/getUserInfo',
+          method: 'get',
+          data:{jsCode:res.code}
+        }).then(res=>{
+          // 存入缓存
+          wx.setStorageSync("userInfo", res.data.data)
+          this.globalData.userInfo=res.data.data
+        })
       }
     })
   },
@@ -42,10 +54,12 @@ App({
   },
   globalData: {
     userInfo: null,
-    domain:'http://localhost:8080/'
+    domain: 'http://localhost:9999',
+    api_addUser: 'http://localhost:9999/deviceUser/add',
+    api_getUserInfo: 'http://localhost:9999/deviceUser/getUserInfo'
   },
   globalData2: {
     userInfo: null,
-    domain:'http://localhost:8080/'
+    domain: 'http://localhost:9999/deviceUser/add'
   }
 })

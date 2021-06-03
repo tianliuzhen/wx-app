@@ -23,6 +23,12 @@
           "pathName": "pages/biz/banner/banner",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "pages/biz/registerUser/registerUser",
+          "pathName": "pages/biz/registerUser/registerUser",
+          "query": "id=123231",
+          "scene": 1048
         }
       ]
     }

@@ -1,35 +1,35 @@
 <!--pages/company/company.wxml-->
-<view wx:if="{{isShowForm}}" class="content">
+<view wx:if="{{isNewUser}}" class="content">
   <form bindsubmit="formSubmit" bindreset="formReset">
     <view class="hr"></view>
     <view class="item">
-      <input type="text" name="userName" placeholder="请输入用户姓名" placeholder-class="holder" bingblur="accountblur" />
+      <input type="text" name="name" placeholder="请输入用户姓名" placeholder-class="holder" bingblur="accountblur" />
     </view>
     <view class="item">
-      <input type="text" name="phone" placeholder="请填写手机号" placeholder-class="holder" />
+      <input type="text" name="mobile" placeholder="请填写手机号" placeholder-class="holder" />
     </view>
     <view class="item">
-      <input type="text" name="cardCode" placeholder="请填写卡号（非必填）" placeholder-class="holder" />
+      <input type="text" name="cardId" placeholder="请填写卡号（非必填）" placeholder-class="holder" />
     </view>
-    <view class="mobileInfo">
+    <!-- <view class="mobileInfo">
       <view class="mobile">
         <input type="text" bindblur="checkPhoneCode" name="verificationCode" placeholder="请输入短信验证码"
           placeholder-class="holder" />
       </view>
       <view class="code">发送验证码</view>
+    </view> -->
+    <view class="item">
+      <input type="text" name="areaId" placeholder="小区编码" placeholder-class="holder" />
     </view>
     <view class="item">
-      <input type="text" name="code" placeholder="小区编码" placeholder-class="holder" />
-    </view>
-    <view class="item">
-      <input type="text" name="roomCode" placeholder="设备房间号" placeholder-class="holder" />
+      <input type="text" name="door" placeholder="设备房间号" placeholder-class="holder" />
     </view>
     <view class="item-switch">
       <view class="section__title">是否为管理员</view>
       <switch name="isManger" color="{{color}}" class='wx-switch-input' type="switch" name="switch" />
     </view>
     <view class="item-button">
-      <button class="button" formType="submit" style="background-color:{{color}}" bindtap="fun_register">提交申请</button>
+      <button class="button" formType="submit" style="background-color:{{color}}" >提交申请</button>
     </view>
 
   </form>
@@ -37,7 +37,12 @@
 </view>
 <view class="qrCode" wx:if="{{isShowQrCode}}" >
   <view class="hr"></view>
-  <view >二维码刷新剩余时间：<text style="color:{{color}}">{{time}}</text></view>
+  <view class='qrcodeTop'>
+    <view class="getQrcode" bindtap="getQrocdeByClick">点击获取二维码</view>
+    <view class="hr"></view>
+    <view >二维码刷新剩余时间：<text style="color:{{color}}">{{time}}</text></view>
+  </view>
+
   <view class="hr"></view>
   <image bindtap="reLoadImage" class="qrCodeImage" src="{{qrCode}}"></image>
 </view>

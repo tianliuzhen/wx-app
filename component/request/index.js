@@ -1,10 +1,10 @@
 // 定义 Promise 异步请求
-export const request=()=>{
+export const request=(params)=>{
   return new Promise((reslove,reject)=>{
   wx.request({
-    ...param,
+    ...params,
     success:(result)=>{
-      reslove(reslove);
+      reslove(result);
     },
     fail:(error)=>{
       reject(error);
