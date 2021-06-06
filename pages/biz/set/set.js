@@ -6,6 +6,7 @@ Page({
    */
   data: {
     openimg: "../../../icon/record.png",
+    openimgMain: "../../../icon/pull.png",
   },
   clickToUserList(e){
    var type= e.currentTarget.dataset.type

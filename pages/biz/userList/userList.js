@@ -73,6 +73,10 @@ Page({
       })
       this.data.requestData.condition={'blacklist':1}
     }
+    if(options.type!=null &&  options.type=='userListAudit'){
+      this.data.requestData.condition={'status':0}
+    }
+    
 
     if (wx.getStorageSync("userInfo") != null && wx.getStorageSync("userInfo") != '') {
 
