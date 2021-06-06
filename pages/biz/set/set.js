@@ -7,9 +7,10 @@ Page({
   data: {
     openimg: "../../../icon/record.png",
   },
-  clickToUserList(){
+  clickToUserList(e){
+   var type= e.currentTarget.dataset.type
     wx.navigateTo({
-      url: '../../biz/userList/userList',
+      url: '../../biz/userList/userList?type='+type,
     })
   },
   longClickToUserList(){

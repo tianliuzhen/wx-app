@@ -15,9 +15,10 @@ App({
     wx.login({
       success: res => {
         // console.log("res.code:"+res.code);
+
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
         request({
-          url:'http://localhost:9999/deviceUser/getUserInfo',
+          url:this.globalData.api_getUserInfo,
           method: 'get',
           data:{jsCode:res.code}
         }).then(res=>{
@@ -55,11 +56,14 @@ App({
   globalData: {
     userInfo: null,
     domain: 'http://localhost:9999',
-    api_addUser: 'http://localhost:9999/deviceUser/add',
-    api_getUserInfo: 'http://localhost:9999/deviceUser/getUserInfo'
+    api_addUser: 'http://localhost:9999/wx-lock-api/addUser',
+    api_getUserInfo: 'http://localhost:9999/wx-lock-api/getUserInfo',
+    api_getUsersPage: 'http://localhost:9999/wx-lock-api/getUsersPage',
+    api_auditPass: 'http://localhost:9999/wx-lock-api/auditPass',
+    api_editUser: 'http://localhost:9999/wx-lock-api/editUser',
   },
   globalData2: {
     userInfo: null,
-    domain: 'http://localhost:9999/deviceUser/add'
+    domain: 'http://localhost:9999/wx-lock-api/add'
   }
 })

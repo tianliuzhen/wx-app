@@ -2,9 +2,9 @@
   <view class="hr"></view>
   <view class="meet">
     <view class="frame">
-      <input placeholder="请输入用户姓名" value="{{shoopingtext}}" bindinput="searchPhone"></input>
+      <input placeholder="请输入用户姓名、手机号" model:value="{{searchContion}}"></input>
     </view>
-    <view class="btn" bindtap="search" bindtap="fun_register">查询</view>
+    <view class="btn" bindtap="search">查询</view>
   </view>
   <block wx:for="{{userList}}" wx:key="id">
     <view class="meet">
@@ -14,23 +14,30 @@
           <view class="detail_right">{{item.name}}（<text style="color:#0094aa">{{item.type}}</text>）</view>
         </view>
         <view class="flex_1_1">
+          <view class="detail_left">状态：</view>
+          <view class="detail_right"><text style="color:red">{{item.status}}</text></view>
+        </view>
+        <view class="flex_1_1">
           <view class="detail_left">手机号：</view>
-          <view class="detail_right">{{item.phone}}</view>
+          <view class="detail_right">{{item.mobile}}</view>
         </view>
         <view class="flex_1_1">
           <view class="detail_left">小区编码：</view>
-          <view class="detail_right">{{item.code}}</view>
+          <view class="detail_right">{{item.areaId}}</view>
+        </view>
+        <view class="flex_1_1">
+          <view class="detail_left">是否禁用</view>
+          <view class="detail_right"><text style="color:#000">{{item.blacklist }}</text></view>
         </view>
         <view class="flex_1_1">
           <view class="detail_left">申请时间：</view>
           <view class="detail_right">{{item.createTime}}</view>
         </view>
       </view>
-      <view class="flex_2">
+      <view class="flex_2" wx:if="{{isVisitorList == false}}">
         <view decode="{{true}}" data-userinfo="{{item}}" data-id="{{item.id}}" bindtap="audit" class="flex_2_top">
-          <text bindtap="powerDrawer" data-statu="open" decode="{{true}}"> &nbsp;操作&nbsp; </text>
+          <text bindtap="powerDrawer"  data-statu="open" decode="{{true}}"> &nbsp;操作&nbsp; </text>
         </view>
-
       </view>
     </view>
   </block>
@@ -55,14 +62,24 @@
         value="{{userinfo.name}}"></input>
     </view>
     <view class="top grid">
+      <label class="title col-0"><text decode="true">用户角色：</text></label>
+      <input disabled="true" class="input_base input_h30 col-2" bindinput="inputedit" data-obj="name" name="type"
+        value="{{userinfo.type}}"></input>
+    </view>
+    <view class="top grid">
+      <label class="title col-0"><text decode="true">当前状态：</text></label>
+      <input disabled="true" class="input_base input_h30 col-2" bindinput="inputedit" data-obj="name" name="type"
+        value="{{userinfo.status}}"></input>
+    </view>
+    <view class="top grid">
       <label class="title col-0"><text decode="true">手机号：</text></label>
       <input class="input_base input_h30 col-1" bindinput="inputedit" data-obj="name" name="phone"
-        value="{{userinfo.phone}}"></input>
+        value="{{userinfo.mobile}}"></input>
     </view>
     <view class="top grid">
       <label class="title col-0">小区编码：</label>
       <input class="input_base input_h30 col-1" name="phone" bindinput="inputedit" data-obj="code"
-        value="{{userinfo.code}}"></input>
+        value="{{userinfo.areaId}}"></input>
     </view>
     <view class="top grid">
       <label class="title col-0">申请时间：</label>
@@ -70,54 +87,60 @@
         value="{{userinfo.createTime}}"></input>
     </view>
     <view class="top grid">
-      
+
       <label class="title col-0">限制次数：</label>
       <view class='computeCount'>
-        <view class='sub_add_input' type='number'  bindtap='bindMinus'>-</view>
-        <input class="input_base_count input_w30 col-1" bindinput="inputedit" data-obj="limitCount" name="Email"
-        value="{{count}}"></input>
-        <view  class='sub_add_input' bindtap='bindPlus'>+</view>
+        <view class='sub_add_input' type='number' bindtap='bindMinus'>
+          <image class="compute_img" src="{{img_sub}}"></image>
+        </view>
+        <input class="input_base_count input_w30 col-1" bindinput="inputedit" data-obj="limitCount"
+          value="{{count}}"></input>
+        <view class='sub_add_input' bindtap='bindPlus'>
+          <image class="compute_img" src="{{img_add}}"></image>
+        </view>
       </view>
 
     </view>
     <view class="top grid">
       <label class="title col-0">有效起始时间：</label>
-      <view class='timeChoose' >
-      <view class='timeChooseDate'>
-        <picker mode="date" value="{{startTime.date}}" data-obj="date" start="2020-00-01" end="2050-00-00" bindchange="bindStartTimeChange">
-          <view class="picker">
-            <input class="input_base2 input_h30 " bindinput="inputedit"   value="{{startTime.date}}"></input>
-          </view>
-        </picker>
-      </view>
-      <view class="timeChooseTime">
-        <picker mode="time" value="{{startTime.time}}" data-obj="time" start="09:01" end="21:01" bindchange="bindStartTimeChange">
-          <view class="picker">
-            <input class="input_base3 input_h30 " bindinput="inputedit"      value="{{startTime.time}}"></input>
-          </view>
-        </picker>
-      </view>
+      <view class='timeChoose'>
+        <view class='timeChooseDate'>
+          <picker mode="date" value="{{startTime.date}}" data-obj="date" start="2020-00-01" end="2050-00-00"
+            bindchange="bindStartTimeChange">
+            <view class="picker">
+              <input class="input_base2 input_h30 " bindinput="inputedit" value="{{startTime.date}}"></input>
+            </view>
+          </picker>
+        </view>
+        <view class="timeChooseTime">
+          <picker mode="time" value="{{startTime.time}}" data-obj="time" start="09:01" end="21:01"
+            bindchange="bindStartTimeChange">
+            <view class="picker">
+              <input class="input_base3 input_h30 " bindinput="inputedit" value="{{startTime.time}}"></input>
+            </view>
+          </picker>
+        </view>
       </view>
     </view>
     <view class="top grid">
       <label class="title col-0">有效结束时间：</label>
-      <view class='timeChoose' >
-      <view class='timeChooseDate'>
-        <picker mode="date" value="{{endTime.date}}" data-obj="date" start="2021-00-00" end="2050-00-00" bindchange="bindEndTimeChange">
-          <view class="picker">
-            <input class="input_base2 input_h30 " bindinput="inputedit" data-obj="limitCount" name="Email"
-              value="{{endTime.date}}"></input>
-          </view>
-        </picker>
-      </view>
-      <view class="timeChooseTime">
-        <picker mode="time" value="{{endTime.time}}" data-obj="time" start="09:01" end="21:01" bindchange="bindEndTimeChange">
-          <view class="picker">
-            <input class="input_base3 input_h30 " bindinput="inputedit" data-obj="limitCount" name="Email"
-              value="{{endTime.time}}"></input>
-          </view>
-        </picker>
-      </view>
+      <view class='timeChoose'>
+        <view class='timeChooseDate'>
+          <picker mode="date" value="{{endTime.date}}" data-obj="date" start="2021-00-00" end="2050-00-00"
+            bindchange="bindEndTimeChange">
+            <view class="picker">
+              <input class="input_base2 input_h30 " bindinput="inputedit" value="{{endTime.date}}"></input>
+            </view>
+          </picker>
+        </view>
+        <view class="timeChooseTime">
+          <picker mode="time" value="{{endTime.time}}" data-obj="time" start="09:01" end="21:01"
+            bindchange="bindEndTimeChange">
+            <view class="picker">
+              <input class="input_base3 input_h30 " bindinput="inputedit" value="{{endTime.time}}"></input>
+            </view>
+          </picker>
+        </view>
       </view>
     </view>
     <view class="top bottom grid">
@@ -127,9 +150,25 @@
 
   </view>
   <view class="btn_ok">
-    <view class='operateBtn'><text style="">同意</text></view>
-    <view class='operateBtn' bindtap="editUser"><text style="">更新</text></view>
-    <view class='operateBtn limitStyle'><text style="">禁用</text></view>
-    <view class='operateBtn deleteStyle'><text style="">删除</text></view>
+    <block wx:if="{{userinfo.status != '删除'}}">
+      <block wx:if="{{userinfo.status == '待审批'}}">
+        <view class='operateBtn ' wx:if="{{userinfo.status != '通过'}}" data-desc="通过" data-type="1" bindtap="doAudit">
+          <text style="">通过</text>
+        </view>
+        <view class='operateBtn ' wx:if="{{userinfo.status != '通过'}}" data-desc="驳回" data-type="1" bindtap="doAudit">
+          <text style="">驳回</text>
+        </view>
+      </block>
+      <view class='operateBtn' bindtap="editUser"><text style="">更新</text></view>
+
+      <view class='operateBtn limitStyle' bindtap="doAudit" data-desc="禁用" data-type="2"
+        wx:if="{{userinfo.blacklist == '否'}}"> 禁用 </view>
+      <view class='operateBtn limitStyle' bindtap="doAudit" data-desc="解禁" data-type="2"
+        wx:elif="{{userinfo.blacklist == '是'}}"> 解禁 </view>
+
+    </block>
+
+    <view class='operateBtn deleteStyle' bindtap="doAudit" data-desc="删除" data-type="3"
+      wx:if="{{userinfo.status != '删除'}}"><text style="">删除</text></view>
   </view>
 </view>

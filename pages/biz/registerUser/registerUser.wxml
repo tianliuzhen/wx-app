@@ -26,7 +26,7 @@
     </view>
     <view class="item-switch">
       <view class="section__title">是否为管理员</view>
-      <switch name="isManger" color="{{color}}" class='wx-switch-input' type="switch" name="switch" />
+      <switch name="isManger" color="{{color}}" class='wx-switch-input' type="switch"  />
     </view>
     <view class="item-button">
       <button class="button" formType="submit" style="background-color:{{color}}" >提交申请</button>

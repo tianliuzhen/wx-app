@@ -17,7 +17,7 @@
   width: 90%;
   margin: 0 auto;
   margin-bottom: 15px;
-  border-radius: 3px;
+  border-radius: 7px;
   color:#2f271d;
 }
 
@@ -181,7 +181,8 @@
   font: 300 28rpx/30px "microsoft yahei";
   padding-left: 10px;
 }
- 
+
+
 .input_base {
 	border: 2rpx solid #ccc;
 	padding-left: 10rpx;
@@ -234,6 +235,7 @@ radio{
 .grid { display: -webkit-box; display: box; }
 .col-0 {-webkit-box-flex:0;box-flex:0;}
 .col-1 {-webkit-box-flex:1;box-flex:1;}
+.col-2 {-webkit-box-flex:1;box-flex:1;color:gray}
 .fl { float: left;}
 .fr { float: right;}
 
@@ -242,6 +244,11 @@ radio{
   left: 10px;
   top: 8px;
   color:gray;
+}
+.compute_img{
+  padding-top:4px;
+  width:24px;
+  height: 24px;
 }
 .cancel_img{
   width: 30px;
@@ -258,7 +265,9 @@ radio{
   align-items: center;
   justify-content: center;
 }
-
+.operateBtnWitd100 { 
+  width: 67px;
+}
 .limitStyle{
   background-color:#f3704b;color:#f6f5ec
 }

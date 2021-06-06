@@ -23,8 +23,7 @@ Page({
    */
   onLoad: function (options) {
     console.log("onLoad")
-    console.log(wx.getStorageSync("userInfo") != null);
-   if( wx.getStorageSync("userInfo") != null){
+   if( wx.getStorageSync("userInfo") != null && wx.getStorageSync("userInfo") !=''){
      this.setData({
       isNewUser:false,
       isShowQrCode: true,
@@ -72,6 +71,8 @@ Page({
     this.addUser(e.detail.value)
   },
   getQrocdeByClick(){
+    // todo 这里调用获取二维码权限
+    this.setTime()
     wx.showToast({
       title: '审批未通过,请稍等！',
       icon: 'none',
@@ -112,7 +113,6 @@ Page({
         isNewUser: false,
         isShowQrCode: true
       })
-      this.setTime()
     });
 
 
@@ -145,6 +145,6 @@ Page({
     // this.setData({
     //   qrCode:""
     // })
-  }
+  },
 
 })
