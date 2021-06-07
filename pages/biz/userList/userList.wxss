@@ -79,6 +79,7 @@
   justify-content: center;
   font-size: 14px;
   border-radius: 3px;
+  color:#fff;
 }
 
 .meet .flex_1_1 {
@@ -94,8 +95,8 @@
 }
 
 .flex_2_top{
-  height: 26px;
-  width: 40px;
+  height: 30px;
+  width: 50px;
   background-color: #0094aa;
   margin-bottom:5px ;
   font-size: 14px;
@@ -103,6 +104,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  color:#fff;
 }
 .flex_2_bottom{
   display: flex;
@@ -264,6 +266,7 @@ radio{
   display: flex;
   align-items: center;
   justify-content: center;
+  color:#fff;
 }
 .operateBtnWitd100 { 
   width: 67px;

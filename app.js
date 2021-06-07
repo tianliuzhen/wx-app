@@ -6,6 +6,7 @@ import {
 App({
   // 1、生命周期回调——监听小程序初始化
   onLaunch() {
+    console.log("onLaunch")
     // 展示本地存储能力
     const logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
@@ -14,8 +15,6 @@ App({
     // 登录
     wx.login({
       success: res => {
-        // console.log("res.code:"+res.code);
-
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
         request({
           url:this.globalData.api_getUserInfo,
@@ -64,6 +63,11 @@ App({
   },
   globalData2: {
     userInfo: null,
-    domain: 'http://localhost:9999/wx-lock-api/add'
+    domain: 'https://codeok.cn/',
+    api_addUser: 'https://codeok.cn/wx-lock-api/addUser',
+    api_getUserInfo: 'https://codeok.cn/wx-lock-api/getUserInfo',
+    api_getUsersPage: 'https://codeok.cn/wx-lock-api/getUsersPage',
+    api_auditPass: 'https://codeok.cn/wx-lock-api/auditPass',
+    api_editUser: 'https://codeok.cn/wx-lock-api/editUser',
   }
 })

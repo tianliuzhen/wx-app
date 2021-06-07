@@ -2,58 +2,61 @@
 <!-- <text>pages/biz/set/set.wxml</text> -->
 <!-- <navigator url="../../biz/userList/userList" >注册列表</navigator> -->
 <view class="content">
-  <view class="hr"></view>
-  <view class="choice-bar">
-    <view bindtap="opens" class="item itemBgColor" data-type="userList">用户管理
-    </view>
-    <view class="item2 ">
-      <image class="icon-chioce" src="{{openimgMain}}"></image>
-    </view>
+  <view wx:if="{{isManager == false}}">
+  暂无权限访问！
   </view>
-  <view class="choice-bar">
-    <view bindtap="opens" class="item" data-type="userList" bindtap="clickToUserList">用户列表
+  <view wx:if="{{isManager == true}}">
+    <view class="hr"></view>
+    <view class="choice-bar">
+      <view bindtap="opens" class="item itemBgColor" data-type="userList">用户管理
+      </view>
+      <view class="item2 ">
+        <image class="icon-chioce" src="{{openimgMain}}"></image>
+      </view>
     </view>
-    <view class="item2">
-      <image class="icon-chioce" src="{{openimg}}"></image>
+    <view class="choice-bar">
+      <view bindtap="opens" class="item" data-type="userList" bindtap="clickToUserList">用户列表
+      </view>
+      <view class="item2">
+        <image class="icon-chioce" src="{{openimg}}"></image>
+      </view>
     </view>
-  </view>
-  <view class="choice-bar">
-    <view bindtap="opens" class="item" data-type="userListAudit" bindtap="clickToUserList">用户待审批列表
+    <view class="choice-bar">
+      <view bindtap="opens" class="item" data-type="userListAudit" bindtap="clickToUserList">用户待审批列表
+      </view>
+      <view class="item2">
+        <image class="icon-chioce" src="{{openimg}}"></image>
+      </view>
     </view>
-    <view class="item2">
-      <image class="icon-chioce" src="{{openimg}}"></image>
+    <view class="choice-bar">
+      <view bindtap="opens" class="item" data-type="visitorList" bindtap="clickToUserList">访客记录
+      </view>
+      <view>
+        <image class="icon-chioce" src="{{openimg}}"></image>
+      </view>
     </view>
-  </view>
-  <view class="choice-bar">
-    <view bindtap="opens" class="item" data-type="visitorList" bindtap="clickToUserList">访客记录
+    <view class="choice-bar">
+      <view bindtap="opens" class="item" data-type="blacklist" bindtap="clickToUserList">黑名单用户
+      </view>
+      <view class="item2">
+        <image class="icon-chioce" src="{{openimg}}"></image>
+      </view>
     </view>
-    <view>
-      <image class="icon-chioce" src="{{openimg}}"></image>
+    <view class="choice-bar">
+      <view bindtap="opens" class="item itemBgColor" data-type="userList">设备管理
+      </view>
+      <view class="item2">
+        <image class="icon-chioce" src="{{openimgMain}}"></image>
+      </view>
+    </view>
+    <view class="choice-bar">
+      <view bindtap="opens" class="item" bindtap="clickToUserList">开锁记录
+      </view>
+      <view>
+        <image class="icon-chioce" src="{{openimg}}"></image>
+      </view>
     </view>
   </view>
 
-
-  <view class="choice-bar">
-    <view bindtap="opens" class="item" data-type="blacklist" bindtap="clickToUserList">黑名单用户
-    </view>
-    <view class="item2">
-      <image class="icon-chioce" src="{{openimg}}"></image>
-    </view>
-  </view>
-
-  <view class="choice-bar">
-    <view bindtap="opens" class="item itemBgColor" data-type="userList">设备管理
-    </view>
-    <view class="item2">
-      <image class="icon-chioce" src="{{openimgMain}}"></image>
-    </view>
-  </view>
-  <view class="choice-bar">
-    <view bindtap="opens" class="item" bindtap="clickToUserList">开锁记录
-    </view>
-    <view>
-      <image class="icon-chioce" src="{{openimg}}"></image>
-    </view>
-  </view>
 
 </view>

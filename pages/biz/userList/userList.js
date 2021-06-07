@@ -77,12 +77,9 @@ Page({
       this.data.requestData.condition={'status':0}
     }
     
-
     if (wx.getStorageSync("userInfo") != null && wx.getStorageSync("userInfo") != '') {
 
     }
-
-
     // 初始化加载列表
     this.initDataUserList(this.data.requestData)
   },
@@ -96,6 +93,7 @@ Page({
         userList: res.data.data.data,
         totalPage: res.data.data.totalPage
       })
+      wx.stopPullDownRefresh()
     })
   },
 
@@ -176,13 +174,20 @@ Page({
   onPullDownRefresh: function () {
     console.log("onPullDownRefresh");
     // 当处理完数据刷新后，wx.stopPullDownRefresh可以停止当前页面的下拉刷新。
-    wx.stopPullDownRefresh()
+        // 初始化加载列表
+   this.initDataUserList(this.data.requestData)
+    
   },
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
     if (this.data.requestData.pageIndex >= this.data.totalPage) {
+      wx.showToast({
+        title: '已经到底了！',
+        icon: 'none',
+        duration: 2000
+      })
       return
     }
     this.data.requestData.pageIndex = this.data.requestData.pageIndex + 1

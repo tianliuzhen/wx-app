@@ -15,7 +15,7 @@ Page({
     time: 10 * 600,
     count: 0,
     jsCode: "",
-    isNewUser: true
+    isNewUser: false
   },
 
   /**
@@ -23,24 +23,62 @@ Page({
    */
   onLoad: function (options) {
     console.log("onLoad")
-   if( wx.getStorageSync("userInfo") != null && wx.getStorageSync("userInfo") !=''){
-     this.setData({
-      isNewUser:false,
-      isShowQrCode: true,
-     })
-   }
+
+
     // 一般这里发送页面请求初始化页面
     // 登录
-    wx.login({
-      success: res => {
-        // 获取code换openid
-        // console.log("res.code:"+res.code);
-        this.setData({
-          jsCode: res.code
-        })
-      }
-    })
+    this.initUser()
+
   },
+   /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function () {
+    console.log("onPullDownRefresh");
+    this.getQrocdeByClick()
+    // 当处理完数据刷新后，wx.stopPullDownRefresh可以停止当前页面的下拉刷新。
+    wx.stopPullDownRefresh()
+  },
+  initUser() {
+    // 初始化用户信息
+    if (wx.getStorageSync("userInfo") != null && wx.getStorageSync("userInfo") != '') {
+      this.setData({
+        isNewUser: false,
+        isShowQrCode: true,
+      })
+    } else {
+      // 登录
+      wx.login({
+        success: res => {
+          // 发送 res.code 到后台换取 openId, sessionKey, unionId
+          request({
+            url: app.globalData.api_getUserInfo,
+            method: 'get',
+            data: {
+              jsCode: res.code
+            }
+          }).then(res => {
+            // 存入缓存
+            console.log(res.data.data);
+            wx.setStorageSync("userInfo", res.data.data)
+            if (res.data.data != null && res.data.data != '') {
+              this.setData({
+                isNewUser: false,
+                isShowQrCode: true,
+              })
+            }else{
+              this.setData({
+                isNewUser: true,
+                isShowQrCode: false,
+              })
+            } 
+          })
+        }
+      })
+    
+    }
+  },
+
   formSubmit: function (e) {
     console.log('form发生了submit事件，携带数据为：', e.detail.value);
     let {
@@ -70,7 +108,7 @@ Page({
     // 调用接口注册，注册之后弹窗提示注册成功
     this.addUser(e.detail.value)
   },
-  getQrocdeByClick(){
+  getQrocdeByClick() {
     // todo 这里调用获取二维码权限
     this.setTime()
     wx.showToast({
@@ -78,42 +116,52 @@ Page({
       icon: 'none',
       duration: 1500,
     })
-  }
-  ,
+  },
   addUser(requestData) {
     // 1、 清理之前数据
     this.setData({
       qrCode: ""
     })
-
+    if (requestData.isManger) {
+      requestData.type = 0
+    }
+    if (!requestData.isManger) {
+      requestData.type = 1
+    }
     // 2、发送数据换取开锁二维码
-    requestData.jsCode = this.data.jsCode
-    console.log(requestData);
-    request({
-      url: app.globalData.api_addUser,
-      data: requestData,
-      method: 'POST',
-    }).then(res => {
-      console.log(res);
-      if (res.data.success) {
-        wx.showToast({
-          title: '已经提交，等待审核',
-          icon: 'none',
-          duration: 2000,
-        })
+    wx.login({
+      success: res => {
+        // 获取code换openid
+        // console.log("res.code:"+res.code);
+        requestData.jsCode = res.code
+        request({
+          url: app.globalData.api_addUser,
+          data: requestData,
+          method: 'POST',
+        }).then(res => {
+          console.log(res);
+          if (res.data.success) {
+            wx.showToast({
+              title: '已经提交，等待审核',
+              icon: 'none',
+              duration: 2000,
+            })
+            this.setData({
+              isNewUser: false,
+              isShowQrCode: true
+            })
+          }
+          if (!res.data.success) {
+            wx.showToast({
+              title: res.data.message,
+              icon: 'none',
+              duration: 2000,
+            })
+          }
+        });
       }
-      if (!res.data.success) {
-        wx.showToast({
-          title: res.data.message,
-          icon: 'none',
-          duration: 2000,
-        })
-      }
-      this.setData({
-        isNewUser: false,
-        isShowQrCode: true
-      })
-    });
+    })
+
 
 
     // 3、如果是新用户刷新缓存
