@@ -11,17 +11,24 @@ Page({
   data: {
     openimg: "../../../icon/record.png",
     openimgMain: "../../../icon/pull.png",
+    img_role: '/icon/no_role.png',
     isManager: false,
-    count:0
+    count: 0
   },
-
-    /**
+  onShow: function () {
+    // 页面出现在前台时执行
+    this.setData({
+      count: 0
+    })
+    this.initUser()
+  },
+  /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
     console.log("onPullDownRefresh");
     this.setData({
-      count:0
+      count: 0
     })
     this.initUser()
     wx.stopPullDownRefresh()
@@ -56,6 +63,7 @@ Page({
   checkUser(userInfo) {
     // 1、访客或者普通用户直接返回
     if (userInfo.type != 0) {
+      console.log(111);
       wx.showToast({
         title: '暂无权限！',
         icon: 'none',
@@ -65,19 +73,21 @@ Page({
     }
     // 2、判断是否是管理员并且已经审批通过
     if (userInfo.status === 1 && userInfo.type === 0) {
+      console.log(222);
       this.setData({
         isManager: true
       })
     }
     // 3、如果没有审批通过再次查询
     if (userInfo.status === 0 && userInfo.status === 0) {
+      console.log(333);
       wx.showToast({
         title: '暂无权限访问，请等待该账户审核结束！',
         icon: 'none',
         duration: 1500
       })
       console.log(this.data.count);
-      if(this.data.count >=1){
+      if (this.data.count >= 1) {
         return
       }
       this.loginUser()
@@ -99,7 +109,7 @@ Page({
           // 存入缓存
           wx.setStorageSync("userInfo", res.data.data)
           this.setData({
-            count:this.data.count + 1
+            count: this.data.count + 1
           })
           this.checkUser(res.data.data)
         })

@@ -287,7 +287,7 @@ Page({
     var tip = e.currentTarget.dataset.desc
     wx.showModal({
       title: '提示',
-      content: '确认'+tip+'通过该用户?',
+      content: '确认 '+tip+' 该用户?',
       success:res=> {
         if (res.confirm) {
           this.userOpertion(type)

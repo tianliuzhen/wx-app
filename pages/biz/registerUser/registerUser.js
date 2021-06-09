@@ -2,6 +2,7 @@
 import {
   request
 } from "../../../component/request/index.js";
+var interval ;
 const app = getApp()
 Page({
   /**
@@ -12,10 +13,13 @@ Page({
     user: {},
     qrCode: "",
     isShowQrCode: false,
-    time: 10 * 600,
+    time: 10 * 6,
     count: 0,
     jsCode: "",
-    isNewUser: false
+    isNewUser: false,
+    isTip: true, // 提示点击获取二维码
+    reRegister:false,
+    errorMes:""
   },
 
   /**
@@ -23,14 +27,30 @@ Page({
    */
   onLoad: function (options) {
     console.log("onLoad")
-
-
     // 一般这里发送页面请求初始化页面
-    // 登录
-    this.initUser()
-
+    // 初始化用户信息
+    // this.initUser()
   },
-   /**
+  onShow: function () {
+    // 页面出现在前台时执行
+    this.initUser()
+  },
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide: function () {
+    // 页面关闭时，清空定时器函数
+      clearInterval(interval);
+    },
+  
+    /**
+     * 生命周期函数--监听页面卸载
+     */
+    onUnload: function () {
+    // 页面关闭时，清空定时器函数
+      clearInterval(interval);
+    },
+  /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
@@ -42,10 +62,7 @@ Page({
   initUser() {
     // 初始化用户信息
     if (wx.getStorageSync("userInfo") != null && wx.getStorageSync("userInfo") != '') {
-      this.setData({
-        isNewUser: false,
-        isShowQrCode: true,
-      })
+      this.checkUser(wx.getStorageSync("userInfo"))
     } else {
       // 登录
       wx.login({
@@ -59,23 +76,43 @@ Page({
             }
           }).then(res => {
             // 存入缓存
-            console.log(res.data.data);
             wx.setStorageSync("userInfo", res.data.data)
-            if (res.data.data != null && res.data.data != '') {
-              this.setData({
-                isNewUser: false,
-                isShowQrCode: true,
-              })
-            }else{
-              this.setData({
-                isNewUser: true,
-                isShowQrCode: false,
-              })
-            } 
+            this.checkUser(res.data.data)
           })
         }
       })
+    }
     
+  },
+  // 用户检测
+  checkUser(userInfo){
+    // 用户信息不为空
+    if (userInfo != null && userInfo != '') {
+      this.setData({
+        isNewUser: false,
+        isShowQrCode: true,
+      })
+      // 审批通过
+      if (userInfo.status == 1) {
+        this.setData({
+          isTip: false
+        })
+      
+        this.getQrocdeByClick(userInfo.openId)
+      // 审批中
+      }else if(userInfo.status == 0){
+        wx.showToast({
+          title: '审批中请等待！',
+          icon: 'none',
+          duration: 1500
+        })
+      }
+      // 用户信息为空
+    } else {
+      this.setData({
+        isNewUser: true,
+        isShowQrCode: false,
+      })
     }
   },
 
@@ -85,7 +122,7 @@ Page({
       mobile,
       name,
       cardId,
-      door
+      doorNo
       // verificationCode
     } = e.detail.value;
     if (!(/^1[34578]\d{9}$/.test(mobile))) {
@@ -97,7 +134,7 @@ Page({
       return;
     }
     // 待确定1：是否需要短信验证 （|| !verificationCode ）
-    if (!mobile || !name || !cardId || !door) {
+    if (!mobile || !name || !cardId || !doorNo) {
       wx.showToast({
         title: '提交内容不能为空！',
         icon: 'none',
@@ -108,13 +145,34 @@ Page({
     // 调用接口注册，注册之后弹窗提示注册成功
     this.addUser(e.detail.value)
   },
-  getQrocdeByClick() {
-    // todo 这里调用获取二维码权限
-    this.setTime()
-    wx.showToast({
-      title: '审批未通过,请稍等！',
-      icon: 'none',
-      duration: 1500,
+
+  //  todo 这里调用获取二维码权限
+  getQrocdeByClick(openId) {
+    request({
+      url: app.globalData.api_getQrCode+"?openId="+openId,
+      method: 'post',
+    }).then(res => {
+
+      if(res.data.success){
+        this.setData({
+          qrCode:res.data.data,
+          isNewUser: false,
+          isShowQrCode: true,
+        })
+        this.setTime()
+      }else{
+        // 返回二维码异常
+        wx.showToast({
+          title: res.data.message,
+          icon: 'none',
+          duration: 2500
+        })
+        this.setData({
+          reRegister:true,
+          errorMes:res.data.message
+        })
+      }
+     
     })
   },
   addUser(requestData) {
@@ -139,7 +197,6 @@ Page({
           data: requestData,
           method: 'POST',
         }).then(res => {
-          console.log(res);
           if (res.data.success) {
             wx.showToast({
               title: '已经提交，等待审核',
@@ -161,30 +218,27 @@ Page({
         });
       }
     })
-
-
-
     // 3、如果是新用户刷新缓存
   },
   checkPhoneCode(e) {
     // 获取输入框的值，用来发送接口校验
     console.log(e.detail.value);
   },
-
-  // 设置计时器
+ // 设置计时器
   setTime() {
     let that = this
-    let myTime = setInterval(function () {
+    var countDown = that.data.time;
+     interval = setInterval(function () {
+      countDown--;
       that.setData({
-        time: that.data.time - 1
+        time: countDown
       })
-      if (that.data.time == 0) {
-        clearInterval(myTime)
-        that.getQrcode()
+      if (that.data.time <= 0) {
+        clearInterval(interval);
+        that.getQrocdeByClick(wx.getStorageSync("userInfo").openId)
         that.setData({
-          time: 10
+          time: 60
         })
-
       }
     }, 1000)
   },
@@ -194,5 +248,12 @@ Page({
     //   qrCode:""
     // })
   },
+  reRegister(){
+    console.log(123);
+    this.setData({
+      isNewUser: true,
+      isShowQrCode: false,
+    })
+  }
 
 })

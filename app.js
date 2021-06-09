@@ -52,7 +52,7 @@ App({
       url: 'pages/biz/img-404/img-404',
     })
   },
-  globalData: {
+  globalData2: {
     userInfo: null,
     domain: 'http://localhost:9999',
     api_addUser: 'http://localhost:9999/wx-lock-api/addUser',
@@ -60,8 +60,9 @@ App({
     api_getUsersPage: 'http://localhost:9999/wx-lock-api/getUsersPage',
     api_auditPass: 'http://localhost:9999/wx-lock-api/auditPass',
     api_editUser: 'http://localhost:9999/wx-lock-api/editUser',
+    api_getQrCode: 'http://localhost:9999/wx-lock-api/getQrCode',
   },
-  globalData2: {
+  globalData: {
     userInfo: null,
     domain: 'https://codeok.cn/',
     api_addUser: 'https://codeok.cn/wx-lock-api/addUser',
@@ -69,5 +70,6 @@ App({
     api_getUsersPage: 'https://codeok.cn/wx-lock-api/getUsersPage',
     api_auditPass: 'https://codeok.cn/wx-lock-api/auditPass',
     api_editUser: 'https://codeok.cn/wx-lock-api/editUser',
+    api_getQrCode: 'https://codeok.cn/wx-lock-api/getQrCode',
   }
 })

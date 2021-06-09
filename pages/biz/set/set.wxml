@@ -2,8 +2,10 @@
 <!-- <text>pages/biz/set/set.wxml</text> -->
 <!-- <navigator url="../../biz/userList/userList" >注册列表</navigator> -->
 <view class="content">
-  <view wx:if="{{isManager == false}}">
-  暂无权限访问！
+  <view class='noRoleTip' wx:if="{{isManager == false}}">
+  
+ <view> <image class='noRole' src="{{img_role}}"></image></view>
+  <view>暂无权限访问！</view>
   </view>
   <view wx:if="{{isManager == true}}">
     <view class="hr"></view>
