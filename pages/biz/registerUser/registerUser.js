@@ -13,7 +13,7 @@ Page({
     user: {},
     qrCode: "",
     isShowQrCode: false,
-    time: 10 * 1,
+    time: 10 * 6,
     count: 0,
     jsCode: "",
     isNewUser: false,
@@ -39,7 +39,6 @@ Page({
       url: app.globalData.api_getRoleChildData,
       method: 'post',
     }).then(res => {
-      console.log(res);
      this.setData({
       areaList:res.data.data
      })
@@ -55,9 +54,11 @@ Page({
   onHide: function () {
     // 页面关闭时，清空定时器函数
     clearInterval(interval);
-    wx.setScreenBrightness({
-      value: this.data.screenBrightness,
-    })
+    if(this.data.screenBrightness !=null && this.data.screenBrightness !='' ){
+      wx.setScreenBrightness({
+        value: this.data.screenBrightness,
+      })
+    }
   },
 
   /**
@@ -66,9 +67,12 @@ Page({
   onUnload: function () {
     // 页面关闭时，清空定时器函数
     clearInterval(interval);
-    wx.setScreenBrightness({
-      value: this.data.screenBrightness,
-    })
+    if(this.data.screenBrightness !=null && this.data.screenBrightness !='' ){
+      wx.setScreenBrightness({
+        value: this.data.screenBrightness,
+      })
+    }
+  
   },
   /**
    * 页面相关事件处理函数--监听用户下拉动作
@@ -295,7 +299,7 @@ Page({
         clearInterval(interval);
         that.getQrocdeByClick(wx.getStorageSync("userInfo").openId)
         that.setData({
-          time: 10
+          time: 10*6
         })
       }
     }, 1000)

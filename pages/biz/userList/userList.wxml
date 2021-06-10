@@ -18,11 +18,11 @@
           <view class="detail_right"><text style="color:red">{{item.status}}</text></view>
         </view>
         <view class="flex_1_1">
-          <view class="detail_left">手机号：</view>
+          <view class="detail_left">手机：</view>
           <view class="detail_right">{{item.mobile}}</view>
         </view>
         <view class="flex_1_1">
-          <view class="detail_left">小区编码：</view>
+          <view class="detail_left">小区：</view>
           <view class="detail_right">{{item.areaId}}</view>
         </view>
         <view class="flex_1_1">
@@ -72,14 +72,20 @@
         value="{{userinfo.status}}"></input>
     </view>
     <view class="top grid">
-      <label class="title col-0"><text decode="true">手机号：</text></label>
+      <label class="title col-0"><text decode="true">手机：</text></label>
       <input class="input_base input_h30 col-1" bindinput="inputedit" data-obj="name" name="phone"
         value="{{userinfo.mobile}}"></input>
     </view>
     <view class="top grid">
-      <label class="title col-0">小区编码：</label>
-      <input class="input_base input_h30 col-1" name="phone" bindinput="inputedit" data-obj="code"
-        value="{{userinfo.areaId}}"></input>
+      <label class="title col-0"> <text  style="color: gray;">小区：</text></label>
+      <!-- <input class="input_base input_h30 col-1" name="phone" bindinput="inputedit" data-obj="code"
+        value="{{userinfo.areaId}}"></input> -->
+        <picker bindchange="bindPickerChange" range-key="name" data-array="{{areaList}}"   value="{{index}}" range="{{areaList}}">
+        <view class="picker">
+         <input class="input_base input_h30 col-1"
+        value="{{area}}"></input>
+        </view>
+      </picker>
     </view>
     <view class="top grid">
       <label class="title col-0">申请时间：</label>

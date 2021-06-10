@@ -52,7 +52,7 @@ App({
       url: 'pages/biz/img-404/img-404',
     })
   },
-  globalData: {
+  globalData2: {
     userInfo: null,
     domain: 'http://localhost:9999',
     api_addUser: 'http://localhost:9999/wx-lock-api/addUser',
@@ -64,7 +64,7 @@ App({
     api_getRoleChildData: 'http://localhost:9999/wx-lock-api/getOrgChildData',
     api_getUserInfoByOpenId: 'http://localhost:9999/wx-lock-api/getUserInfoByOpenId',
   },
-  globalData2: {
+  globalData: {
     userInfo: null,
     domain: 'https://codeok.cn/',
     api_addUser: 'https://codeok.cn/wx-lock-api/addUser',

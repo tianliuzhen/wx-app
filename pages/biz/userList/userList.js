@@ -51,7 +51,10 @@ Page({
     },
     searchContion: "", //搜索条件
     totalPage: 0, // 总条数
-    isVisitorList: false // 是否是访客记录页面
+    isVisitorList: false, // 是否是访客记录页面
+    areaList: [],
+    areaListIndex:"", // 选择框选中值
+    area:""
   },
 
 
@@ -61,6 +64,17 @@ Page({
    */
   onLoad: function (options) {
     console.log("onLoad");
+    request({
+      url: app.globalData.api_getRoleChildData,
+      method: 'post',
+    }).then(res => {
+      console.log(res);
+     this.setData({
+      areaList:res.data.data
+     })
+    })
+
+
     if(options.type!=null &&  options.type=='visitorList'){
       this.setData({
         isVisitorList:true
@@ -96,7 +110,17 @@ Page({
       wx.stopPullDownRefresh()
     })
   },
-
+  bindPickerChange: function (e) {
+    // console.log('picker发送选择改变，携带值为', e.detail.value)
+    var area= this.data.areaList[e.detail.value].name
+    var userinfo= this.data.userinfo
+    userinfo.areaId=this.data.areaList[e.detail.value].code
+    this.setData({
+      areaListIndex: e.detail.value,
+      area:area,
+      userinfo:userinfo
+    })
+  },
   // 点击编辑按钮
   audit(e) {
     var res = e.currentTarget.dataset.userinfo;
@@ -118,7 +142,8 @@ Page({
         date: res.endTime.substring(0, 10),
         time: res.endTime.substring(11, 16)
       },
-      count: res.count
+      count: res.count,
+      area: res.areaId
     })
   },
   powerDrawer: function (e) {

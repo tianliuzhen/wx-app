@@ -49,6 +49,11 @@ Page({
   onLoad: function (options) {
     this.initUser()
   },
+  bindchange(e){
+    console.log(1231);
+    console.log(e);
+
+  },
   initUser() {
     // 初始化用户信息
     var userInfo = wx.getStorageSync("userInfo")
@@ -107,11 +112,13 @@ Page({
           }
         }).then(res => {
           // 存入缓存
-          wx.setStorageSync("userInfo", res.data.data)
-          this.setData({
-            count: this.data.count + 1
-          })
-          this.checkUser(res.data.data)
+          if(res.data.data != null ){
+            wx.setStorageSync("userInfo", res.data.data)
+            this.setData({
+              count: this.data.count + 1
+            })
+            this.checkUser(res.data.data)
+          }
         })
       }
     })
