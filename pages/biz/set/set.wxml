@@ -24,7 +24,7 @@
       </view>
     </view>
     <view class="choice-bar">
-      <view bindtap="opens" class="item" data-type="userListAudit" bindtap="clickToUserList">用户待审批列表
+      <view bindtap="opens" class="item" data-type="userListAudit" bindtap="clickToUserList">待批列表
       </view>
       <view class="item2">
         <image class="icon-chioce" src="{{openimg}}"></image>
@@ -38,7 +38,7 @@
       </view>
     </view>
     <view class="choice-bar">
-      <view bindtap="opens" class="item" data-type="blacklist" bindtap="clickToUserList">黑名单用户
+      <view bindtap="opens" class="item" data-type="blacklist" bindtap="clickToUserList">黑名单
       </view>
       <view class="item2">
         <image class="icon-chioce" src="{{openimg}}"></image>

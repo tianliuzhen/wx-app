@@ -18,8 +18,18 @@
       </view>
       <view class="code">发送验证码</view>
     </view> -->
-    <view class="item">
-      <input type="text" name="areaId" placeholder="小区编码" placeholder-class="holder" />
+    <view class="item2">
+      <!-- <input type="text" name="areaId" placeholder="小区编码" placeholder-class="holder" />
+       -->
+
+      <view class="item2-left">
+      <picker bindchange="bindPickerChange" range-key="name" data-array="{{areaList}}"   value="{{index}}" range="{{areaList}}">
+        <view class="picker">
+          <text  style="color: gray;">小区选择：</text>{{areaList[areaListIndex].name}}
+        </view>
+      </picker>
+    </view>
+   
     </view>
     <view class="item">
       <input type="text" name="doorNo" placeholder="设备房间号" placeholder-class="holder" />
@@ -38,7 +48,7 @@
 <view class="qrCode" wx:if="{{isShowQrCode}}" >
   <view class="hr"></view>
   <view class='qrcodeTop'>
-    <view wx:if="{{isTip}}" class="getQrcode" bindtap="getQrocdeByClick">点击获取二维码</view>
+    <view wx:if="{{isTip}}" class="getQrcode" bindtap="getQrocdeByClickManual">点击获取二维码</view>
     <block wx:if="{{reRegister == true}}">
    提示： {{errorMes}}
     <view class="hr"></view>

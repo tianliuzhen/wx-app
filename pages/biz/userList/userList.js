@@ -302,6 +302,14 @@ Page({
    * @param {*} type  1-审批/驳回，2-删除，3-禁用/解禁
    */
   userOpertion( type) {
+
+    // 刷新拉黑缓存
+    if(type==5){
+      var userInfo = wx.getStorageSync("userInfo")
+      userInfo.blacklist =1
+      wx.setStorageSync("userInfo", userInfo)
+    }
+
     request({
       url: app.globalData.api_auditPass,
       data: {
@@ -330,7 +338,7 @@ Page({
             data: this.data.userinfo,
             method: 'POST',
           }).then(res=>{
-            // this.util('close')
+            this.util('close')
             this.initDataUserList(this.data.requestData)
           })
         }

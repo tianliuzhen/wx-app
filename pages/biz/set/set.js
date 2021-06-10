@@ -62,7 +62,7 @@ Page({
   },
   checkUser(userInfo) {
     // 1、访客或者普通用户直接返回
-    if (userInfo.type != 0) {
+    if (userInfo.type != 0 &&  userInfo.blacklist==1) {
       console.log(111);
       wx.showToast({
         title: '暂无权限！',

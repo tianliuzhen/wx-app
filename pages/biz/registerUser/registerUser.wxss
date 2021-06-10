@@ -16,6 +16,25 @@
   background-color: #ffffff;
   margin-bottom: 15px;
 }
+.item2{
+  margin: 0 auto;
+  border: 1px solid #cccccc;
+  height: 40px;
+  width: 90%;
+  border-radius: 3px;
+  background-color: #ffffff;
+  margin-bottom: 15px;
+  line-height: 40px;
+}
+.item2-left{
+  margin-left: 10px;
+}
+
+.section{
+  display: flex;
+  align-items: center;
+}
+
 .item-button{
   margin: 0 auto;
   border: 0px solid #cccccc;
@@ -99,8 +118,8 @@ item switch{
   text-align: center;
 }
 .qrCodeImage{
-  height:300px;
-  width: 90%;
+  height:200px;
+  width: 200px;
   margin: 0 auto;
   border: 2px solid #0094aa;
 }
