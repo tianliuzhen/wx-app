@@ -1,8 +1,9 @@
 /* pages/company/company.wxss */
 .content{
-  width: 100%;
+  width: 100vw;
   height:100vh;
   background-color: #f2f2f2;
+   z-index: 1;
 }
 .hr{
   padding-top: 20px;
@@ -112,10 +113,12 @@ item switch{
   margin-right: 5%;
 }
 .qrCode{
-  width: 100%;
+  width: 100vw;
   height:100vh;
   background-color: #f2f2f2;
   text-align: center;
+  background-image:url(https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1751820187,1971906427&fm=224&gp=0.jpg);
+  background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;
 }
 .qrCodeImage{
   height:200px;

@@ -36,7 +36,7 @@
       </view>
       <view class="flex_2" wx:if="{{isVisitorList == false}}">
         <view decode="{{true}}" data-userinfo="{{item}}" data-id="{{item.id}}" bindtap="audit" class="flex_2_top ">
-          <text bindtap="powerDrawer"  data-statu="open" decode="{{true}}"> &nbsp;操作&nbsp; </text>
+          <text bindtap="powerDrawer" data-statu="open" decode="{{true}}"> &nbsp;操作&nbsp; </text>
         </view>
       </view>
     </view>
@@ -77,20 +77,20 @@
         value="{{userinfo.mobile}}"></input>
     </view>
     <view class="top grid">
-      <label class="title col-0"> <text  style="color: gray;">小区：</text></label>
+      <label class="title col-0"> <text style="color: gray;">小区：</text></label>
       <!-- <input class="input_base input_h30 col-1" name="phone" bindinput="inputedit" data-obj="code"
         value="{{userinfo.areaId}}"></input> -->
-        <picker bindchange="bindPickerChange" range-key="name" data-array="{{areaList}}"   value="{{index}}" range="{{areaList}}">
+      <picker bindchange="bindPickerChange" range-key="name" data-array="{{areaList}}" value="{{index}}"
+        range="{{areaList}}">
         <view class="picker">
-         <input class="input_base input_h30 col-1"
-        value="{{area}}"></input>
+          <input class="input_base input_h30 col-1" value="{{area}}"></input>
         </view>
       </picker>
     </view>
     <view class="top grid">
       <label class="title col-0">申请时间：</label>
-      <input disabled="true" class="input_base input_h30 col-1" bindinput="inputedit" data-obj="createTime" name="createTime"
-        value="{{userinfo.createTime}}"></input>
+      <input disabled="true" class="input_base input_h30 col-1" bindinput="inputedit" data-obj="createTime"
+        name="createTime" value="{{userinfo.createTime}}"></input>
     </view>
     <view class="top grid">
 
@@ -114,7 +114,8 @@
           <picker mode="date" value="{{startTime.date}}" data-obj="date" start="2020-00-01" end="2050-00-00"
             bindchange="bindStartTimeChange">
             <view class="picker">
-              <input disabled="true" class="input_base2 input_h30 " bindinput="inputedit" value="{{startTime.date}}"></input>
+              <input disabled="true" class="input_base2 input_h30 " bindinput="inputedit"
+                value="{{startTime.date}}"></input>
             </view>
           </picker>
         </view>
@@ -122,7 +123,8 @@
           <picker mode="time" value="{{startTime.time}}" data-obj="time" start="09:01" end="21:01"
             bindchange="bindStartTimeChange">
             <view class="picker">
-              <input disabled="true" class="input_base3 input_h30 " bindinput="inputedit" value="{{startTime.time}}"></input>
+              <input disabled="true" class="input_base3 input_h30 " bindinput="inputedit"
+                value="{{startTime.time}}"></input>
             </view>
           </picker>
         </view>
@@ -135,7 +137,8 @@
           <picker mode="date" value="{{endTime.date}}" data-obj="date" start="2021-00-00" end="2050-00-00"
             bindchange="bindEndTimeChange">
             <view class="picker">
-              <input disabled="true" class="input_base2 input_h30 " bindinput="inputedit" value="{{endTime.date}}"></input>
+              <input disabled="true" class="input_base2 input_h30 " bindinput="inputedit"
+                value="{{endTime.date}}"></input>
             </view>
           </picker>
         </view>
@@ -143,7 +146,8 @@
           <picker mode="time" value="{{endTime.time}}" data-obj="time" start="09:01" end="21:01"
             bindchange="bindEndTimeChange">
             <view class="picker">
-              <input disabled="true" class="input_base3 input_h30 " bindinput="inputedit" value="{{endTime.time}}"></input>
+              <input disabled="true" class="input_base3 input_h30 " bindinput="inputedit"
+                value="{{endTime.time}}"></input>
             </view>
           </picker>
         </view>

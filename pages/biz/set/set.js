@@ -13,7 +13,53 @@ Page({
     openimgMain: "../../../icon/pull.png",
     img_role: '/icon/no_role.png',
     isManager: false,
-    count: 0
+    count: 0,
+    menuTree: [{
+        "parentNode": {
+          "id":0,
+          "name": "用户管理",
+          "isHidden":false,
+          "childrenNode": [{
+              "name": "用户列表",
+              "type": "userList"
+            },
+            {
+              "name": "待批列表",
+              "type": "userListAudit"
+            },
+            {
+              "name": "访客记录",
+              "type": "visitorList"
+            },
+            {
+              "name": "黑名单",
+              "type": "blacklist"
+            }
+          ]
+        }
+      },
+      {
+        "parentNode": {
+          "isHidden":false,
+          "id":1,
+          "name": "设备管理",
+          "childrenNode": [{
+              "name": "开锁记录",
+              "type": "lockRecord"
+            },
+            {
+              "name": "设备列表",
+              "type": "machineList"
+            }
+          ]
+        }
+      }
+    ]
+
+  },
+  onTabItemTap(item) {
+    //埋点
+    console.log(item)
   },
   onShow: function () {
     // 页面出现在前台时执行
@@ -37,6 +83,16 @@ Page({
   },
   clickToUserList(e) {
     var type = e.currentTarget.dataset.type
+    // 开锁记录
+    if (type == 'lockRecord') {
+      return
+    }
+    // 设备列表
+    if (type == 'machineList') {
+      return
+    }
+
+    // 用户管理
     wx.navigateTo({
       url: '../../biz/userList/userList?type=' + type,
     })
@@ -49,15 +105,9 @@ Page({
   onLoad: function (options) {
     this.initUser()
   },
-  bindchange(e){
-    console.log(1231);
-    console.log(e);
-
-  },
   initUser() {
     // 初始化用户信息
     var userInfo = wx.getStorageSync("userInfo")
-    console.log(userInfo);
     if (userInfo != null && userInfo != '') {
       this.checkUser(userInfo)
     } else {
@@ -67,8 +117,7 @@ Page({
   },
   checkUser(userInfo) {
     // 1、访客或者普通用户直接返回
-    if (userInfo.type != 0 &&  userInfo.blacklist==1) {
-      console.log(111);
+    if (userInfo.type != 0 && userInfo.blacklist == 1) {
       wx.showToast({
         title: '暂无权限！',
         icon: 'none',
@@ -78,28 +127,23 @@ Page({
     }
     // 2、判断是否是管理员并且已经审批通过
     if (userInfo.status === 1 && userInfo.type === 0) {
-      console.log(222);
       this.setData({
         isManager: true
       })
     }
     // 3、如果没有审批通过再次查询
     if (userInfo.status === 0 && userInfo.status === 0) {
-      console.log(333);
       wx.showToast({
         title: '暂无权限访问，请等待该账户审核结束！',
         icon: 'none',
         duration: 1500
       })
-      console.log(this.data.count);
       if (this.data.count >= 1) {
         return
       }
       this.loginUser()
     }
-  }
-
-  ,
+  },
   loginUser() {
     wx.login({
       success: res => {
@@ -112,7 +156,7 @@ Page({
           }
         }).then(res => {
           // 存入缓存
-          if(res.data.data != null ){
+          if (res.data.data != null) {
             wx.setStorageSync("userInfo", res.data.data)
             this.setData({
               count: this.data.count + 1
@@ -122,6 +166,15 @@ Page({
         })
       }
     })
+  },
+  opens(e){
+    var index = e.currentTarget.dataset.index;
+    var list=  this.data.menuTree
+    list[index].parentNode.isHidden=!list[index].parentNode.isHidden
+    this.setData({
+      menuTree:list
+    })
+
   }
 
 })

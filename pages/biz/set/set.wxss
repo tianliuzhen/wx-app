@@ -56,3 +56,6 @@
    flex-flow: column;
    
  }
+ .pos{
+   padding-left: 25px;
+ }
