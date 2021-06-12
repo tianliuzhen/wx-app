@@ -20,10 +20,10 @@ Page({
     isTip: true, // 提示点击获取二维码
     reRegister: false,
     errorMes: "",
-    screenBrightness:"", // 系统默认亮度
-     //普通选择器：（普通数组）
+    screenBrightness: "", // 系统默认亮度
+    //普通选择器：（普通数组）
     areaList: [],
-    areaListIndex:"" // 选择框选中值
+    areaListIndex: "" // 选择框选中值
 
   },
 
@@ -39,9 +39,9 @@ Page({
       url: app.globalData.api_getRoleChildData,
       method: 'post',
     }).then(res => {
-     this.setData({
-      areaList:res.data.data
-     })
+      this.setData({
+        areaList: res.data.data
+      })
     })
   },
   onShow: function () {
@@ -54,7 +54,7 @@ Page({
   onHide: function () {
     // 页面关闭时，清空定时器函数
     clearInterval(interval);
-    if(this.data.screenBrightness !=null && this.data.screenBrightness !='' ){
+    if (this.data.screenBrightness != null && this.data.screenBrightness != '') {
       wx.setScreenBrightness({
         value: this.data.screenBrightness,
       })
@@ -67,18 +67,23 @@ Page({
   onUnload: function () {
     // 页面关闭时，清空定时器函数
     clearInterval(interval);
-    if(this.data.screenBrightness !=null && this.data.screenBrightness !='' ){
+    if (this.data.screenBrightness != null && this.data.screenBrightness != '') {
       wx.setScreenBrightness({
         value: this.data.screenBrightness,
       })
     }
-  
+
   },
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
     console.log("onPullDownRefresh");
+     this.setData({
+      time: 10 * 6
+      })
+    clearInterval(interval);
+    this.initUser() 
     // this.getQrocdeByClick(wx.getStorageSync("userInfo").openId)
     // 当处理完数据刷新后，wx.stopPullDownRefresh可以停止当前页面的下拉刷新。
     wx.stopPullDownRefresh()
@@ -86,6 +91,9 @@ Page({
   initUser() {
     // 初始化用户信息
     if (wx.getStorageSync("userInfo") != null && wx.getStorageSync("userInfo") != '') {
+      if (wx.getStorageSync("userInfo").type === 2) {
+        // return
+      }
       this.checkUser(wx.getStorageSync("userInfo"))
     } else {
       // 登录
@@ -93,7 +101,7 @@ Page({
         success: res => {
           // 发送 res.code 到后台换取 openId, sessionKey, unionId
           request({
-            url: app.globalData.api_getUserInfo,
+            url: app.globalData.api_getUserInfo + "?types=0,1",
             method: 'get',
             data: {
               jsCode: res.code
@@ -146,13 +154,22 @@ Page({
   },
   formSubmit: function (e) {
     console.log('form发生了submit事件，携带数据为：', e.detail.value);
-     let {
+    let {
       mobile,
       name,
       cardId,
       doorNo
       // verificationCode
     } = e.detail.value;
+    // 待确定1：是否需要短信验证 （|| !verificationCode ）
+    if (!mobile || !name  || !doorNo || !this.data.areaListIndex) {
+      wx.showToast({
+        title: '提交内容不能为空！',
+        icon: 'none',
+        duration: 1500,
+      })
+      return;
+    }
     if (!(/^1[34578]\d{9}$/.test(mobile))) {
       wx.showToast({
         title: '手机号码有误',
@@ -161,35 +178,25 @@ Page({
       });
       return;
     }
-    // 待确定1：是否需要短信验证 （|| !verificationCode ）
-    console.log(!this.data.areaListIndex);
-    if (!mobile || !name || !cardId || !doorNo || !this.data.areaListIndex) {
-      wx.showToast({
-        title: '提交内容不能为空！',
-        icon: 'none',
-        duration: 1500,
-      })
-      return;
-    }
     // 调用接口注册，注册之后弹窗提示注册成功
     this.addUser(e.detail.value)
   },
   getQrocdeByClickManual() {
     this.refush()
-    },
-    refush(){
-      request({
-        url: app.globalData.api_getUserInfoByOpenId + "?openId=" +  wx.getStorageSync("userInfo").openId,
-        method: 'post',
-      }).then(res=>{
-        wx.setStorageSync("userInfo", res.data.data)
-        this.initUser()
-      })
-    },
+  },
+  refush() {
+    request({
+      url: app.globalData.api_getUserInfoByOpenId + "?openId=" + wx.getStorageSync("userInfo").openId,
+      method: 'post',
+    }).then(res => {
+      wx.setStorageSync("userInfo", res.data.data)
+      this.initUser()
+    })
+  },
   //  todo 这里调用获取二维码权限
   getQrocdeByClick(openId) {
     request({
-      url: app.globalData.api_getQrCode + "?openId=" + openId,
+      url: app.globalData.api_getQrCode + "?openId=" + openId + "&types=0,1",
       method: 'post',
     }).then(res => {
       if (res.data.success) {
@@ -212,7 +219,7 @@ Page({
         })
         // 设置屏幕亮度
         wx.setScreenBrightness({
-          value: 1,    //屏幕亮度值，范围 0~1，0 最暗，1 最亮
+          value: 1, //屏幕亮度值，范围 0~1，0 最暗，1 最亮
         })
 
         //
@@ -263,7 +270,7 @@ Page({
               duration: 2000,
             })
             this.setData({
-              isTip:true,
+              isTip: true,
               isNewUser: false,
               isShowQrCode: true,
               reRegister: false,
@@ -299,7 +306,7 @@ Page({
         clearInterval(interval);
         that.getQrocdeByClick(wx.getStorageSync("userInfo").openId)
         that.setData({
-          time: 10*6
+          time: 10 * 6
         })
       }
     }, 1000)

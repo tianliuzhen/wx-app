@@ -126,17 +126,28 @@ Page({
       return
     }
     // 2、判断是否是管理员并且已经审批通过
-    if (userInfo.status === 1 && userInfo.type === 0) {
+    if (userInfo.status === 1 && userInfo.type === 0 && userInfo.blacklist === 0) {
       this.setData({
         isManager: true
       })
     }
     // 3、如果没有审批通过再次查询
-    if (userInfo.status === 0 && userInfo.status === 0) {
+    if (userInfo.status === 0 ) {
       wx.showToast({
         title: '暂无权限访问，请等待该账户审核结束！',
         icon: 'none',
-        duration: 1500
+        duration: 2500
+      })
+      if (this.data.count >= 1) {
+        return
+      }
+      this.loginUser()
+    }
+    if (userInfo.blacklist === 1 ) {
+      wx.showToast({
+        title: '暂无权限访问，你被拉黑，请联系管理员！',
+        icon: 'none',
+        duration: 2500
       })
       if (this.data.count >= 1) {
         return
@@ -149,7 +160,7 @@ Page({
       success: res => {
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
         request({
-          url: app.globalData.api_getUserInfo,
+          url: app.globalData.api_getUserInfo+"?types=0,1",
           method: 'get',
           data: {
             jsCode: res.code

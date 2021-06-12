@@ -13,20 +13,20 @@ App({
     wx.setStorageSync('logs', logs)
 
     // 登录
-    wx.login({
-      success: res => {
-        // 发送 res.code 到后台换取 openId, sessionKey, unionId
-        request({
-          url:this.globalData.api_getUserInfo,
-          method: 'get',
-          data:{jsCode:res.code}
-        }).then(res=>{
-          // 存入缓存
-          wx.setStorageSync("userInfo", res.data.data)
-          this.globalData.userInfo=res.data.data
-        })
-      }
-    })
+    // wx.login({
+    //   success: res => {
+    //     // 发送 res.code 到后台换取 openId, sessionKey, unionId
+    //     request({
+    //       url:this.globalData.api_getUserInfo,
+    //       method: 'get',
+    //       data:{jsCode:res.code}
+    //     }).then(res=>{
+    //       // 存入缓存
+    //       wx.setStorageSync("userInfo", res.data.data)
+    //       this.globalData.userInfo=res.data.data
+    //     })
+    //   }
+    // })
   },
   // 2、生命周期回调——监听小程序启动或切前台
   onShow() {
@@ -52,7 +52,7 @@ App({
       url: 'pages/biz/img-404/img-404',
     })
   },
-  globalData2: {
+  globalData: {
     userInfo: null,
     domain: 'http://localhost:9999',
     api_addUser: 'http://localhost:9999/wx-lock-api/addUser',
@@ -64,7 +64,7 @@ App({
     api_getRoleChildData: 'http://localhost:9999/wx-lock-api/getOrgChildData',
     api_getUserInfoByOpenId: 'http://localhost:9999/wx-lock-api/getUserInfoByOpenId',
   },
-  globalData: {
+  globalData2: {
     userInfo: null,
     domain: 'https://codeok.cn/',
     api_addUser: 'https://codeok.cn/wx-lock-api/addUser',
