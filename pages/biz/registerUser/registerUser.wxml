@@ -23,50 +23,53 @@
        -->
 
       <view class="item2-left">
-      <picker bindchange="bindPickerChange" range-key="name" data-array="{{areaList}}"   value="{{index}}" range="{{areaList}}">
-        <view class="picker">
-          <text  style="color: gray;">小区选择：</text>{{areaList[areaListIndex].name}}
-        </view>
-      </picker>
-    </view>
-   
+        <picker bindchange="bindPickerChange" range-key="name" data-array="{{areaList}}" value="{{index}}"
+          range="{{areaList}}">
+          <view class="picker">
+            <text style="color: gray;">小区选择：</text>{{areaList[areaListIndex].name}}
+          </view>
+        </picker>
+      </view>
+
     </view>
     <view class="item">
       <input type="text" name="doorNo" placeholder="设备房间号" placeholder-class="holder" />
     </view>
     <view class="item-switch">
       <view class="section__title">是否为管理员</view>
-      <switch name="isManger" color="{{color}}" class='wx-switch-input' type="switch"  />
+      <switch name="isManger" color="{{color}}" class='wx-switch-input' type="switch" />
     </view>
     <view class="item-button">
-      <button class="button" formType="submit" style="background-color:{{color}}" >提交申请</button>
+      <button class="button" formType="submit" style="background-color:{{color}}">提交申请</button>
     </view>
 
   </form>
 
 </view>
-<view class="qrCode" wx:if="{{isShowQrCode}}" >
+<view class="qrCode" wx:if="{{isShowQrCode}}">
   <view class="hr"></view>
   <view class='qrcodeTop'>
     <view wx:if="{{isTip}}" class="getQrcode" bindtap="getQrocdeByClickManual">点击获取二维码</view>
     <block wx:if="{{reRegister == true}}">
-   提示： {{errorMes}}
+    <view style="background-color:#fff;padding: 3px 5px;border-radius:5px">
+      提示： {{errorMes}}  
+    </view>
     <view class="hr"></view>
-    <view bindtap="reRegister"  class="getQrcode" >是否重新注册</view>
-  </block>
-  <view class="hr"></view>
-  <view class="hr"></view>
-  <view class="hr"></view>
-  <view class="hr"></view>
-  <block wx:if="{{reRegister == false}}">
+    <view bindtap="reRegister" class="getQrcode">是否重新注册</view>
+    </block>
     <view class="hr"></view>
-    <view style="background-color:#fff;padding: 3px 5px;border-radius:3px" >二维码刷新剩余时间：<text style="color:{{color}}">{{time}}</text></view>
-  </block>
+    <view class="hr"></view>
+    <block wx:if="{{reRegister == false}}">
+      <view class="hr"></view>
+      <view style="background-color:#fff;padding: 3px 5px;border-radius:5px">二维码刷新剩余时间：<text
+          style="color:{{color}}">{{time}}</text></view>
+    </block>
+    <block wx:if="{{reRegister == false}}">
+      <view class="hr"></view>
+      <image bindtap="reLoadImage" class="qrCodeImage" src="{{qrCode}}"></image>
+      <view class="hr"></view>
+      <!-- background-color:#0094aa;color:#fff -->
+      <view bindtap="remoteClick" style="background-color:#fff;padding: 3px 5px;border-radius:5px;width:80px;">远程开门</view>
+    </block>
   </view>
-
-  <block wx:if="{{reRegister == false}}">
-  <view class="hr"></view>
-  <image bindtap="reLoadImage" class="qrCodeImage" src="{{qrCode}}"></image>
-</block>
-  </view>
- 
+</view>

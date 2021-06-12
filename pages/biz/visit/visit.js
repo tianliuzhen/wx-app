@@ -54,6 +54,9 @@ Page({
   onHide: function () {
     // 页面关闭时，清空定时器函数
     clearInterval(interval);
+    this.setData({
+      time: 10 * 6
+      })
     if(this.data.screenBrightness !=null && this.data.screenBrightness !='' ){
       wx.setScreenBrightness({
         value: this.data.screenBrightness,
@@ -67,6 +70,9 @@ Page({
   onUnload: function () {
     // 页面关闭时，清空定时器函数
     clearInterval(interval);
+    this.setData({
+      time: 10 * 6
+      })
     if(this.data.screenBrightness !=null && this.data.screenBrightness !='' ){
       wx.setScreenBrightness({
         value: this.data.screenBrightness,
@@ -79,6 +85,11 @@ Page({
    */
   onPullDownRefresh: function () {
     console.log("onPullDownRefresh");
+     this.setData({
+      time: 10 * 6
+      })
+    clearInterval(interval);
+    this.initUser() 
     // this.getQrocdeByClick(wx.getStorageSync("userInfoVisitor").openId)
     // 当处理完数据刷新后，wx.stopPullDownRefresh可以停止当前页面的下拉刷新。
     wx.stopPullDownRefresh()
@@ -105,7 +116,7 @@ Page({
             }
           }).then(res => {
             // 存入缓存
-            wx.setStorageSync("userInfo", res.data.data)
+            wx.setStorageSync("userInfoVisitor", res.data.data)
             this.checkUser(res.data.data)
           })
         }
@@ -132,7 +143,19 @@ Page({
         wx.showToast({
           title: '审批中请等待！',
           icon: 'none',
-          duration: 1500
+          duration: 2500
+        })
+         // 审批拒绝
+      } else if (userInfo.status == 2) {
+        wx.showToast({
+          title: '审批被拒绝！',
+          icon: 'none',
+          duration: 2500
+        })
+        this.setData({
+          reRegister: true,
+          errorMes: "审批被拒绝,请联系管理员！",
+          isTip:false
         })
       }
       // 用户信息为空
@@ -178,7 +201,7 @@ Page({
         url: app.globalData.api_getUserInfoByOpenId + "?openId=" +  wx.getStorageSync("userInfoVisitor").openId,
         method: 'post',
       }).then(res=>{
-        wx.setStorageSync("userInfo", res.data.data)
+        wx.setStorageSync("userInfoVisitor", res.data.data)
         this.initUser()
       })
     },
@@ -245,7 +268,7 @@ Page({
           data: requestData,
           method: 'POST',
         }).then(res => {
-          wx.setStorageSync("userInfo", res.data.data)
+          wx.setStorageSync("userInfoVisitor", res.data.data)
           if (res.data.success) {
             wx.showToast({
               title: '已经提交，等待审核',

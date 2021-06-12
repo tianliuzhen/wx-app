@@ -141,7 +141,19 @@ Page({
         wx.showToast({
           title: '审批中请等待！',
           icon: 'none',
-          duration: 1500
+          duration: 2500
+        })
+         // 审批拒绝
+      } else if (userInfo.status == 2) {
+        wx.showToast({
+          title: '审批被拒绝！',
+          icon: 'none',
+          duration: 2500
+        })
+        this.setData({
+          reRegister: true,
+          errorMes: "审批被拒绝,请联系管理员！",
+          isTip:false
         })
       }
       // 用户信息为空
@@ -192,7 +204,7 @@ Page({
   },
   refush() {
     request({
-      url: app.globalData.api_getUserInfoByOpenId + "?openId=" + wx.getStorageSync("userInfo").openId,
+      url: app.globalData.api_getUserInfoByOpenId + "?openId=" + wx.getStorageSync("userInfo").openId+ "&types=0,1",
       method: 'post',
     }).then(res => {
       wx.setStorageSync("userInfo", res.data.data)
@@ -327,6 +339,14 @@ Page({
     this.setData({
       isNewUser: true,
       isShowQrCode: false,
+    })
+  },
+  // 远程开门
+  remoteClick(){
+    wx.showToast({
+      title: '该功能开发中！',
+      icon: 'none',
+      duration: 1500
     })
   }
 

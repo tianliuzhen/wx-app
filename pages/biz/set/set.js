@@ -133,11 +133,6 @@ Page({
     }
     // 3、如果没有审批通过再次查询
     if (userInfo.status === 0 ) {
-      wx.showToast({
-        title: '暂无权限访问，请等待该账户审核结束！',
-        icon: 'none',
-        duration: 2500
-      })
       if (this.data.count >= 1) {
         return
       }
@@ -172,6 +167,7 @@ Page({
             this.setData({
               count: this.data.count + 1
             })
+            
             this.checkUser(res.data.data)
           }
         })
