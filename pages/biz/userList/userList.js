@@ -74,7 +74,6 @@ Page({
      })
     })
 
-
     if(options.type!=null &&  options.type=='visitorList'){
       this.setData({
         isVisitorList:true
@@ -92,12 +91,15 @@ Page({
     }
     
     if (wx.getStorageSync("userInfo") != null && wx.getStorageSync("userInfo") != '') {
-
+      var userInfo = wx.getStorageSync("userInfo")
+      this.data.requestData.condition.area_id=userInfo.areaId
     }
     // 初始化加载列表
     this.initDataUserList(this.data.requestData)
   },
   initDataUserList(data) {
+
+    
     request({
       url: app.globalData.api_getUsersPage,
       data: data,
