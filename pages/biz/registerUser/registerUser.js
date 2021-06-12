@@ -54,6 +54,9 @@ Page({
   onHide: function () {
     // 页面关闭时，清空定时器函数
     clearInterval(interval);
+    this.setData({
+      time: 10 * 6
+      })
     if (this.data.screenBrightness != null && this.data.screenBrightness != '') {
       wx.setScreenBrightness({
         value: this.data.screenBrightness,
@@ -67,6 +70,9 @@ Page({
   onUnload: function () {
     // 页面关闭时，清空定时器函数
     clearInterval(interval);
+    this.setData({
+      time: 10 * 6
+      })
     if (this.data.screenBrightness != null && this.data.screenBrightness != '') {
       wx.setScreenBrightness({
         value: this.data.screenBrightness,

@@ -54,10 +54,13 @@
     <view class="hr"></view>
     <view bindtap="reRegister"  class="getQrcode" >是否重新注册</view>
   </block>
-
+  <view class="hr"></view>
+  <view class="hr"></view>
+  <view class="hr"></view>
+  <view class="hr"></view>
   <block wx:if="{{reRegister == false}}">
     <view class="hr"></view>
-    <view >二维码刷新剩余时间：<text style="color:{{color}}">{{time}}</text></view>
+    <view style="background-color:#fff;padding: 3px 5px;border-radius:3px" >二维码刷新剩余时间：<text style="color:{{color}}">{{time}}</text></view>
   </block>
   </view>
 
