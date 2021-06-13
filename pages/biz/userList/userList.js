@@ -312,6 +312,7 @@ Page({
   search() {
     var res = this.data.requestData
     res.pageIndex = 1
+    res.condition.name = this.data.searchContion
     this.setData({
       requestData: res,
       userList: []

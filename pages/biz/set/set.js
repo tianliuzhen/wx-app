@@ -99,6 +99,7 @@ Page({
       wx.navigateTo({
         url: '../../biz/lockRecord/lockRecord',
       })
+      return
     }
     // 设备列表
     if (type == 'machineList') {
