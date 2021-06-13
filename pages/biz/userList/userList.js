@@ -90,16 +90,15 @@ Page({
       this.data.requestData.condition={'status':0}
     }
     
-    if (wx.getStorageSync("userInfo") != null && wx.getStorageSync("userInfo") != '') {
-      var userInfo = wx.getStorageSync("userInfo")
-      this.data.requestData.condition.area_id=userInfo.areaId
-    }
+ 
     // 初始化加载列表
     this.initDataUserList(this.data.requestData)
   },
   initDataUserList(data) {
-
-    
+    if (wx.getStorageSync("userInfo") != null && wx.getStorageSync("userInfo") != '') {
+      var userInfo = wx.getStorageSync("userInfo")
+      this.data.requestData.condition.area_id=userInfo.areaId
+    }
     request({
       url: app.globalData.api_getUsersPage,
       data: data,
@@ -221,6 +220,12 @@ Page({
     this.initDataUserListPush(this.data.requestData)
   },
   initDataUserListPush(data) {
+
+    if (wx.getStorageSync("userInfo") != null && wx.getStorageSync("userInfo") != '') {
+      var userInfo = wx.getStorageSync("userInfo")
+      data.condition.area_id=userInfo.areaId
+    }
+
     request({
       url: app.globalData.api_getUsersPage,
       data: data,
@@ -304,7 +309,8 @@ Page({
       userList: []
     })
     this.data.requestData.condition = {
-      'name': this.data.searchContion
+      'name': this.data.searchContion,
+      'area_id':wx.getStorageSync("userInfo").areaId
     }
     this.initDataUserList(this.data.requestData)
   },

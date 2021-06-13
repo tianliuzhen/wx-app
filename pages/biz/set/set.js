@@ -85,7 +85,9 @@ Page({
     var type = e.currentTarget.dataset.type
     // 开锁记录
     if (type == 'lockRecord') {
-      return
+      wx.navigateTo({
+        url: '../../biz/lockRecord/lockRecord',
+      })
     }
     // 设备列表
     if (type == 'machineList') {
@@ -97,6 +99,8 @@ Page({
       url: '../../biz/userList/userList?type=' + type,
     })
   },
+
+  // 用户列表
   longClickToUserList() {
     wx.navigateTo({
       url: '../../biz/userList/userList',

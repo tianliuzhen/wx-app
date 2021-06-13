@@ -8,7 +8,8 @@
     "pages/biz/banner/banner",
     "pages/biz/userList/userList" ,
     "pages/biz/visitorRecord/visitorRecord",   
-    "pages/biz/set/set"   
+    "pages/biz/set/set",   
+    "pages/biz/lockRecord/lockRecord" 
   ],
   "window":{
     "backgroundTextStyle":"dark",

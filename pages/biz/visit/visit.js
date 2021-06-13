@@ -147,11 +147,6 @@ Page({
         })
          // 审批拒绝
       } else if (userInfo.status == 2) {
-        wx.showToast({
-          title: '审批被拒绝！',
-          icon: 'none',
-          duration: 2500
-        })
         this.setData({
           reRegister: true,
           errorMes: "审批被拒绝,请联系管理员！",

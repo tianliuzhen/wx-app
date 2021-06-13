@@ -2,6 +2,7 @@
 <!-- <text>pages/biz/set/set.wxml</text> -->
 <!-- <navigator url="../../biz/userList/userList" >注册列表</navigator> -->
 <view class="content">
+  <!-- <image class='background' src="../../../icon/wx-lock2.jpg" mode="aspectFill"></image> -->
   <view class='noRoleTip' wx:if="{{isManager == false}}">
     <view>
       <image class='noRole' src="{{img_role}}"></image>

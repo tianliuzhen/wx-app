@@ -47,6 +47,7 @@
 
 </view>
 <view class="qrCode" wx:if="{{isShowQrCode}}">
+  <image class='background' src="../../../icon/wx-lock.jpg" mode="aspectFill"></image>
   <view class="hr"></view>
   <view class='qrcodeTop'>
     <view wx:if="{{isTip}}" class="getQrcode" bindtap="getQrocdeByClickManual">点击获取二维码</view>
@@ -69,7 +70,7 @@
       <image bindtap="reLoadImage" class="qrCodeImage" src="{{qrCode}}"></image>
       <view class="hr"></view>
       <!-- background-color:#0094aa;color:#fff -->
-      <view bindtap="remoteClick" style="background-color:#fff;padding: 3px 5px;border-radius:5px;width:80px;">远程开门</view>
+      <view bindtap="remoteClick" style="background-color:#0094aa;padding: 3px 5px;border-radius:5px;width:80px;text-align:center;color:#fff;">远程开门</view>
     </block>
   </view>
 </view>
