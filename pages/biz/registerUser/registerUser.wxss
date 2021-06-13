@@ -114,8 +114,8 @@ item switch{
 }
 
 .qrCodeImage{
-  height:200px;
-  width: 200px;
+  height:210px;
+  width: 210px;
   margin: 0 auto;
   border: 2px solid #0094aa;
   border-radius: 10px;

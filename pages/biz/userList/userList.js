@@ -54,7 +54,8 @@ Page({
     isVisitorList: false, // 是否是访客记录页面
     areaList: [],
     areaListIndex:"", // 选择框选中值
-    area:""
+    area:"",
+    type:"" // 用户类型
   },
 
 
@@ -68,7 +69,6 @@ Page({
       url: app.globalData.api_getRoleChildData,
       method: 'post',
     }).then(res => {
-      console.log(res);
      this.setData({
       areaList:res.data.data
      })
@@ -89,8 +89,14 @@ Page({
     if(options.type!=null &&  options.type=='userListAudit'){
       this.data.requestData.condition={'status':0}
     }
-    
- 
+    if(options.type!=null &&  options.type=='visitorManagerMaster'){
+      this.data.requestData.condition={'type':2,'respondents_mobile':wx.getStorageSync("userInfo").mobile}
+    }
+
+    var res= this.data.requestData
+    this.setData({
+      requestData:res
+    })
     // 初始化加载列表
     this.initDataUserList(this.data.requestData)
   },
@@ -300,7 +306,9 @@ Page({
       searchContion: value
     })
   },
+  searchV2(){
 
+  },
   search() {
     var res = this.data.requestData
     res.pageIndex = 1
@@ -308,10 +316,7 @@ Page({
       requestData: res,
       userList: []
     })
-    this.data.requestData.condition = {
-      'name': this.data.searchContion,
-      'area_id':wx.getStorageSync("userInfo").areaId
-    }
+    
     this.initDataUserList(this.data.requestData)
   },
   // doAudit 用户操作

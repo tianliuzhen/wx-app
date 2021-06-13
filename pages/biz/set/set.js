@@ -14,11 +14,22 @@ Page({
     img_role: '/icon/no_role.png',
     isManager: false,
     count: 0,
+    menuTreeMaster: [{
+      "parentNode": {
+        "isHidden": false,
+        "id": 0,
+        "name": "用户管理",
+        "childrenNode": [{
+          "name": "访客管理",
+          "type": "visitorManagerMaster"
+        }]
+      }
+    }],
     menuTree: [{
         "parentNode": {
-          "id":0,
+          "id": 0,
           "name": "用户管理",
-          "isHidden":false,
+          "isHidden": false,
           "childrenNode": [{
               "name": "用户列表",
               "type": "userList"
@@ -40,8 +51,8 @@ Page({
       },
       {
         "parentNode": {
-          "isHidden":false,
-          "id":1,
+          "isHidden": false,
+          "id": 1,
           "name": "设备管理",
           "childrenNode": [{
               "name": "开锁记录",
@@ -91,13 +102,19 @@ Page({
     }
     // 设备列表
     if (type == 'machineList') {
+      wx.showToast({
+        title: '该功能开发中',
+        icon: 'none',
+        duration: 1500
+      })
       return
     }
-
     // 用户管理
     wx.navigateTo({
       url: '../../biz/userList/userList?type=' + type,
     })
+
+
   },
 
   // 用户列表
@@ -121,7 +138,8 @@ Page({
   },
   checkUser(userInfo) {
     // 1、访客或者普通用户直接返回
-    if (userInfo.type != 0 && userInfo.blacklist == 1) {
+    console.log(userInfo);
+    if (userInfo.type == 2 || userInfo.type == 3 || userInfo.blacklist == 1) {
       wx.showToast({
         title: '暂无权限！',
         icon: 'none',
@@ -135,14 +153,21 @@ Page({
         isManager: true
       })
     }
+    if (userInfo.status === 1 && userInfo.type === 1 && userInfo.blacklist === 0) {
+      this.setData({
+        isManager: true,
+        menuTree: this.data.menuTreeMaster
+      })
+    }
+
     // 3、如果没有审批通过再次查询
-    if (userInfo.status === 0 ) {
+    if (userInfo.status === 0) {
       if (this.data.count >= 1) {
         return
       }
       this.loginUser()
     }
-    if (userInfo.blacklist === 1 ) {
+    if (userInfo.blacklist === 1) {
       wx.showToast({
         title: '暂无权限访问，你被拉黑，请联系管理员！',
         icon: 'none',
@@ -159,7 +184,7 @@ Page({
       success: res => {
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
         request({
-          url: app.globalData.api_getUserInfo+"?types=0,1",
+          url: app.globalData.api_getUserInfo + "?types=0,1",
           method: 'get',
           data: {
             jsCode: res.code
@@ -171,19 +196,20 @@ Page({
             this.setData({
               count: this.data.count + 1
             })
-            
+
             this.checkUser(res.data.data)
           }
         })
       }
     })
   },
-  opens(e){
+  opens(e) {
     var index = e.currentTarget.dataset.index;
-    var list=  this.data.menuTree
-    list[index].parentNode.isHidden=!list[index].parentNode.isHidden
+    var list = this.data.menuTree
+    console.log(index);
+    list[index].parentNode.isHidden = !list[index].parentNode.isHidden
     this.setData({
-      menuTree:list
+      menuTree: list
     })
 
   }

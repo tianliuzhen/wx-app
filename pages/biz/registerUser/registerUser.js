@@ -46,6 +46,10 @@ Page({
   },
   onShow: function () {
     // 页面出现在前台时执行
+    this.setData({
+      time: 10 * 6
+      })
+    clearInterval(interval);
     this.initUser()
   },
   /**
@@ -89,7 +93,7 @@ Page({
       time: 10 * 6
       })
     clearInterval(interval);
-    this.initUser() 
+    this.refush()
     // this.getQrocdeByClick(wx.getStorageSync("userInfo").openId)
     // 当处理完数据刷新后，wx.stopPullDownRefresh可以停止当前页面的下拉刷新。
     wx.stopPullDownRefresh()
@@ -205,7 +209,7 @@ Page({
   refush() {
     request({
       url: app.globalData.api_getUserInfoByOpenId + "?openId=" + wx.getStorageSync("userInfo").openId+ "&types=0,1",
-      method: 'post',
+      method: 'get',
     }).then(res => {
       wx.setStorageSync("userInfo", res.data.data)
       this.initUser()
@@ -223,6 +227,7 @@ Page({
           isNewUser: false,
           isShowQrCode: true,
         })
+        
         // 1、打开定时器去定时获取二维码接口
         this.setTime()
 

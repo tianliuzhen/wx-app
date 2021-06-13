@@ -44,6 +44,7 @@ Page({
     this.initDataList(this.data.requestData)
   },
   initDataList(data) {
+    data.areaId = wx.getStorageSync("userInfo").areaId
     request({
       url: app.globalData.api_getOpenDoorRecord,
       data: data,

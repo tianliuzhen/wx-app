@@ -47,7 +47,7 @@
 
 </view>
 <view class="qrCode" wx:if="{{isShowQrCode}}">
-  <image class='background' src="../../../icon/wx-lock.jpg" mode="aspectFill"></image>
+  <image class='background' src="../../../icon/wx-lock2.jpg" mode="aspectFill"></image>
   <view class="hr"></view>
   <view class='qrcodeTop'>
     <view wx:if="{{isTip}}" class="getQrcode" bindtap="getQrocdeByClickManual">点击获取二维码</view>
@@ -62,8 +62,11 @@
     <view class="hr"></view>
     <block wx:if="{{reRegister == false}}">
       <view class="hr"></view>
-      <view style="background-color:#fff;padding: 3px 5px;border-radius:5px">二维码刷新剩余时间：<text
-          style="color:{{color}}">{{time}}</text></view>
+      <view style="background-color:#fff;padding: 3px 4px;border-radius:5px;text-align:center;font-family:Microsoft YaHei">
+      二维码刷新剩余时间：<text style="color:red">{{time}}</text>
+      <view></view>
+      <text style="color:#0094aa">请将二维码靠近设置扫码区域</text>
+      </view>
     </block>
     <block wx:if="{{reRegister == false}}">
       <view class="hr"></view>

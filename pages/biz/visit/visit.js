@@ -46,6 +46,10 @@ Page({
   },
   onShow: function () {
     // 页面出现在前台时执行
+    this.setData({
+      time: 10 * 6
+      })
+    clearInterval(interval);
     this.initUser()
   },
   /**
@@ -89,7 +93,7 @@ Page({
       time: 10 * 6
       })
     clearInterval(interval);
-    this.initUser() 
+    this.refush()
     // this.getQrocdeByClick(wx.getStorageSync("userInfoVisitor").openId)
     // 当处理完数据刷新后，wx.stopPullDownRefresh可以停止当前页面的下拉刷新。
     wx.stopPullDownRefresh()
@@ -194,7 +198,7 @@ Page({
     refush(){
       request({
         url: app.globalData.api_getUserInfoByOpenId + "?openId=" +  wx.getStorageSync("userInfoVisitor").openId,
-        method: 'post',
+        method: 'get',
       }).then(res=>{
         wx.setStorageSync("userInfoVisitor", res.data.data)
         this.initUser()
@@ -252,6 +256,11 @@ Page({
         qrCode: ""
       })
     requestData.type=2
+    var userInfo= wx.getStorageSync("userInfo")
+    if (userInfo != null && userInfo != '') {
+      requestData.openId =userInfo.openId
+    }
+
     // 2、发送数据换取开锁二维码
     wx.login({
       success: res => {
@@ -265,11 +274,18 @@ Page({
         }).then(res => {
           wx.setStorageSync("userInfoVisitor", res.data.data)
           if (res.data.success) {
-            wx.showToast({
-              title: '已经提交，等待审核',
-              icon: 'none',
-              duration: 2000,
-            })
+            // 待审批
+            if(res.data.data.status ==0){
+              wx.showToast({
+                title: '已经提交，等待审核',
+                icon: 'none',
+                duration: 2000,
+              })
+            }
+            if(res.data.data.status ==1){
+              this.getQrocdeByClick(res.data.data.openId)
+            }
+          
             this.setData({
               isTip:true,
               isNewUser: false,
