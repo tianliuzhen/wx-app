@@ -78,6 +78,6 @@ App({
     api_getRoleChildData: 'https://codeok.cn/wx-lock-api/getOrgChildData',
     api_getUserInfoByOpenId: 'https://codeok.cn/wx-lock-api/getUserInfoByOpenId',
     api_getOpenDoorRecord: 'https://codeok.cn/openDoorRecord/page',
-    api_getDevices: 'http://codeok.cn/device/page',
+    api_getDevices: 'https://codeok.cn/device/page',
   }
 })
