@@ -103,10 +103,8 @@ Page({
     }
     // 设备列表
     if (type == 'machineList') {
-      wx.showToast({
-        title: '该功能开发中',
-        icon: 'none',
-        duration: 1500
+      wx.navigateTo({
+        url: '../../biz/devices/devices',
       })
       return
     }

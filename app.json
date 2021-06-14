@@ -9,7 +9,8 @@
     "pages/biz/userList/userList" ,
     "pages/biz/visitorRecord/visitorRecord",   
     "pages/biz/set/set",   
-    "pages/biz/lockRecord/lockRecord" 
+    "pages/biz/lockRecord/lockRecord",
+    "pages/biz/devices/devices" 
   ],
   "window":{
     "backgroundTextStyle":"dark",

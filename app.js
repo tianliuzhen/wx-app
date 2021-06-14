@@ -64,6 +64,7 @@ App({
     api_getRoleChildData: 'http://localhost:9999/wx-lock-api/getOrgChildData',
     api_getUserInfoByOpenId: 'http://localhost:9999/wx-lock-api/getUserInfoByOpenId',
     api_getOpenDoorRecord: 'http://localhost:9999/openDoorRecord/page',
+    api_getDevices: 'http://localhost:9999/device/page',
   },
   globalData: {
     userInfo: null,
@@ -77,5 +78,6 @@ App({
     api_getRoleChildData: 'https://codeok.cn/wx-lock-api/getOrgChildData',
     api_getUserInfoByOpenId: 'https://codeok.cn/wx-lock-api/getUserInfoByOpenId',
     api_getOpenDoorRecord: 'https://codeok.cn/openDoorRecord/page',
+    api_getDevices: 'http://codeok.cn/device/page',
   }
 })

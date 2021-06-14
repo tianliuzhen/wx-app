@@ -1,0 +1,33 @@
+<!--pages/biz/lockRecord/lockRecord.wxml-->
+<view class="content">
+  <view class="hr"></view>
+  <view class="meet">
+    <view class="frame">
+      <input placeholder="请输入设备唯一SN" model:value="{{searchContion}}"></input>
+    </view>
+    <view class="btn" bindtap="search">查询</view>
+  </view>
+  <block wx:for="{{recordList}}" wx:key="id">
+    <view class="meet">
+      <view class="flex_1">
+        <!-- <view class="flex_1_1">
+          <view class="detail_left">小区编号：</view>
+          <view class="detail_right">{{item.devDoor}}</view>
+        </view> -->
+        <view class="flex_1_1">
+          <view class="detail_left">房间号：</view>
+          <view class="detail_right">{{item.devDoor}}</view>
+        </view>
+        <view class="flex_1_1">
+          <view class="detail_left">设备号：</view>
+          <view class="detail_right"><text style="color:#0094aa">{{item.devSn}}</text></view>
+        </view>
+        <view class="flex_1_1">
+          <view class="detail_left">有效时间：</view>
+          <view class="detail_right">{{item.effectiveTime}}</view>
+        </view>
+      </view>
+    </view>
+  </block>
+
+</view>

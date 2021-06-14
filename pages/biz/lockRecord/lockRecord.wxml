@@ -10,6 +10,10 @@
   <block wx:for="{{recordList}}" wx:key="id">
     <view class="meet">
       <view class="flex_1">
+        <!-- <view class="flex_1_1">
+          <view class="detail_left">小区编号：</view>
+          <view class="detail_right">{{item.areaId}}</view>
+        </view> -->
         <view class="flex_1_1">
           <view class="detail_left">设备唯一SN号：</view>
           <view class="detail_right"><text style="color:#0094aa">{{item.devSn}}</text></view>
