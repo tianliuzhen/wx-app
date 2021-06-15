@@ -10,7 +10,8 @@
     "pages/biz/visitorRecord/visitorRecord",   
     "pages/biz/set/set",   
     "pages/biz/lockRecord/lockRecord",
-    "pages/biz/devices/devices" 
+    "pages/biz/devices/devices",
+    "pages/biz/tempVisitorQrcode/tempVisitorQrcode"
   ],
   "window":{
     "backgroundTextStyle":"dark",

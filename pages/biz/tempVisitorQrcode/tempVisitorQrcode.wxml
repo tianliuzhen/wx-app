@@ -1,0 +1,37 @@
+<!--pages/company/company.wxml-->
+<view wx:if="{{isNewUser}}" class="content">
+  <form bindsubmit="formSubmit" bindreset="formReset">
+    <view class="hr"></view>
+    <view class="item">
+      <input type="text" disabled="true" value="{{inputValue}}" name="mobile" placeholder="请输入主人手机号、卡号" placeholder-class="holder" bingblur="accountblur" />
+    </view>
+    <view class="item">
+      <input type="text"  name="visitorMobile" placeholder="请输入访客手机号、卡号" placeholder-class="holder" />
+    </view>
+    <view class="item">
+      <input type="text" name="name" placeholder="访客姓名" placeholder-class="holder" />
+    </view>
+    <view class="item">
+      <input type="text" name="doorNo" placeholder="设备房间号" placeholder-class="holder" />
+    </view>
+    <view class="item-button">
+      <button formType="submit" style="background-color:{{color}}" bindtap="fun_click_visitor">分享自己访客码</button>
+    </view>
+  </form>
+
+</view>
+<view class="qrCode" wx:if="{{isShowQrCode}}">
+  <image class='background' src="../../../icon/wx-lock.jpg" mode="aspectFill"></image>
+  <block wx:if="{{reRegister == false}}">
+      <view class="hr"></view>
+      <view style="background-color:#fff;padding: 3px 4px;border-radius:5px;text-align:center;font-family:Microsoft YaHei">
+      二维码刷新剩余时间：<text style="color:red">{{time}}</text>
+      <view></view>
+      <text style="color:#0094aa">请将二维码靠近设置扫码区域</text>
+      </view>
+    </block>
+    <block wx:if="{{reRegister == false}}">
+    <view class="hr"></view>
+    <image bindtap="reLoadImage" class="qrCodeImage" src="{{qrCode}}"></image>
+  </block>
+</view>

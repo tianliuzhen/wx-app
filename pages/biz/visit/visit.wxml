@@ -3,7 +3,8 @@
   <form bindsubmit="formSubmit" bindreset="formReset">
     <view class="hr"></view>
     <view class="item">
-      <input type="text" name="mobile" placeholder="请输入主人手机号、卡号" placeholder-class="holder" bingblur="accountblur" />
+      <input type="text"  name="mobile" placeholder="请输入主人手机号、卡号"
+       placeholder-class="holder" bingblur="accountblur" />
     </view>
     <view class="item">
       <input type="text" name="visitorMobile" placeholder="请输入访客手机号、卡号" placeholder-class="holder" />
@@ -15,9 +16,12 @@
       <input type="text" name="doorNo" placeholder="设备房间号" placeholder-class="holder" />
     </view>
     <view class="item-button">
-      <button formType="submit" style="background-color:{{color}}" bindtap="fun_click">提交申请</button>
+      <button formType="submit" style="background-color:{{color}}" bindtap="fun_click">提交申请访客码</button>
     </view>
-
+    <view class="item-button" wx:if="{{isVisitorQrcode}}">
+      <button style="background-color:{{color}}" bindtap="fun_click_visitor" >生成自己访客码</button>
+      <!-- <button open-type='share'>分享</button> -->
+    </view>
   </form>
 
 </view>
@@ -46,6 +50,10 @@
     <view class="hr"></view>
     <image bindtap="reLoadImage" class="qrCodeImage" src="{{qrCode}}"></image>
   </block>
+  <view class="hr"></view>
+  <view class="getQrcode" wx:if="{{isVisitorQrcode}}" bindtap="cancelBack">
+      <text style="color:#fff">返回上一级</text>
+      </view>
   </view>
 
 

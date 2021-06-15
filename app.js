@@ -65,6 +65,7 @@ App({
     api_getUserInfoByOpenId: 'http://localhost:9999/wx-lock-api/getUserInfoByOpenId',
     api_getOpenDoorRecord: 'http://localhost:9999/openDoorRecord/page',
     api_getDevices: 'http://localhost:9999/device/page',
+    api_remoteOpen: 'http://localhost:9999/wx-lock-api/remoteOpen',
   },
   globalData: {
     userInfo: null,
@@ -79,5 +80,6 @@ App({
     api_getUserInfoByOpenId: 'https://codeok.cn/wx-lock-api/getUserInfoByOpenId',
     api_getOpenDoorRecord: 'https://codeok.cn/openDoorRecord/page',
     api_getDevices: 'https://codeok.cn/device/page',
+    api_remoteOpen: 'https://codeok.cn/wx-lock-api/remoteOpen',
   }
 })

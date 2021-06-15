@@ -1,0 +1,158 @@
+/* pages/company/company.wxss */
+.content{
+  width: 100vw;
+  height:100vh;
+  background-color: #f2f2f2;
+   z-index: 1;
+}
+.hr{
+  padding-top: 20px;
+}
+.item{
+  margin: 0 auto;
+  border: 1px solid #cccccc;
+  height: 40px;
+  width: 90%;
+  border-radius: 3px;
+  background-color: #ffffff;
+  margin-bottom: 15px;
+}
+.item2{
+  margin: 0 auto;
+  border: 1px solid #cccccc;
+  height: 40px;
+  width: 90%;
+  border-radius: 3px;
+  background-color: #ffffff;
+  margin-bottom: 15px;
+  line-height: 40px;
+}
+.item2-left{
+  margin-left: 10px;
+}
+
+.section{
+  display: flex;
+  align-items: center;
+}
+
+.item-button{
+  margin: 0 auto;
+  border: 0px solid #cccccc;
+  height: 40px;
+  width: 90%;
+  border-radius: 3px;
+  background-color: #0094aa;
+  margin-bottom: 15px;
+}
+
+button{
+  margin:0;
+  padding:0;
+}
+.item-switch{
+  margin: 0 auto;
+  border: 0px solid #cccccc;
+  height: 40px;
+  width: 90%;
+  border-radius: 3px;
+  margin-bottom: 25px;
+}
+.item input{
+  height: 40px;
+  line-height: 40px;
+  margin-left: 10px;
+}
+.holder{
+  font-size: 14px;
+  color: #999999;
+}
+.flex{
+  display: flex;
+  flex-direction: row;
+}
+.flex input{
+  width: 300px;
+}
+item switch{
+  margin-top: 5px;
+  margin-right: 5px;
+}
+.mobileInfo{
+  display: flex;
+  flex-direction: row;
+}
+.mobile{
+  margin: 0 auto;
+  border: 1px solid #cccccc;
+  height: 40px;
+  width: 50%;
+  border-radius: 3px;
+  background-color: #ffffff;
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: row;
+  margin-left: 5%;
+}
+.mobile input{
+  margin-top: 8px;
+  margin-left: 10px;
+}
+.code{
+  border: 1px solid #cccccc;
+  height: 40px;
+  width: 35%;
+  background-color: #edeeec;
+  border-radius: 3px;
+  text-align: center;
+  margin-left: 10px;
+  line-height: 40px;
+  color: #999999;
+  font-size: 15px;
+  margin-bottom: 15px;
+  margin-right: 5%;
+}
+
+.qrCodeImage{
+  height:210px;
+  width: 210px;
+  margin: 0 auto;
+  border: 2px solid #0094aa;
+}
+.qrcodeTop{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column;
+}
+.getQrcode {
+  width: 120px;
+  height: 35px;
+  background-color: #0094aa;
+  color:#ffffff;
+  border-radius: 10rpx; 
+  line-height: 35px;
+  text-align: center;
+  font-weight: 500;
+}
+.qrCode{
+  width: 100vw;
+  height:100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column;
+  /* background-color: #f2f2f2;
+  text-align: center; */
+  /* background-image:url(https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1751820187,1971906427&fm=224&gp=0.jpg); */
+  /* background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%; */
+}
+.background {
+  /* 参考：https://my.oschina.net/u/4364580/blog/3337963 */
+  width: 100vw;
+  height: 100vh;
+  position:fixed; 
+  background-size:100% 100%;
+  z-index: -1;
+  }
+  

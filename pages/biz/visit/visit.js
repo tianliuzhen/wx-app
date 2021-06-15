@@ -23,7 +23,9 @@ Page({
     screenBrightness:"", // 系统默认亮度
      //普通选择器：（普通数组）
     areaList: [],
-    areaListIndex:"" // 选择框选中值
+    areaListIndex:"", // 选择框选中值
+    isVisitorQrcode:false,
+    inputValue:""
 
   },
 
@@ -43,6 +45,15 @@ Page({
       areaList:res.data.data
      })
     })
+  var userInfo= wx.getStorageSync("userInfo")
+  if (userInfo != null && userInfo != '') {
+   if(userInfo.type == 1 || userInfo.type == 0){
+    this.setData({
+      isVisitorQrcode:true
+    })
+   }
+  }
+
   },
   onShow: function () {
     // 页面出现在前台时执行
@@ -99,10 +110,10 @@ Page({
     wx.stopPullDownRefresh()
   },
   initUser() {
-    // 初始化用户信息
+    // 初始化访客用户信息
     var userInfo= wx.getStorageSync("userInfoVisitor")
+    console.log(userInfo);
     if (userInfo != null && userInfo != '') {
-      console.log(wx.getStorageSync("userInfoVisitor").type);
       if(userInfo.type===2){
         this.checkUser(userInfo)
       }
@@ -188,7 +199,6 @@ Page({
       })
       return;
     }
-
     // 调用接口注册，注册之后弹窗提示注册成功
     this.addUser(e.detail.value)
   },
@@ -339,6 +349,20 @@ Page({
       isNewUser: true,
       isShowQrCode: false,
     })
+  },
+  fun_click_visitor(){
+
+
+    wx.navigateTo({
+      url: '../tempVisitorQrcode/tempVisitorQrcode',
+    })
+  },
+  cancelBack(){
+    this.setData({
+      isShowQrCode:false,
+      isNewUser:true
+    })
   }
+  
 
 })

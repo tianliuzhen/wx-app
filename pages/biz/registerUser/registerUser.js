@@ -48,7 +48,7 @@ Page({
     // 页面出现在前台时执行
     this.setData({
       time: 10 * 6
-      })
+    })
     clearInterval(interval);
     this.initUser()
   },
@@ -60,7 +60,7 @@ Page({
     clearInterval(interval);
     this.setData({
       time: 10 * 6
-      })
+    })
     if (this.data.screenBrightness != null && this.data.screenBrightness != '') {
       wx.setScreenBrightness({
         value: this.data.screenBrightness,
@@ -76,7 +76,7 @@ Page({
     clearInterval(interval);
     this.setData({
       time: 10 * 6
-      })
+    })
     if (this.data.screenBrightness != null && this.data.screenBrightness != '') {
       wx.setScreenBrightness({
         value: this.data.screenBrightness,
@@ -89,9 +89,9 @@ Page({
    */
   onPullDownRefresh: function () {
     console.log("onPullDownRefresh");
-     this.setData({
+    this.setData({
       time: 10 * 6
-      })
+    })
     clearInterval(interval);
     this.refush()
     // this.getQrocdeByClick(wx.getStorageSync("userInfo").openId)
@@ -147,7 +147,7 @@ Page({
           icon: 'none',
           duration: 2500
         })
-         // 审批拒绝
+        // 审批拒绝
       } else if (userInfo.status == 2) {
         wx.showToast({
           title: '审批被拒绝！',
@@ -157,7 +157,7 @@ Page({
         this.setData({
           reRegister: true,
           errorMes: "审批被拒绝,请联系管理员！",
-          isTip:false
+          isTip: false
         })
       }
       // 用户信息为空
@@ -184,7 +184,7 @@ Page({
       // verificationCode
     } = e.detail.value;
     // 待确定1：是否需要短信验证 （|| !verificationCode ）
-    if (!mobile || !name  || !doorNo || !this.data.areaListIndex) {
+    if (!mobile || !name || !doorNo || !this.data.areaListIndex) {
       wx.showToast({
         title: '提交内容不能为空！',
         icon: 'none',
@@ -208,7 +208,7 @@ Page({
   },
   refush() {
     request({
-      url: app.globalData.api_getUserInfoByOpenId + "?openId=" + wx.getStorageSync("userInfo").openId+ "&types=0,1",
+      url: app.globalData.api_getUserInfoByOpenId + "?openId=" + wx.getStorageSync("userInfo").openId + "&types=0,1",
       method: 'get',
     }).then(res => {
       wx.setStorageSync("userInfo", res.data.data)
@@ -227,7 +227,7 @@ Page({
           isNewUser: false,
           isShowQrCode: true,
         })
-        
+
         // 1、打开定时器去定时获取二维码接口
         this.setTime()
 
@@ -347,11 +347,30 @@ Page({
     })
   },
   // 远程开门
-  remoteClick(){
-    wx.showToast({
-      title: '该功能开发中！',
-      icon: 'none',
-      duration: 1500
+  remoteClick() {
+    // wx.showToast({
+    //   title: '该功能开发中！',
+    //   icon: 'none',
+    //   duration: 1500
+    // })
+    var openId=wx.getStorageSync("userInfo").openId
+    request({
+      url: app.globalData.api_remoteOpen + "?openId=" + openId + "&types=0,1",
+      method: 'post',
+    }).then(res => {
+      if (res.data.success) {
+        wx.showToast({
+          title: "已经执行，请确认",
+          icon: 'none',
+          duration: 2500
+        })
+      }else{
+        wx.showToast({
+          title: res.data.message,
+          icon: 'none',
+          duration: 2500
+        })
+      }
     })
   }
 

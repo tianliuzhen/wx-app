@@ -29,6 +29,12 @@
           "pathName": "pages/biz/registerUser/registerUser",
           "query": "id=123231",
           "scene": 1048
+        },
+        {
+          "name": "pages/biz/tempVisitorQrcode/tempVisitorQrcode",
+          "pathName": "pages/biz/tempVisitorQrcode/tempVisitorQrcode",
+          "query": "openId=o64y04pd8f7ZKguMVUFVc8xKjwqg",
+          "scene": 1000
         }
       ]
     }

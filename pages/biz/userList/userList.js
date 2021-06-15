@@ -53,9 +53,9 @@ Page({
     totalPage: 0, // 总条数
     isVisitorList: false, // 是否是访客记录页面
     areaList: [],
-    areaListIndex:"", // 选择框选中值
-    area:"",
-    type:"" // 用户类型
+    areaListIndex: "", // 选择框选中值
+    area: "",
+    type: "" // 用户类型
   },
 
 
@@ -69,41 +69,54 @@ Page({
       url: app.globalData.api_getRoleChildData,
       method: 'post',
     }).then(res => {
-     this.setData({
-      areaList:res.data.data
-     })
+      this.setData({
+        areaList: res.data.data
+      })
     })
 
-    if(options.type!=null &&  options.type=='visitorList'){
+    if (options.type != null && options.type == 'visitorList') {
       this.setData({
-        isVisitorList:true
+        isVisitorList: true
       })
-      this.data.requestData.condition={'type':2}
+      this.data.requestData.condition = {
+        'type': 2
+      }
     }
-    if(options.type!=null &&  options.type=='blacklist'){
+    if (options.type != null && options.type == 'blacklist') {
       this.setData({
-        isVisitorList:true
+        isVisitorList: true
       })
-      this.data.requestData.condition={'blacklist':1}
+      this.data.requestData.condition = {
+        'blacklist': 1
+      }
     }
-    if(options.type!=null &&  options.type=='userListAudit'){
-      this.data.requestData.condition={'status':0}
+    if (options.type != null && options.type == 'userListAudit') {
+      this.data.requestData.condition = {
+        'status': 0
+      }
     }
-    if(options.type!=null &&  options.type=='visitorManagerMaster'){
-      this.data.requestData.condition={'type':2,'respondents_mobile':wx.getStorageSync("userInfo").mobile}
+    if (options.type != null && options.type == 'visitorManagerMaster') {
+      this.data.requestData.condition = {
+        'type': 2,
+        'respondents_mobile': wx.getStorageSync("userInfo").mobile
+      }
     }
 
-    var res= this.data.requestData
+    var res = this.data.requestData
     this.setData({
-      requestData:res
+      requestData: res
     })
+    
     // 初始化加载列表
     this.initDataUserList(this.data.requestData)
   },
   initDataUserList(data) {
+        // 如未修改小区
+    // this.buildAreaId();
     if (wx.getStorageSync("userInfo") != null && wx.getStorageSync("userInfo") != '') {
       var userInfo = wx.getStorageSync("userInfo")
-      this.data.requestData.condition.area_id=userInfo.areaId
+      console.log(userInfo);
+      this.data.requestData.condition.area_id = userInfo.areaId
     }
     request({
       url: app.globalData.api_getUsersPage,
@@ -119,13 +132,13 @@ Page({
   },
   bindPickerChange: function (e) {
     // console.log('picker发送选择改变，携带值为', e.detail.value)
-    var area= this.data.areaList[e.detail.value].name
-    var userinfo= this.data.userinfo
-    userinfo.areaId=this.data.areaList[e.detail.value].code
+    var area = this.data.areaList[e.detail.value].name
+    var userinfo = this.data.userinfo
+    userinfo.areaId = this.data.areaList[e.detail.value].code
     this.setData({
       areaListIndex: e.detail.value,
-      area:area,
-      userinfo:userinfo
+      area: area,
+      userinfo: userinfo
     })
   },
   // 点击编辑按钮
@@ -206,9 +219,9 @@ Page({
   onPullDownRefresh: function () {
     console.log("onPullDownRefresh");
     // 当处理完数据刷新后，wx.stopPullDownRefresh可以停止当前页面的下拉刷新。
-        // 初始化加载列表
-   this.initDataUserList(this.data.requestData)
-    
+    // 初始化加载列表
+    this.initDataUserList(this.data.requestData)
+
   },
   /**
    * 页面上拉触底事件的处理函数
@@ -229,7 +242,7 @@ Page({
 
     if (wx.getStorageSync("userInfo") != null && wx.getStorageSync("userInfo") != '') {
       var userInfo = wx.getStorageSync("userInfo")
-      data.condition.area_id=userInfo.areaId
+      data.condition.area_id = userInfo.areaId
     }
 
     request({
@@ -306,7 +319,7 @@ Page({
       searchContion: value
     })
   },
-  searchV2(){
+  searchV2() {
 
   },
   search() {
@@ -317,17 +330,17 @@ Page({
       requestData: res,
       userList: []
     })
-    
+
     this.initDataUserList(this.data.requestData)
   },
   // doAudit 用户操作
   doAudit(e) {
-    var type=e.currentTarget.dataset.type
+    var type = e.currentTarget.dataset.type
     var tip = e.currentTarget.dataset.desc
     wx.showModal({
       title: '提示',
-      content: '确认 '+tip+' 该用户?',
-      success:res=> {
+      content: '确认 ' + tip + ' 该用户?',
+      success: res => {
         if (res.confirm) {
           this.userOpertion(type)
         }
@@ -340,12 +353,12 @@ Page({
    * @param {*} id  用户id
    * @param {*} type  1-审批/驳回，2-删除，3-禁用/解禁
    */
-  userOpertion( type) {
+  userOpertion(type) {
 
     // 刷新拉黑缓存
-    if(type==5){
+    if (type == 5) {
       var userInfo = wx.getStorageSync("userInfo")
-      userInfo.blacklist =1
+      userInfo.blacklist = 1
       wx.setStorageSync("userInfo", userInfo)
     }
 
@@ -367,16 +380,18 @@ Page({
     var endTime = this.data.endTime.date + " " + this.data.endTime.time + ":00"
     this.data.userinfo.startTime = startTime
     this.data.userinfo.endTime = endTime
+    // 如未修改小区
+    this.buildAreaId();
     wx.showModal({
       title: '提示',
       content: '确认更新该用户信息?',
-      success:res=> {
+      success: res => {
         if (res.confirm) {
           request({
             url: app.globalData.api_editUser,
             data: this.data.userinfo,
             method: 'POST',
-          }).then(res=>{
+          }).then(res => {
             this.util('close')
             this.initDataUserList(this.data.requestData)
           })
@@ -384,4 +399,15 @@ Page({
       }
     })
   },
+  buildAreaId() {
+    if (this.data.areaListIndex === '') {
+      this.data.areaList.forEach(element => {
+        if (element.name === this.data.userinfo.areaId) {
+          this.data.userinfo.areaId = element.code;
+        }
+      });
+    }
+  }
 })
+
+
