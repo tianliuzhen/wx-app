@@ -21,7 +21,8 @@ Page({
     reRegister: false,
     errorMes: "",
     screenBrightness:"", // 系统默认亮度
-    openId:""
+    openId:"",
+    qrcodePhone:""
 
   },
 
@@ -30,14 +31,20 @@ Page({
    */
   onLoad: function (options) {
     console.log("onLoad")
+    console.log(options);
     // 一般这里发送页面请求初始化页面
     this.setData({
       inputValue:wx.getStorageSync("userInfo").mobile,
       openId:options.openId
     })
-    console.log(this.data.openId);
-    if(options!=null && options!=''){
-      if(options.openId != ''){
+  //  解析分享页面参数
+    if(options!=null && options!=''  ){
+      if(options.openId != '' && options.openId != null){
+        this.setData({
+          isNewUser: false,
+          isShowQrCode: true,
+          qrcodePhone:options.mobile
+        })
         this.getQrocdeByClick(options.openId)
       }
     }
@@ -48,7 +55,8 @@ Page({
     return {
       title: '临时访客码', 
       desc: '请将二维码靠近设置扫码区域',
-      path: '/pages/biz/tempVisitorQrcode/tempVisitorQrcode?openId='+wx.getStorageSync("userInfo").openId//这是一个路径
+      path: '/pages/biz/tempVisitorQrcode/tempVisitorQrcode?openId='+this.data.openId+"&mobile="+this.data.qrcodePhone
+      //这是一个路径
     }
 
   },
@@ -121,6 +129,9 @@ Page({
       })
       return;
     }
+    this.setData({
+      qrcodePhone:e.detail.value.visitorMobile
+    })
     // 调用接口注册，注册之后弹窗提示注册成功
     this.addUser(e.detail.value)
   },
@@ -183,7 +194,7 @@ Page({
 //  todo 这里调用获取二维码权限
 getQrocdeByClick(openId) {
   request({
-    url: app.globalData.api_getQrCode + "?openId=" + openId+"&types=3",
+    url: app.globalData.api_getQrCode + "?openId=" + openId+"&types=3&mobile="+this.data.qrcodePhone,
     method: 'post',
   }).then(res => {
     if (res.data.success) {
