@@ -235,6 +235,7 @@ Page({
         var that = this
         wx.getScreenBrightness({
           success: function (res) {
+            console.log("亮度==============================："+res.value);
             that.setData({
               screenBrightness: res.value
             })
