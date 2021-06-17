@@ -33,5 +33,8 @@
     <block wx:if="{{reRegister == false}}">
     <view class="hr"></view>
     <image bindtap="reLoadImage" class="qrCodeImage" src="{{qrCode}}"></image>
+
+    <button style="background-color:#0094aa;color:#fff;padding: 3px 4px;border-radius:5px;text-align:center;width:100px;"  open-type="share" >
+      分享 </button>
   </block>
 </view>
