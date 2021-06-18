@@ -14,7 +14,7 @@ Page({
     qrCode: "",
     isShowQrCode: false,
     time: 10 * 6,
-    count: 0,
+    count: 1,
     jsCode: "",
     isNewUser: true,
     isTip: true, // 提示点击获取二维码
@@ -22,8 +22,9 @@ Page({
     errorMes: "",
     screenBrightness:"", // 系统默认亮度
     openId:"",
-    qrcodePhone:""
-
+    qrcodePhone:"",
+    img_add: '/icon/add.png',
+    img_sub: '/icon/sub.png',
   },
 
   /**
@@ -152,6 +153,7 @@ Page({
       // 获取code换openid
       // console.log("res.code:"+res.code);
       requestData.jsCode = res.code
+      requestData.count = this.data.count
       request({
         url: app.globalData.api_addUser,
         data: requestData,
@@ -254,5 +256,24 @@ getQrocdeByClick(openId) {
         })
       }
     }, 1000)
+  },
+    //事件处理函数
+  /*点击减号*/
+  bindMinus: function () {
+    var num = this.data.count;
+    if (num > 1) {
+      num--;
+    }
+    this.setData({
+      count: num
+    })
+  },
+  /*点击加号*/
+  bindPlus: function () {
+    var num = this.data.count;
+    num++;
+    this.setData({
+      count: num
+    })
   },
 })

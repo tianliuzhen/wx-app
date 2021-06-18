@@ -74,6 +74,8 @@
       <view class="hr"></view>
       <!-- background-color:#0094aa;color:#fff -->
       <view bindtap="remoteClick" style="background-color:#0094aa;padding: 3px 5px;border-radius:5px;width:80px;text-align:center;color:#fff;">远程开门</view>
+      <view class="hr"></view>
+      <!-- <view bindtap="blueToothClick" style="background-color:#0094aa;padding: 3px 5px;border-radius:5px;width:80px;text-align:center;color:#fff;">蓝牙开门</view> -->
     </block>
   </view>
 </view>

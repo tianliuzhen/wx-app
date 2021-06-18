@@ -235,7 +235,7 @@ Page({
         var that = this
         wx.getScreenBrightness({
           success: function (res) {
-            console.log("亮度==============================："+res.value);
+            console.log("亮度==============================：" + res.value);
             that.setData({
               screenBrightness: res.value
             })
@@ -354,7 +354,7 @@ Page({
     //   icon: 'none',
     //   duration: 1500
     // })
-    var openId=wx.getStorageSync("userInfo").openId
+    var openId = wx.getStorageSync("userInfo").openId
     request({
       url: app.globalData.api_remoteOpen + "?openId=" + openId + "&types=0,1",
       method: 'post',
@@ -365,7 +365,7 @@ Page({
           icon: 'none',
           duration: 2500
         })
-      }else{
+      } else {
         wx.showToast({
           title: res.data.message,
           icon: 'none',
@@ -373,6 +373,40 @@ Page({
         })
       }
     })
+  },
+  // 蓝牙开门
+  blueToothClick() {
+    // 如何判断蓝牙是否打开
+    wx.openBluetoothAdapter({
+      success: function (res) {
+        console.log(res)
+      },
+      fail: function (res) {
+        wx.showModal({
+          content: '请开启手机蓝牙后再试'
+        })
+      }
+    });
+    //开始搜索蓝牙
+    wx.startBluetoothDevicesDiscovery({
+      success: function (res) {
+        console.log('search:========', res)
+      }
+    })
+    //发现设备
+    var that =this
+    wx.getBluetoothDevices({
+      success: function (res) {
+         console.log('发现设备:', res)
+         if (res.devices[0]) { 
+           console.log(1111);
+             console.log(res.devices[0])                                      
+         }
+         //5s内未搜索到设备，关闭搜索，关闭蓝牙模块
+        
+      }
+   })
+   
   }
 
 })

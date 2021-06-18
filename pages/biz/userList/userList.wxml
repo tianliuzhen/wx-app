@@ -93,7 +93,6 @@
         name="createTime" value="{{userinfo.createTime}}"></input>
     </view>
     <view class="top grid">
-
       <label class="title col-0">限制次数：</label>
       <view class='computeCount'>
         <view class='sub_add_input' type='number' bindtap='bindMinus'>

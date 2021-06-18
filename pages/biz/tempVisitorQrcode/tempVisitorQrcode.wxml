@@ -1,4 +1,5 @@
 <!--pages/company/company.wxml-->
+
 <view wx:if="{{isNewUser}}" class="content">
   <form bindsubmit="formSubmit" bindreset="formReset">
     <view class="hr"></view>
@@ -13,6 +14,21 @@
     </view>
     <view class="item">
       <input type="text" name="doorNo" placeholder="设备房间号" placeholder-class="holder" />
+    </view>
+   
+
+    <view class="item2">限制次数：</view>
+    <view class="item3">
+    
+      <view class='computeCount'>
+        <view class='sub_add_input' type='number' bindtap='bindMinus'>
+          <image class="compute_img" src="{{img_sub}}"></image>
+        </view>
+        <input type="text"  style="text-align:center"   value="{{count}}"></input>
+        <view class='sub_add_input' bindtap='bindPlus'>
+          <image class="compute_img" src="{{img_add}}"></image>
+        </view>
+      </view>
     </view>
     <view class="item-button">
       <button formType="submit" style="background-color:{{color}}" bindtap="fun_click_visitor">生成自己访客码</button>
@@ -33,7 +49,7 @@
     <block wx:if="{{reRegister == false}}">
     <view class="hr"></view>
     <image bindtap="reLoadImage" class="qrCodeImage" src="{{qrCode}}"></image>
-
+    <view class="hr"></view>
     <button style="background-color:#0094aa;color:#fff;padding: 3px 4px;border-radius:5px;text-align:center;width:100px;"  open-type="share" >
       分享 </button>
   </block>

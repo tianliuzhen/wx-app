@@ -26,7 +26,7 @@
 
 </view>
 <view class="qrCode" wx:if="{{isShowQrCode}}">
-  <image class='background' src="../../../icon/wx-lock2.jpg" mode="aspectFill"></image>
+  <image class='background' src="../../../icon/wx-lock3.png" mode="aspectFill"></image>
   <view class="hr"></view>
   <view class='qrcodeTop'>
     <view wx:if="{{isTip}}" class="getQrcode" bindtap="getQrocdeByClickManual">点击获取二维码</view>
