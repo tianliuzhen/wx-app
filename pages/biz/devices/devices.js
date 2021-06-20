@@ -11,12 +11,12 @@ Page({
    */
   data: {
     recordList: [],
-    searchContion:"",
-    requestData:{
-      page:1,
-      limit:10,
+    searchContion: "",
+    requestData: {
+      page: 1,
+      limit: 10,
     },
-    totalPage:0,
+    totalPage: 0,
   },
 
   /**
@@ -39,8 +39,8 @@ Page({
     var res = this.data.requestData
     res.page = 1
     res.limit = 10
-    this.data.requestData.devSn=this.data.searchContion
-    this.data.requestData.cardNum=this.data.searchContion
+    this.data.requestData.devSn = this.data.searchContion
+    this.data.requestData.cardNum = this.data.searchContion
     this.initDataList(this.data.requestData)
   },
   initDataList(data) {
@@ -55,16 +55,16 @@ Page({
 
       this.setData({
         recordList: list,
-        totalPage:res.data.totalPage
+        totalPage: res.data.totalPage
       })
       wx.stopPullDownRefresh()
     })
   },
-    /**
+  /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    console.log( this.data.totalPage);
+    console.log(this.data.totalPage);
     if (this.data.requestData.page >= this.data.totalPage) {
       wx.showToast({
         title: '已经到底了！',
@@ -77,4 +77,11 @@ Page({
     this.initDataList(this.data.requestData)
   },
 
+  powerDrawer(e) {
+    console.log(e);
+    var devSn = e.currentTarget.dataset.info.devSn
+    wx.navigateTo({
+      url: '../updateDevicePassWord/updateDevicePassWord?devSn=' + devSn,
+    })
+  }
 })

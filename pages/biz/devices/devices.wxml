@@ -27,6 +27,11 @@
           <view class="detail_right">{{item.effectiveTime}}</view>
         </view>
       </view>
+      <!-- <view class="flex_2">
+        <view decode="{{true}}" data-info="{{item}}" data-id="{{item.id}}" bindtap="powerDrawer" class="flex_2_top ">
+          <text data-statu="open" decode="{{true}}"> &nbsp;修改密码&nbsp; </text>
+        </view>
+      </view> -->
     </view>
   </block>
 

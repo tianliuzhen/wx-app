@@ -37,7 +37,7 @@
 
 </view>
 <view class="qrCode" wx:if="{{isShowQrCode}}">
-  <image class='background' src="../../../icon/wx-lock.jpg" mode="aspectFill"></image>
+  <image class='background' src="../../../icon/wx-lock2.jpg" mode="aspectFill"></image>
   <block wx:if="{{reRegister == false}}">
       <view class="hr"></view>
       <view style="background-color:#fff;padding: 3px 4px;border-radius:5px;text-align:center;font-family:Microsoft YaHei">
