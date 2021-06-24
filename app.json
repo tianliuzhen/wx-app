@@ -11,7 +11,8 @@
     "pages/biz/set/set",   
     "pages/biz/lockRecord/lockRecord",
     "pages/biz/devices/devices",
-    "pages/biz/tempVisitorQrcode/tempVisitorQrcode"
+    "pages/biz/tempVisitorQrcode/tempVisitorQrcode",
+    "pages/biz/updateDevicePassWord/updateDevicePassWord"
   ],
   "window":{
     "backgroundTextStyle":"dark",

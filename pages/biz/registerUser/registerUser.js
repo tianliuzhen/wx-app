@@ -4,11 +4,15 @@ import {
 } from "../../../component/request/index.js";
 var interval;
 const app = getApp()
+var chinese = require("../../../utils/Chinese.js")
+var english = require("../../../utils/English.js")
 Page({
   /**
    * 页面的初始数据
    */
   data: {
+    lanuage: "中文",
+    content: chinese.Content,
     color: '#0094aa',
     user: {},
     qrCode: "",
@@ -23,7 +27,14 @@ Page({
     screenBrightness: "", // 系统默认亮度
     //普通选择器：（普通数组）
     areaList: [],
-    areaListIndex: "" // 选择框选中值
+    areaListIndex: "", // 选择框选中值
+    deviceId: "", // 设备蓝牙 deviceId
+    deviceName: "", // 设备蓝牙 deviceName
+    deviceData: "", // 设备蓝牙 deviceData
+    read_id: "",
+    write_id: "",
+    indicate_id: "",
+    dialogvisible: false
 
   },
 
@@ -374,9 +385,36 @@ Page({
       }
     })
   },
-  // 蓝牙开门
+  showDialog: function () {
+    this.setData({
+      dialogvisible: true
+    })
+  },
+  closeDialog: function () {
+    this.setData({
+      dialogvisible: false
+    })
+    // this._toast('关闭')
+  },
+  confirm: function () {
+    this._toast('confirm')
+  },
+  cancel: function () {
+    this.closeDialog()
+    // this._toast('cancel')
+  },
+  _toast(msg) {
+    wx.showToast({
+      title: msg,
+      icon: 'none',
+      duration: 2000
+    })
+  },
+  /**
+   *  蓝牙1、******* 判断蓝牙是否打开、搜索指定设备、解析deviceId
+   */
   blueToothClick() {
-    // 如何判断蓝牙是否打开
+    // 1.1、如何判断蓝牙是否打开
     wx.openBluetoothAdapter({
       success: function (res) {
         console.log(res)
@@ -385,28 +423,252 @@ Page({
         wx.showModal({
           content: '请开启手机蓝牙后再试'
         })
+        return
       }
     });
-    //开始搜索蓝牙
+    // 1.2、开始搜索蓝牙
     wx.startBluetoothDevicesDiscovery({
       success: function (res) {
+        wx.showLoading({
+          title: '搜索设备中...',
+        })
         console.log('search:========', res)
       }
     })
-    //发现设备
-    var that =this
+    // 1.3、发现设备
+    var that = this
     wx.getBluetoothDevices({
       success: function (res) {
-         console.log('发现设备:', res)
-         if (res.devices[0]) { 
-           console.log(1111);
-             console.log(res.devices[0])                                      
-         }
-         //5s内未搜索到设备，关闭搜索，关闭蓝牙模块
-        
+        console.log('发现设备:', res)
+        if (res.devices[0]) {
+          console.log(res.devices[0])
+        }
+        //5s内未搜索到设备，关闭搜索，关闭蓝牙模块
+        setTimeout(function () {
+          if (!that.data.deviceId) {
+            wx.hideLoading()
+            wx.showModal({
+              content: '未搜到设备...'
+            });
+            //关闭搜索
+            wx.stopBluetoothDevicesDiscovery();
+            //关闭蓝牙
+            wx.closeBluetoothAdapter();
+          }
+        }, 5000)
       }
-   })
-   
+    });
+    // 1.4、监听发现设备
+    wx.onBluetoothDeviceFound(function (devices) {
+      console.log('发现设备:', devices.devices)
+      for (let i = 0; i < devices.devices.length; i++) {
+        //检索指定设备
+        if (devices.devices[i].name.substr(0, 4) == "FGBT") {
+          wx.hideLoading()
+          that.setData({
+            deviceId: devices.devices[i].deviceId,
+            deviceName: devices.devices[i].name
+          })
+          // =====>  蓝牙2、******* 连接设备
+          that.toConnectionBlueToothDevice()
+          //关闭搜索
+          wx.stopBluetoothDevicesDiscovery();
+          console.log('已找到指定设备id:', devices.devices[i].deviceId);
+          console.log('已找到指定设备name:', devices.devices[i].name);
+        }
+      }
+    })
+
+  },
+  /**
+   * 蓝牙2、******* 连接设备
+   */
+  toConnectionBlueToothDevice() {
+    console.log("toConnectionBlueToothDevice");
+    var that = this
+    if (that.data.deviceId === '') {
+      return;
+    }
+    that.showDialog()
+    // 2.1、建立连接
+    wx.createBLEConnection({
+      deviceId: that.data.deviceId, //搜索设备获得的蓝牙设备 id
+      success: function (res) {
+        console.log('连接蓝牙:', res.errMsg);
+      },
+      fail: function (res) {
+        wx.showModal({
+          content: '连接超时,请重试'
+        });
+        that.closeBluetoothAdapter();
+      }
+    })
+    // 2.2、获取服务UUID
+    wx.getBLEDeviceServices({
+      deviceId: that.data.deviceId, //搜索设备获得的蓝牙设备 id
+      success: function (res) {
+        let serviceId = "";
+        if (services.length <= 0) {
+          wx.showModal({
+            content: '未找到主服务列表'
+          });
+        }
+        if (services.length == 1) {
+          serviceId = services[0].uuid;
+        }
+        console.log('service_id:', that.data.serviceId);
+      },
+      fail(res) {
+        console.log(res);
+      }
+    })
+    // 2.3 获取特征值
+    wx.getBLEDeviceCharacteristics({
+      deviceId: that.data.deviceId, //搜索设备获得的蓝牙设备 id
+      serviceId: that.data.service_id, //服务ID
+      success: function (res) {
+        console.log('device特征值:', res.characteristics)
+        for (let i = 0; i < res.characteristics.length; i++) {
+          let charc = res.characteristics[i];
+          if (charc.properties.indicate) {
+            that.setData({
+              indicate_id: charc.uuid
+            });
+            console.log('indicate_id:', that.data.indicate_id);
+          }
+          if (charc.properties.write) {
+            that.setData({
+              write_id: charc.uuid
+            });
+            console.log('写write_id:', that.data.write_id);
+          }
+          if (charc.properties.read) {
+            that.setData({
+              read_id: charc.uuid
+            });
+            console.log('读read_id:', that.data.read_id);
+          }
+        }
+      }
+    });
+    // 2.4、开启notify
+    wx.notifyBLECharacteristicValueChange({
+      state: true, // 启用 notify 功能
+      deviceId: that.data.deviceId, //蓝牙设备id
+      serviceId: that.data.service_id, //服务id
+      characteristicId: that.data.indicate_id, //服务特征值indicate
+      success: function (res) {
+        console.log('开启notify', res.errMsg)
+        //监听低功耗蓝牙设备的特征值变化
+        wx.onBLECharacteristicValueChange(function (res) {
+          console.log('特征值变化', res.value);
+        })
+        //写入数据
+
+        request({
+          url: app.globalData.api_getQrCodeDataByBluetooth + "?openId=" + openId + "&types=0,1",
+          method: 'post',
+        }).then(res => {
+          if (res.data.success) {
+            that.setData({
+              deviceData:"53" + res.data.data + "0D"
+            })
+            // 规定：头部+53，尾部+0D
+            that.wrireToBlueToothDevice("53" + res.data.data + "0D")
+          }
+
+        })
+
+      }
+    })
+  },
+  /**
+   * 3、 ********* 分片写入数据
+   */
+  wrireToBlueToothDevice(msg) {
+    let buffer = hexStringToArrayBuffer(msg);
+    let pos = 0;
+    let bytes = buffer.byteLength;
+    console.log("bytes", bytes)
+    while (bytes > 0) {
+      let tmpBuffer;
+      if (bytes > 20) {
+        return delay(0.25).then(() => {
+          tmpBuffer = buffer.slice(pos, pos + 20);
+          pos += 20;
+          bytes -= 20;
+          console.log("tmpBuffer", tmpBuffer)
+          var that = this
+          wx.writeBLECharacteristicValue({
+            deviceId: that.data.deviceId,
+            serviceId: that.data.service_id,
+            characteristicId: that.data.write_id,
+            value: tmpBuffer,
+            success(res) {
+              console.log('第一次发送', res)
+            }
+          })
+        })
+      } else {
+        return delay(0.25).then(() => {
+          tmpBuffer = buffer.slice(pos, pos + bytes);
+          pos += bytes;
+          bytes -= bytes;
+          var that = this
+          wx.writeBLECharacteristicValue({
+            deviceId: that.data.deviceId,
+            serviceId: that.data.service_id,
+            characteristicId: that.data.write_id,
+            value: tmpBuffer,
+            success(res) {
+              console.log('第二次发送', res)
+            },
+            fail: function (res) {
+              console.log('发送失败', res)
+            }
+          })
+        })
+      }
+    }
+  },
+  hexStringToArrayBuffer(str) {
+    if (!str) {
+      return new ArrayBuffer(0);
+    }
+    var buffer = new ArrayBuffer(str.length);
+    let dataView = new DataView(buffer)
+    let ind = 0;
+    for (var i = 0, len = str.length; i < len; i += 2) {
+      let code = parseInt(str.substr(i, 2), 16)
+      dataView.setUint8(ind, code)
+      ind++
+    }
+    return buffer;
+  },
+  delay(ms, res) {
+    return new Promise(function (resolve, reject) {
+      setTimeout(function () {
+        resolve(res);
+      }, ms);
+    });
+  },
+  changeLanguage() {
+    var version = this.data.lanuage;
+    if (version == "中文") {
+      this.setData({
+        lanuage: "英文",
+        content: chinese.Content
+      })
+    } else {
+      this.setData({
+        lanuage: "中文",
+        content: english.Content
+      })
+    }
   }
+
+
+
+
 
 })

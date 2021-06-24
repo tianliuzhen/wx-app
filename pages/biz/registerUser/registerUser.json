@@ -1,5 +1,7 @@
 {
-  "usingComponents": {},
+  "usingComponents": {
+    "dialog": "../../../component/myDialog/index"
+  },
   "navigationBarBackgroundColor":"#0094aa",
   "navigationBarTitleText": "用户注册"
 }

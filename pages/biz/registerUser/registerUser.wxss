@@ -151,3 +151,10 @@ item switch{
   background-size:100% 100%;
   z-index: -1;
   }
+
+  .bottomQrcode{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* width: 210px; */
+  }

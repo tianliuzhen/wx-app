@@ -1,4 +1,8 @@
 <!--pages/company/company.wxml-->
+
+<!-- 
+  <view style=" position: absolute; left: 10px;bottom: 10px;" bindtap="changeLanguage"><button>{{content.button}}</button></view> 
+  -->
 <view wx:if="{{isNewUser}}" class="content">
   <form bindsubmit="formSubmit" bindreset="formReset">
     <view class="hr"></view>
@@ -60,9 +64,9 @@
     <block wx:if="{{reRegister == false}}">
       <view class="hr"></view>
       <view style="background-color:#fff;padding: 3px 4px;border-radius:5px;text-align:center;font-family:Microsoft YaHei">
-      二维码刷新剩余时间：<text style="color:red">{{time}}</text>
+      {{content.tipLimitTimeTop}}<text style="color:red">{{time}}</text>
       <view></view>
-      <text style="color:#0094aa">请将二维码靠近设置扫码区域</text>
+      <text style="color:#0094aa"> {{content.tipLimitTimeBoottom}}</text>
       </view>
     </block>
     <block wx:if="{{reRegister == false}}">
@@ -70,9 +74,23 @@
       <image bindtap="reLoadImage" class="qrCodeImage" src="{{qrCode}}"></image>
       <view class="hr"></view>
       <!-- background-color:#0094aa;color:#fff -->
-      <view bindtap="remoteClick" style="background-color:#0094aa;padding: 3px 5px;border-radius:5px;width:80px;text-align:center;color:#fff;">远程开门</view>
+      <view class="bottomQrcode">
+        <view bindtap="remoteClick" style="background-color:#0094aa;padding: 3px 3px;border-radius:5px;min-width:80px;text-align:center;color:#fff;margin-rigjt:20px;"> {{content.remoteOpenDoor}}</view>
       <view class="hr"></view>
-      <!-- <view bindtap="blueToothClick" style="background-color:#0094aa;padding: 3px 5px;border-radius:5px;width:80px;text-align:center;color:#fff;">蓝牙开门</view> -->
+      <view bindtap="blueToothClick" style="background-color:#0094aa;padding: 3px 5px;border-radius:5px;min-width:80px;text-align:center;color:#fff;margin-left:20px;"> {{content.blueToothDoor}}</view>
+      </view>
+      <!-- <button bindtap='showDialog'>打开弹窗</button> -->
     </block>
   </view>
 </view>
+
+
+<dialog  wx:if="{{dialogvisible}}"  bindcancel="cancel">
+  <view style='height:20vh;'>
+    搜索到设备id：{{deviceId}}
+    <view></view>
+    搜索到设备名：{{deviceName}}
+    <view></view>
+    发送设备数据：{{deviceData}}
+  </view>
+</dialog>
