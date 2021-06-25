@@ -31,8 +31,8 @@ Page({
     deviceId: "", // 设备蓝牙 deviceId
     deviceName: "", // 设备蓝牙 deviceName
     deviceData: "", // 设备蓝牙 deviceData
-    service_id:"",
-    blueData:"",
+    service_id: "",
+    blueData: "",
     read_id: "",
     write_id: "",
     indicate_id: "",
@@ -79,6 +79,8 @@ Page({
         value: this.data.screenBrightness,
       })
     }
+    // 关闭蓝牙
+    this.closeConnect()
   },
 
   /**
@@ -95,7 +97,24 @@ Page({
         value: this.data.screenBrightness,
       })
     }
+    // 关闭蓝牙
+    this.closeConnect()
+  },
 
+  closeConnect() {
+    if (this.deviceId) {
+      // 断开设备连接
+      wx.closeBLEConnection({
+        deviceId: this.connectedDeviceId,
+        success: function (res) {},
+        fail(res) {}
+      })
+      // 关闭蓝牙模块
+      wx.closeBluetoothAdapter({
+        success: function (res) {},
+        fail: function (err) {}
+      })
+    }
   },
   /**
    * 页面相关事件处理函数--监听用户下拉动作
@@ -498,8 +517,8 @@ Page({
       success: function (res) {
         console.log('连接蓝牙:', res.errMsg);
 
-        var blueData=that.data.blueData
-        blueData.connectData='连接蓝牙成功'
+        var blueData = that.data.blueData
+        blueData.connectData = '连接蓝牙成功'
         that.setData({
           blueData: blueData
         })
@@ -634,8 +653,8 @@ Page({
           characteristicId: that.data.write_id,
           value: tmpBuffer,
           success(res) {
-            var blueData=that.data.blueData
-            blueData.sendData=res.errMsg
+            var blueData = that.data.blueData
+            blueData.sendData = res.errMsg
             that.setData({
               blueData: blueData
             })
@@ -656,8 +675,8 @@ Page({
           characteristicId: that.data.write_id,
           value: tmpBuffer,
           success(res) {
-            var blueData=that.data.blueData
-            blueData.sendData=res.errMsg
+            var blueData = that.data.blueData
+            blueData.sendData = res.errMsg
             that.setData({
               blueData: blueData
             })
