@@ -172,8 +172,8 @@
 
       <view class='operateBtn limitStyle' bindtap="doAudit" data-desc="拉黑" data-type="5"
         wx:if="{{userinfo.blacklist == '否'}}"> 拉黑 </view>
-      <!-- <view class='operateBtn limitStyle' bindtap="doAudit" data-desc="解禁" data-type="2"
-        wx:elif="{{userinfo.blacklist == '是'}}"> 解禁 </view> -->
+      <view class='operateBtn limitStyle' bindtap="doAudit" data-desc="解禁" data-type="5"
+        wx:elif="{{userinfo.blacklist == '是'}}"> 恢复 </view>
 
     </block>
 

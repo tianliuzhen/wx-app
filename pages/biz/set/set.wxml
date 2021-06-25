@@ -11,7 +11,7 @@
   </view>
   <view wx:if="{{isManager == true}}">
     <!-- 一级菜单 -->
-    <block wx:for="{{menuTree}}" wx:key="name" wx:for-item="oneMenu">
+    <block wx:for="{{menuTreeShow}}" wx:key="name" wx:for-item="oneMenu">
       <view class='everyMenu'>
         <view class="choice-bar">
           <view bindtap="opens" data-index="{{oneMenu.parentNode.id}}" class="item itemBgColor">{{oneMenu.parentNode.name}}

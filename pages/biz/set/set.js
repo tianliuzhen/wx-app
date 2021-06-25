@@ -12,8 +12,9 @@ Page({
     openimg: "../../../icon/record.png",
     openimgMain: "../../../icon/pull.png",
     img_role: '/icon/no_role.png',
-    isManager: false,
+    isManager: true,
     count: 0,
+    menuTreeShow:[],
     menuTreeMaster: [{
       "parentNode": {
         "isHidden": false,
@@ -127,13 +128,7 @@ Page({
   },
   initUser() {
     // 初始化用户信息
-    var userInfo = wx.getStorageSync("userInfo")
-    if (userInfo != null && userInfo != '') {
-      this.checkUser(userInfo)
-    } else {
-      // 登录
-      this.loginUser()
-    }
+    this.loginUser()
   },
   checkUser(userInfo) {
     // 1、访客或者普通用户直接返回
@@ -149,13 +144,15 @@ Page({
     // 2、判断是否是管理员并且已经审批通过
     if (userInfo.status === 1 && userInfo.type === 0 && userInfo.blacklist === 0) {
       this.setData({
-        isManager: true
+        isManager: true,
+        menuTreeShow: this.data.menuTree
       })
     }
+    
     if (userInfo.status === 1 && userInfo.type === 1 && userInfo.blacklist === 0) {
       this.setData({
         isManager: true,
-        menuTree: this.data.menuTreeMaster
+        menuTreeShow: this.data.menuTreeMaster
       })
     }
 
@@ -164,7 +161,7 @@ Page({
       if (this.data.count >= 1) {
         return
       }
-      this.loginUser()
+      // this.loginUser()
     }
     if (userInfo.blacklist === 1) {
       wx.showToast({
@@ -175,7 +172,7 @@ Page({
       if (this.data.count >= 1) {
         return
       }
-      this.loginUser()
+      // this.loginUser()
     }
   },
   loginUser() {
@@ -191,12 +188,15 @@ Page({
         }).then(res => {
           // 存入缓存
           if (res.data.data != null) {
-            wx.setStorageSync("userInfo", res.data.data)
+            // wx.setStorageSync("userInfo", res.data.data)
             this.setData({
               count: this.data.count + 1
             })
-
             this.checkUser(res.data.data)
+          }else{
+            this.setData({
+              isManager: false
+            })
           }
         })
       }

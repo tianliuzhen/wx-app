@@ -31,6 +31,8 @@ Page({
     deviceId: "", // 设备蓝牙 deviceId
     deviceName: "", // 设备蓝牙 deviceName
     deviceData: "", // 设备蓝牙 deviceData
+    service_id:"",
+    blueData:"",
     read_id: "",
     write_id: "",
     indicate_id: "",
@@ -495,6 +497,12 @@ Page({
       deviceId: that.data.deviceId, //搜索设备获得的蓝牙设备 id
       success: function (res) {
         console.log('连接蓝牙:', res.errMsg);
+
+        var blueData=that.data.blueData
+        blueData.connectData='连接蓝牙成功'
+        that.setData({
+          blueData: blueData
+        })
       },
       fail: function (res) {
         wx.showModal({
@@ -515,8 +523,11 @@ Page({
         }
         if (services.length == 1) {
           serviceId = services[0].uuid;
+          that.setData({
+            service_id: serviceId
+          })
         }
-        console.log('service_id:', that.data.serviceId);
+        console.log('service_id:', that.data.service_id);
       },
       fail(res) {
         console.log(res);
@@ -564,17 +575,17 @@ Page({
           console.log('特征值变化', res.value);
         })
         //写入数据
-
+        var openId = wx.getStorageSync("userInfo").openId
         request({
-          url: app.globalData.api_getQrCodeDataByBluetooth + "?openId=" + openId + "&types=0,1",
+          url: app.globalData.api_getQrCodeDataByBluetooth + "?openId=" + openId,
           method: 'post',
         }).then(res => {
           if (res.data.success) {
             that.setData({
-              deviceData:"53" + res.data.data + "0D"
+              deviceData: "53" + res.data.data.para + "0D"
             })
             // 规定：头部+53，尾部+0D
-            that.wrireToBlueToothDevice("53" + res.data.data + "0D")
+            that.wrireToBlueToothDevice("53" + res.data.data.para + "0D")
           }
 
         })
@@ -582,52 +593,81 @@ Page({
       }
     })
   },
+  // 测试发送数据
+  blueToothClick_test() {
+    var that = this
+    var openId = wx.getStorageSync("userInfo").openId
+    request({
+      url: app.globalData.api_getQrCodeDataByBluetooth + "?openId=" + openId,
+      method: 'post',
+    }).then(res => {
+      if (res.data.success) {
+        that.setData({
+          deviceData: "53" + res.data.data.para + "0D"
+        })
+        // 规定：头部+53，尾部+0D
+        that.wrireToBlueToothDevice("53" + res.data.data.para + "0D")
+      }
+
+    })
+  },
   /**
    * 3、 ********* 分片写入数据
    */
   wrireToBlueToothDevice(msg) {
-    let buffer = hexStringToArrayBuffer(msg);
+    let buffer = this.hexStringToArrayBuffer(msg);
     let pos = 0;
     let bytes = buffer.byteLength;
     console.log("bytes", bytes)
     while (bytes > 0) {
       let tmpBuffer;
       if (bytes > 20) {
-        return delay(0.25).then(() => {
-          tmpBuffer = buffer.slice(pos, pos + 20);
-          pos += 20;
-          bytes -= 20;
-          console.log("tmpBuffer", tmpBuffer)
-          var that = this
-          wx.writeBLECharacteristicValue({
-            deviceId: that.data.deviceId,
-            serviceId: that.data.service_id,
-            characteristicId: that.data.write_id,
-            value: tmpBuffer,
-            success(res) {
-              console.log('第一次发送', res)
-            }
-          })
+        // return this.delay(0.25).then(() => {
+        tmpBuffer = buffer.slice(pos, pos + 20);
+        console.log("pos: " + pos + " pos2: " + (pos + 20))
+        pos += 20;
+        bytes -= 20;
+        var that = this
+        wx.writeBLECharacteristicValue({
+          deviceId: that.data.deviceId,
+          serviceId: that.data.service_id,
+          characteristicId: that.data.write_id,
+          value: tmpBuffer,
+          success(res) {
+            var blueData=that.data.blueData
+            blueData.sendData=res.errMsg
+            that.setData({
+              blueData: blueData
+            })
+            console.log('发送数据：', res.errMsg)
+          }
         })
+        // })
       } else {
-        return delay(0.25).then(() => {
-          tmpBuffer = buffer.slice(pos, pos + bytes);
-          pos += bytes;
-          bytes -= bytes;
-          var that = this
-          wx.writeBLECharacteristicValue({
-            deviceId: that.data.deviceId,
-            serviceId: that.data.service_id,
-            characteristicId: that.data.write_id,
-            value: tmpBuffer,
-            success(res) {
-              console.log('第二次发送', res)
-            },
-            fail: function (res) {
-              console.log('发送失败', res)
-            }
-          })
+        // return this.delay(0.25).then(() => {
+        tmpBuffer = buffer.slice(pos, pos + bytes);
+        console.log("pos: " + pos + " pos2: " + (pos + bytes))
+        pos += bytes;
+        bytes -= bytes;
+        var that = this
+        wx.writeBLECharacteristicValue({
+          deviceId: that.data.deviceId,
+          serviceId: that.data.service_id,
+          characteristicId: that.data.write_id,
+          value: tmpBuffer,
+          success(res) {
+            var blueData=that.data.blueData
+            blueData.sendData=res.errMsg
+            that.setData({
+              blueData: blueData
+            })
+            console.log('最后一次发送数据：', res.errMsg)
+          },
+          fail: function (res) {
+            console.log('发送失败', res)
+          }
         })
+        // })
       }
     }
   },
@@ -665,10 +705,5 @@ Page({
         content: english.Content
       })
     }
-  }
-
-
-
-
-
+  },
 })
