@@ -71,7 +71,6 @@ Page({
 
   },
   fun_click(e) {
-    console.log(this.data.password);
     if(this.data.password == ''){
       wx.showToast({
         title: '密码不能为空',
@@ -81,14 +80,14 @@ Page({
       return
     }
     var type = e.currentTarget.dataset.type
-    console.log(type);
+    var openId = wx.getStorageSync("userInfo").openId
     request({
-      url: app.globalData.api_updatePassword+"?type="+type+"&devSn="+this.data.devSn+"&password="+this.data.password,
+      url: app.globalData.api_updatePassword+"?type="+type+"&devSn="+this.data.devSn+"&password="+this.data.password +"&openId="+openId,
       method: 'post',
     }).then(res => {
       if(res.data.success){
         wx.showToast({
-          title: '设置成功',
+          title: '已经执行，请核实',
           icon: 'none',
           duration: 1500
         })

@@ -159,6 +159,7 @@
 
   </view>
   <view class="btn_ok">
+    <block wx:if="{{requestData.condition.blacklist != 1}}">
     <block wx:if="{{userinfo.status != '删除'}}">
       <block wx:if="{{userinfo.status == '待审批'}}">
         <view class='operateBtn ' wx:if="{{userinfo.status != '通过'}}" data-desc="通过" data-type="1" bindtap="doAudit">
@@ -179,5 +180,9 @@
 
     <view class='operateBtn deleteStyle' bindtap="doAudit" data-desc="删除" data-type="3"
       wx:if="{{userinfo.status != '删除'}}"><text style="">删除</text></view>
+    </block>
+    <block wx:if="{{requestData.condition.blacklist == 1}}">
+      <view class='operateBtn limitStyle' bindtap="doAudit" data-desc="解禁" data-type="5"   > 恢复 </view>
+    </block>
   </view>
 </view>

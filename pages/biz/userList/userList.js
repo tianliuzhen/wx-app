@@ -83,9 +83,9 @@ Page({
       }
     }
     if (options.type != null && options.type == 'blacklist') {
-      this.setData({
-        isVisitorList: true
-      })
+      // this.setData({
+      //   isVisitorList: true
+      // })
       this.data.requestData.condition = {
         'blacklist': 1
       }

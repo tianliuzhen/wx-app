@@ -15,6 +15,7 @@ Page({
     requestData: {
       page: 1,
       limit: 10,
+      wxApi:true
     },
     totalPage: 0,
   },
