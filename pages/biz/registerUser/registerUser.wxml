@@ -44,7 +44,7 @@
       <switch name="isManger" color="{{color}}" class='wx-switch-input' type="switch" />
     </view>
     <view class="item-button">
-      <button class="button" formType="submit" style="background-color:{{color}}">提交申请</button>
+      <button  formType="submit" style="background-color:{{color}}">提交申请</button>
     </view>
 
   </form>

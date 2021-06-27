@@ -16,7 +16,7 @@
       <input type="text" name="doorNo" placeholder="设备房间号" placeholder-class="holder" />
     </view>
     <view class="item-button">
-      <button formType="submit" style="background-color:{{color}}" bindtap="fun_click">访客申请</button>
+      <button formType="submit" style="background-color:{{color}}" >访客申请</button>
     </view>
     <view class="item-button" wx:if="{{isVisitorQrcode}}">
       <button style="background-color:{{color}}" bindtap="fun_click_visitor" >邀约码</button>
