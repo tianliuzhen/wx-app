@@ -69,6 +69,7 @@ App({
     api_updatePassword: 'http://localhost:9999/wx-lock-api/updatePassword',
     api_getQrCodeDataByBluetooth: 'http://localhost:9999/wx-lock-api/getQrCodeDataByBluetooth',
     api_getRemoteOpenDeviceList: 'http://localhost:9999/wx-lock-api/getRemoteOpenDeviceList',
+    api_websocket: 'ws://localhost:9999/socketServer/',
   },
   globalData: {
     userInfo: null,
@@ -87,5 +88,6 @@ App({
     api_updatePassword: 'https://codeok.cn/wx-lock-api/updatePassword',
     api_getQrCodeDataByBluetooth: 'https://codeok.cn/wx-lock-api/getQrCodeDataByBluetooth',
     api_getRemoteOpenDeviceList: 'https://codeok.cn/wx-lock-api/getRemoteOpenDeviceList',
+    api_websocket: 'wss://codeok.cn/socketServer/',
   }
 })

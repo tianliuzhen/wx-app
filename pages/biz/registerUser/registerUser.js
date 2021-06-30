@@ -6,6 +6,7 @@ var interval;
 const app = getApp()
 var chinese = require("../../../utils/Chinese.js")
 var english = require("../../../utils/English.js")
+var socket = require("../../../utils/socket")
 Page({
   /**
    * 页面的初始数据
@@ -89,7 +90,8 @@ Page({
     // 初始化用户信息
     // this.initUser()
     this.initSysData()
-
+    // 连接socket
+    socket.openSocket(1)
 
   },
   onShow: function () {
@@ -116,6 +118,8 @@ Page({
     }
     // 关闭蓝牙
     this.closeConnect()
+    // 关闭socket
+    socket.closeSocket(1)
   },
 
   /**
@@ -134,9 +138,12 @@ Page({
     }
     // 关闭蓝牙
     this.closeConnect()
+    // 关闭socket
+    socket.closeSocket(1)
   },
+ 
+  
   initSysData(){
-
     request({
       url: app.globalData.api_getRoleChildData,
       method: 'post',
