@@ -11,6 +11,20 @@ Page({
    * 页面的初始数据
    */
   data: {
+    checkBoxObjTemp:"",
+    checkBoxObj:{
+      itemsChecked: "",
+      itemsCheckedNo: "",
+      items: [
+      ]
+    },
+    noObj: {
+      floorNo: "",
+      doorNo: "",
+      buildingNo: ""
+    },
+    img_add: '/icon/add.png',
+    img_sub: '/icon/sub.png',
     lanuage: "中文",
     content: chinese.Content,
     color: '#0094aa',
@@ -25,8 +39,10 @@ Page({
     reRegister: false,
     errorMes: "",
     screenBrightness: "", // 系统默认亮度
-    //普通选择器：（普通数组）
+    //小区-普通选择器：（普通数组）
     areaList: [],
+    //远程开门-普通选择器：（普通数组）
+    deviceList: [],
     areaListIndex: "", // 选择框选中值
     deviceId: "", // 设备蓝牙 deviceId
     deviceName: "", // 设备蓝牙 deviceName
@@ -39,7 +55,31 @@ Page({
     dialogvisible: false
 
   },
+  /*点击减号*/
+  bindMinus: function (e) {
+    var type = e.currentTarget.dataset.type
+    var num = this.data.noObj[type];
+    if (num > 1) {
+      num--;
+    }
+    var obj = this.data.noObj
+    obj[type] = num
+    this.setData({
+      noObj: obj
+    })
 
+  },
+  /*点击加号*/
+  bindPlus: function (e) {
+    var type = e.currentTarget.dataset.type
+    var num = this.data.noObj[type];
+    num++;
+    var obj = this.data.noObj
+    obj[type] = num
+    this.setData({
+      noObj: obj
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -48,14 +88,9 @@ Page({
     // 一般这里发送页面请求初始化页面
     // 初始化用户信息
     // this.initUser()
-    request({
-      url: app.globalData.api_getRoleChildData,
-      method: 'post',
-    }).then(res => {
-      this.setData({
-        areaList: res.data.data
-      })
-    })
+    this.initSysData()
+
+
   },
   onShow: function () {
     // 页面出现在前台时执行
@@ -100,7 +135,30 @@ Page({
     // 关闭蓝牙
     this.closeConnect()
   },
+  initSysData(){
 
+    request({
+      url: app.globalData.api_getRoleChildData,
+      method: 'post',
+    }).then(res => {
+      this.setData({
+        areaList: res.data.data
+      })
+    })
+
+    if(wx.getStorageSync("userInfo")==null){
+      return
+    }
+    var openId= wx.getStorageSync("userInfo").openId
+    request({
+      url: app.globalData.api_getRemoteOpenDeviceList +"?openId="+openId,
+      method: 'post',
+    }).then(res => {
+      this.setData({
+        deviceList: res.data.data
+      })
+    })
+  },
   closeConnect() {
     if (this.deviceId) {
       // 断开设备连接
@@ -201,7 +259,7 @@ Page({
     }
   },
   bindPickerChange: function (e) {
-    // console.log('picker发送选择改变，携带值为', e.detail.value)
+    console.log('picker发送选择改变，携带值为', e.detail.value)
     this.setData({
       areaListIndex: e.detail.value
     })
@@ -212,11 +270,14 @@ Page({
       mobile,
       name,
       cardId,
-      doorNo
+      doorNo,
+      floorNo,
+      buildingNo
       // verificationCode
     } = e.detail.value;
     // 待确定1：是否需要短信验证 （|| !verificationCode ）
-    if (!mobile || !name || !doorNo || !this.data.areaListIndex) {
+    console.log(this.data.checkBoxObj.checkBoxObjTemp);
+    if (!mobile || !name   || !this.data.areaListIndex || !this.data.checkBoxObj.itemsCheckedNo) {
       wx.showToast({
         title: '提交内容不能为空！',
         icon: 'none',
@@ -313,6 +374,7 @@ Page({
         // console.log("res.code:"+res.code);
         requestData.jsCode = res.code
         requestData.areaId = this.data.areaList[this.data.areaListIndex].code
+        requestData.deviceList = this.data.checkBoxObj.items
         request({
           url: app.globalData.api_addUser,
           data: requestData,
@@ -380,15 +442,15 @@ Page({
     })
   },
   // 远程开门
-  remoteClick() {
-    // wx.showToast({
-    //   title: '该功能开发中！',
-    //   icon: 'none',
-    //   duration: 1500
-    // })
+  remoteClick(e) {
+    // 跳过初始化
+    if(e.detail.value == undefined ){
+      return
+    }
+    var deviceCode=  this.data.deviceList[e.detail.value].code
     var openId = wx.getStorageSync("userInfo").openId
     request({
-      url: app.globalData.api_remoteOpen + "?openId=" + openId + "&types=0,1",
+      url: app.globalData.api_remoteOpen + "?openId=" + openId + "&deviceCode="+deviceCode+"&types=0,1",
       method: 'post',
     }).then(res => {
       if (res.data.success) {
@@ -408,17 +470,45 @@ Page({
   },
   showDialog: function () {
     this.setData({
-      dialogvisible: true
+      dialogDevice: true
+    })
+  },
+  showDialogDevice: function () {
+    if(this.data.areaListIndex === ''){
+      wx.showToast({
+        title: '请先选择小区！', 
+        icon: 'none',
+        duration: 1500  
+      })
+      return 
+    }
+    var areaId=this.data.areaList[this.data.areaListIndex].code
+    if(this.data.checkBoxObj.items.length === 0){
+      request({
+        url: app.globalData.api_getRemoteOpenDeviceList +"?areaId="+areaId,
+        method: 'post',
+      }).then(res => {
+        var checkBoxObj =this.data.checkBoxObj
+        checkBoxObj.items= res.data.data
+        this.setData({
+          checkBoxObj: checkBoxObj
+        })
+      })
+    }
+    this.setData({
+      dialogDevice: true
     })
   },
   closeDialog: function () {
     this.setData({
-      dialogvisible: false
+      dialogvisible: false,
+      dialogDevice:false
     })
     // this._toast('关闭')
   },
   confirm: function () {
-    this._toast('confirm')
+    this.closeDialog()
+    // this._toast('confirm')
   },
   cancel: function () {
     this.closeDialog()
@@ -725,4 +815,26 @@ Page({
       })
     }
   },
+  checkboxChange(e) {
+    console.log('checkbox发生change事件，携带value值为：', e.detail.value)
+    var checkBoxObj =this.data.checkBoxObj
+    const items = checkBoxObj.items
+    const values = e.detail.value
+
+    for (let i = 0, lenI = items.length; i < lenI; ++i) {
+      items[i].checked = false
+      for (let j = 0, lenJ = values.length; j < lenJ; ++j) {
+        if (items[i].code === values[j]) {
+          items[i].checked = true
+          break
+        }
+      }
+    }
+    console.log(this.data.checkBoxObj.items);
+    checkBoxObj.itemsChecked="已选择"+values.length+"个设备"
+    checkBoxObj.itemsCheckedNo = values.length
+    this.setData({
+      checkBoxObj:checkBoxObj
+    })
+  }
 })

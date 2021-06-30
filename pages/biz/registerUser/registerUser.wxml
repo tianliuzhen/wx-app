@@ -23,22 +23,38 @@
       <view class="code">发送验证码</view>
     </view> -->
     <view class="item2">
-      <!-- <input type="text" name="areaId" placeholder="小区编码" placeholder-class="holder" />
-       -->
-
       <view class="item2-left">
         <picker bindchange="bindPickerChange" range-key="name" data-array="{{areaList}}" value="{{index}}"
           range="{{areaList}}">
           <view class="picker">
-            <text style="color: gray;">小区选择：</text>{{areaList[areaListIndex].name}}
+            <text style="color: gray;">小区选择：</text> {{ areaList[areaListIndex].name}}
           </view>
         </picker>
       </view>
+    </view>
+    <view class="item2">
+      <view class="item2-left" bindtap="showDialogDevice">
+          <view style="">
+            <text style="color: gray;">设备选择：</text> 
+              {{checkBoxObj.itemsChecked}}
+          </view>
+      </view>
+    </view>
+    <!-- <view class="item22">楼栋号：</view>
+    <view class="item3">
+      <view class='computeCount'>
+        <view class='sub_add_input' type='number' data-type="buildingNo" bindtap='bindMinus'>
+          <image class="compute_img" src="{{img_sub}}"></image>
+        </view>
+        <input type="text"  name="buildingNo" style="text-align:center"   value="{{noObj.buildingNo}}"></input>
+        <view class='sub_add_input' data-type="buildingNo"  bindtap='bindPlus'>
+          <image class="compute_img" src="{{img_add}}"></image>
+        </view>
+      </view>
+    </view> -->
 
-    </view>
-    <view class="item">
-      <input type="text" name="doorNo" placeholder="设备房间号" placeholder-class="holder" />
-    </view>
+
+
     <view class="item-switch">
       <view class="section__title">是否为管理员</view>
       <switch name="isManger" color="{{color}}" class='wx-switch-input' type="switch" />
@@ -46,7 +62,6 @@
     <view class="item-button">
       <button  formType="submit" style="background-color:{{color}}">提交申请</button>
     </view>
-
   </form>
 
 </view>
@@ -75,7 +90,10 @@
       <view class="hr"></view>
       <!-- background-color:#0094aa;color:#fff -->
       <view class="bottomQrcode">
+        <picker bindchange="remoteClick" range-key="name" data-array="{{deviceList}}" value="{{index}}"
+          range="{{deviceList}}">
         <view bindtap="remoteClick" style="background-color:#0094aa;padding: 3px 3px;border-radius:5px;min-width:80px;text-align:center;color:#fff;margin-rigjt:20px;"> {{content.remoteOpenDoor}}</view>
+      </picker>
       <view class="hr"></view>
       <view bindtap="blueToothClick" style="background-color:#0094aa;padding: 3px 5px;border-radius:5px;min-width:80px;text-align:center;color:#fff;margin-left:20px;"> {{content.blueToothDoor}}</view>
       <!-- <view bindtap="blueToothClick_test" style="background-color:#0094aa;padding: 3px 5px;border-radius:5px;min-width:80px;text-align:center;color:#fff;margin-left:20px;"> 测试蓝牙</view> -->
@@ -85,8 +103,7 @@
   </view>
 </view>
 
-
-<dialog  wx:if="{{dialogvisible}}"  bindcancel="cancel">
+<dialog  wx:if="{{dialogvisible}}"  bindcancel="cancel"  >
   <view style='height:20vh;'>
     搜索到设备id：{{deviceId}}
     <view></view>
@@ -102,4 +119,20 @@
     <view></view>
     向设备发送数据：{{blueData.sendData}}
   </view>
+</dialog>
+
+<dialog  wx:if="{{dialogDevice}}" title="请选择小区开锁设备" bindcancel="cancel"  bindconfirm="confirm">
+  <view class="page-section">
+      <view class="page-section-title">设备选择：</view>
+      <view class="weui-cells weui-cells_after-title">
+        <checkbox-group bindchange="checkboxChange">
+          <label class="weui-cell weui-check__label" wx:for="{{checkBoxObj.items}}" wx:key="id">
+            <view class="weui-cell__hd">
+              <checkbox value="{{item.code}}" checked="{{item.checked}}"/>
+            </view>
+            <view class="weui-cell__bd">{{item.name}}</view>
+          </label>
+        </checkbox-group>
+      </view>
+    </view>
 </dialog>

@@ -19,12 +19,19 @@ Page({
    * 页面的初始数据
    */
   data: {
+    checkBoxObj:{
+      itemsChecked: "",
+      itemsCheckedNo: "",
+      items: [
+      ]
+    },
     userList: [],
     date: '2021-06-01 12:00:00',
     cancel: '/icon/cancel.png',
     img_add: '/icon/add.png',
     img_sub: '/icon/sub.png',
     showModalStatus: false,
+    showModalStatus2: false,
     userinfo: {},
     pageSize: 10, // 每页显示数量
     page: 1, // 当前页
@@ -165,6 +172,7 @@ Page({
       count: res.count,
       area: res.areaId
     })
+    this.initDataCheckObj(res.areaId)
   },
   powerDrawer: function (e) {
     var currentStatu = e.currentTarget.dataset.statu;
@@ -200,11 +208,23 @@ Page({
           showModalStatus: false
         });
       }
+      if (currentStatu == "close2") {
+        this.setData({
+          showModalStatus2: false,
+          showModalStatus: true
+        });
+      }
     }.bind(this), 200)
     // 显示
     if (currentStatu == "open") {
       this.setData({
         showModalStatus: true
+      });
+    }
+    if (currentStatu == "open2") {
+      this.setData({
+        showModalStatus2: true,
+        showModalStatus: false
       });
     }
   },
@@ -380,6 +400,7 @@ Page({
     var endTime = this.data.endTime.date + " " + this.data.endTime.time + ":00"
     this.data.userinfo.startTime = startTime
     this.data.userinfo.endTime = endTime
+    this.data.userinfo.deviceList = this.data.checkBoxObj.items
     // 如未修改小区
     this.buildAreaId();
     wx.showModal({
@@ -407,6 +428,58 @@ Page({
         }
       });
     }
+  },
+  showDialogDevice(){
+    this.util('open2');
+  },
+  powerDrawer2(){
+    this.util('close2');
+  },
+  initDataCheckObj(areaId){
+    request({
+      url: app.globalData.api_getRemoteOpenDeviceList +"?areaId="+areaId,
+      method: 'post',
+    }).then(res => {
+      var checkBoxObj =this.data.checkBoxObj
+      checkBoxObj.items= res.data.data
+
+      var values = res.data.data
+      var no=0
+      for (let j = 0, lenJ = values.length; j < lenJ; ++j) {
+        console.log(values[j].checked);
+        if (values[j].checked ===true ) {
+           no++
+        }
+      }
+      checkBoxObj.itemsChecked="已选择"+no+"个设备"
+      checkBoxObj.itemsCheckedNo = no
+      this.setData({
+        checkBoxObj:checkBoxObj
+      })
+
+    })
+  },
+  checkboxChange(e) {
+    console.log('checkbox发生change事件，携带value值为：', e.detail.value)
+    var checkBoxObj =this.data.checkBoxObj
+    const items = checkBoxObj.items
+    const values = e.detail.value
+
+    for (let i = 0, lenI = items.length; i < lenI; ++i) {
+      items[i].checked = false
+      for (let j = 0, lenJ = values.length; j < lenJ; ++j) {
+        if (items[i].code === values[j]) {
+          items[i].checked = true
+          break
+        }
+      }
+    }
+    console.log(this.data.checkBoxObj.items);
+    checkBoxObj.itemsChecked="已选择"+values.length+"个设备"
+    checkBoxObj.itemsCheckedNo = values.length
+    this.setData({
+      checkBoxObj:checkBoxObj
+    })
   }
 })
 

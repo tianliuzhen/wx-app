@@ -133,11 +133,14 @@ Page({
   checkUser(userInfo) {
     // 1、访客或者普通用户直接返回
     console.log(userInfo);
-    if (userInfo.type == 2 || userInfo.type == 3 || userInfo.blacklist == 1) {
+    if (userInfo.type == 2 || userInfo.type == 3 ||  userInfo.status == 0 || userInfo.blacklist == 1) {
       wx.showToast({
         title: '暂无权限！',
         icon: 'none',
-        duration: 1500
+        duration: 2500
+      })
+      this.setData({
+        isManager: false
       })
       return
     }

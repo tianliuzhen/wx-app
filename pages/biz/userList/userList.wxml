@@ -88,6 +88,10 @@
       </picker>
     </view>
     <view class="top grid">
+      <label class="title col-0"> <text style="color: gray;">设备：</text></label>
+      <input class="input_base input_h30 col-1" disabled="false" bindtap="showDialogDevice"value="{{checkBoxObj.itemsChecked}}" ></input>
+    </view>
+    <view class="top grid">
       <label class="title col-0">申请时间：</label>
       <input disabled="true" class="input_base input_h30 col-1" bindinput="inputedit" data-obj="createTime"
         name="createTime" value="{{userinfo.createTime}}"></input>
@@ -186,3 +190,28 @@
     </block>
   </view>
 </view>
+<!--mask-->
+<view class="drawer_screen" bindtap="powerDrawer" data-statu="close" wx:if="{{showModalStatus2}}"></view>
+<!-- 弹窗2 -->
+<view animation="{{animationData}}" class="drawer_box" wx:if="{{showModalStatus2}}">
+  <view bindtap="powerDrawer2" data-statu="close" class='cancel'>
+    <image class="cancel_img" src="{{cancel}}"></image>
+  </view>
+  <!--drawer content-->
+  <view class="drawer_title">请选择小区开锁设备</view>
+  <view class="page-section">
+      <view class="page-section-title">设备选择：</view>
+      <view class="drawer_content">
+      <view class="weui-cells weui-cells_after-title">
+        <checkbox-group bindchange="checkboxChange">
+          <label class="weui-cell weui-check__label" wx:for="{{checkBoxObj.items}}" wx:key="id">
+            <view class="weui-cell__hd">
+              <checkbox value="{{item.code}}" checked="{{item.checked}}"/>
+            </view>
+            <view class="weui-cell__bd">{{item.name}}</view>
+          </label>
+        </checkbox-group>
+      </view>
+      </view>
+    </view>
+  </view>

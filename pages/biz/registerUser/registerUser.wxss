@@ -1,4 +1,5 @@
 /* pages/company/company.wxss */
+@import '../../../lib/weui.wxss';
 .content{
   width: 100vw;
   height:100vh;
@@ -29,6 +30,10 @@
 }
 .item2-left{
   margin-left: 10px;
+}
+.item3-left{
+  margin-left: 10px;
+  text-align: center;
 }
 
 .section{
@@ -157,4 +162,42 @@ item switch{
     align-items: center;
     justify-content: space-between;
     /* width: 210px; */
+  }
+
+  .item3{
+    margin: 0 auto;
+    height: 40px;
+    width: 90%;
+    margin-bottom: 15px;
+    border: 1px solid #cccccc;
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .item22{
+    margin: 0 auto;
+    width: 90%;
+    margin-bottom: 5px;
+    color:gray
+  }
+  .sub_add_input{
+    font-size: 21px;
+    margin-left: 10px;
+    margin-right: 10px;
+    color:green;
+  }
+  .computeCount{
+    width: 200px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background-color: red; */
+  }
+  .compute_img{
+    padding-top:4px;
+    width:24px;
+    height: 24px;
   }
