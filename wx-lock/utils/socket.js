@@ -1,12 +1,12 @@
 // ----------------------------------
-
+const app = getApp()
 function openSocket(userId) {
   if (userId == null || userId == "") {
     return
   }
   // 连接socket
   wx.connectSocket({
-    url: "ws://localhost:9999/socketServer/" + userId,
+    url: app.globalData.api_websocket + userId,
     success: function (res) {
       console.log("连接服务器成功")
     },

@@ -285,6 +285,7 @@ Page({
     let value = e.detail.value;
     let res = this.data.userinfo
     res[dataset.obj] = value
+    console.log(res);
     //obj是我们使用data-传递过来的键值对的键
     this.setData({
       userinfo: res

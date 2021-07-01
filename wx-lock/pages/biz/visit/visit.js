@@ -190,8 +190,8 @@ Page({
       name,
       doorNo
     } = e.detail.value;
-    // 待确定1：是否需要短信验证 （|| !verificationCode ）
-    if (!mobile || !name || !visitorMobile || !doorNo ) {
+    // 待确定1：是否需要短信验证 （|| !verificationCode  || !doorNo ）
+    if (!mobile || !name || !visitorMobile ) {
       wx.showToast({
         title: '提交内容不能为空！',
         icon: 'none',

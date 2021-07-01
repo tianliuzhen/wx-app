@@ -158,7 +158,7 @@
     </view>
     <view class="top bottom grid">
       <label class="title col-0">备注：</label>
-      <input class="input_base input_h30 col-1" name="bz"></input>
+      <input class="input_base input_h30 col-1" value="{{userinfo.remark}}"  bindinput="inputedit" data-obj="remark" ></input>
     </view>
 
   </view>

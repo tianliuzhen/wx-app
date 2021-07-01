@@ -12,10 +12,10 @@
     <view class="item">
       <input type="text" name="name" placeholder="访客姓名" placeholder-class="holder" />
     </view>
-    <view class="item">
+    <!-- <view class="item">
       <input type="text" name="doorNo" placeholder="设备房间号" placeholder-class="holder" />
     </view>
-   
+    -->
 
     <view class="item2">限制次数：</view>
     <view class="item3">

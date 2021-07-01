@@ -52,7 +52,7 @@ App({
       url: 'pages/biz/img-404/img-404',
     })
   },
-  globalData2: {
+  globalData: {
     userInfo: null,
     domain: 'http://localhost:9999',
     api_addUser: 'http://localhost:9999/wx-lock-api/addUser',
@@ -71,7 +71,7 @@ App({
     api_getRemoteOpenDeviceList: 'http://localhost:9999/wx-lock-api/getRemoteOpenDeviceList',
     api_websocket: 'ws://localhost:9999/socketServer/',
   },
-  globalData: {
+  globalData2: {
     userInfo: null,
     domain: 'https://codeok.cn/',
     api_addUser: 'https://codeok.cn/wx-lock-api/addUser',

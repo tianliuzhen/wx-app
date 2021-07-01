@@ -90,8 +90,7 @@ Page({
     // 初始化用户信息
     // this.initUser()
     this.initSysData()
-    // 连接socket
-    socket.openSocket(1)
+   
 
   },
   onShow: function () {
@@ -101,6 +100,9 @@ Page({
     })
     clearInterval(interval);
     this.initUser()
+
+     // 连接socket
+     socket.openSocket(1)
   },
   /**
    * 生命周期函数--监听页面隐藏
@@ -138,8 +140,7 @@ Page({
     }
     // 关闭蓝牙
     this.closeConnect()
-    // 关闭socket
-    socket.closeSocket(1)
+
   },
  
   
