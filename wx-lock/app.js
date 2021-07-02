@@ -1,8 +1,9 @@
 // app.js
 
-import {
-  request
-} from "/component/request/index.js";
+import { request} from "/component/request/index.js";
+// var  domain='http://localhost:9999';
+var  domain= 'https://codeok.cn';
+
 App({
   // 1、生命周期回调——监听小程序初始化
   onLaunch() {
@@ -54,40 +55,21 @@ App({
   },
   globalData: {
     userInfo: null,
-    domain: 'http://localhost:9999',
-    api_addUser: 'http://localhost:9999/wx-lock-api/addUser',
-    api_getUserInfo: 'http://localhost:9999/wx-lock-api/getUserInfo',
-    api_getUsersPage: 'http://localhost:9999/wx-lock-api/getUsersPage',
-    api_auditPass: 'http://localhost:9999/wx-lock-api/auditPass',
-    api_editUser: 'http://localhost:9999/wx-lock-api/editUser',
-    api_getQrCode: 'http://localhost:9999/wx-lock-api/getQrCode',
-    api_getRoleChildData: 'http://localhost:9999/wx-lock-api/getOrgChildData',
-    api_getUserInfoByOpenId: 'http://localhost:9999/wx-lock-api/getUserInfoByOpenId',
-    api_getOpenDoorRecord: 'http://localhost:9999/openDoorRecord/page',
-    api_getDevices: 'http://localhost:9999/device/page',
-    api_remoteOpen: 'http://localhost:9999/wx-lock-api/remoteOpen',
-    api_updatePassword: 'http://localhost:9999/wx-lock-api/updatePassword',
-    api_getQrCodeDataByBluetooth: 'http://localhost:9999/wx-lock-api/getQrCodeDataByBluetooth',
-    api_getRemoteOpenDeviceList: 'http://localhost:9999/wx-lock-api/getRemoteOpenDeviceList',
+    api_addUser: domain+'/wx-lock-api/addUser',
+    api_getUserInfo: domain+'/wx-lock-api/getUserInfo',
+    api_getUsersPage: domain+'/wx-lock-api/getUsersPage',
+    api_auditPass: domain+'/wx-lock-api/auditPass',
+    api_editUser: domain+'/wx-lock-api/editUser',
+    api_getQrCode: domain+'/wx-lock-api/getQrCode',
+    api_getRoleChildData: domain+'/wx-lock-api/getOrgChildData',
+    api_getUserInfoByOpenId: domain+'/wx-lock-api/getUserInfoByOpenId',
+    api_getOpenDoorRecord: domain+'/openDoorRecord/page',
+    api_getDevices: domain+'/device/page',
+    api_remoteOpen: domain+'/wx-lock-api/remoteOpen',
+    api_updatePassword: domain+'/wx-lock-api/updatePassword',
+    api_getQrCodeDataByBluetooth: domain+'/wx-lock-api/getQrCodeDataByBluetooth',
+    api_getRemoteOpenDeviceList: domain+'/wx-lock-api/getRemoteOpenDeviceList',
     api_websocket: 'ws://localhost:9999/socketServer/',
   },
-  globalData2: {
-    userInfo: null,
-    domain: 'https://codeok.cn/',
-    api_addUser: 'https://codeok.cn/wx-lock-api/addUser',
-    api_getUserInfo: 'https://codeok.cn/wx-lock-api/getUserInfo',
-    api_getUsersPage: 'https://codeok.cn/wx-lock-api/getUsersPage',
-    api_auditPass: 'https://codeok.cn/wx-lock-api/auditPass',
-    api_editUser: 'https://codeok.cn/wx-lock-api/editUser',
-    api_getQrCode: 'https://codeok.cn/wx-lock-api/getQrCode',
-    api_getRoleChildData: 'https://codeok.cn/wx-lock-api/getOrgChildData',
-    api_getUserInfoByOpenId: 'https://codeok.cn/wx-lock-api/getUserInfoByOpenId',
-    api_getOpenDoorRecord: 'https://codeok.cn/openDoorRecord/page',
-    api_getDevices: 'https://codeok.cn/device/page',
-    api_remoteOpen: 'https://codeok.cn/wx-lock-api/remoteOpen',
-    api_updatePassword: 'https://codeok.cn/wx-lock-api/updatePassword',
-    api_getQrCodeDataByBluetooth: 'https://codeok.cn/wx-lock-api/getQrCodeDataByBluetooth',
-    api_getRemoteOpenDeviceList: 'https://codeok.cn/wx-lock-api/getRemoteOpenDeviceList',
-    api_websocket: 'wss://codeok.cn/socketServer/',
-  }
+  
 })
