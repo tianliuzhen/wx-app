@@ -223,6 +223,9 @@ Page({
       })
     }
 
+    // 
+    this.initDataCheckObj(wx.getStorageSync("userInfo").areaId,wx.getStorageSync("userInfo").openId)
+
   },
   // 用户检测
   checkUser(userInfo) {
@@ -470,8 +473,6 @@ Page({
   // 远程开门
   remoteClick(e) {
     // 跳过初始化
-    console.log();
-    this.initDataCheckObj(wx.getStorageSync("userInfo").areaId,wx.getStorageSync("userInfo").openId)
     if(e.detail.value == undefined ){
       return
     }
