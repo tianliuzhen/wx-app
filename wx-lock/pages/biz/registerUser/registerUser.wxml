@@ -122,9 +122,10 @@
 </dialog>
 
 <dialog  wx:if="{{dialogDevice}}" title="请选择小区开锁设备" bindcancel="cancel"  bindconfirm="confirm">
-  <view class="page-section">
+<view class="divcss5-max">
+  <view class="page-section ">
       <view class="page-section-title">设备选择：</view>
-      <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cells weui-cells_after-title ">
         <checkbox-group bindchange="checkboxChange">
           <label class="weui-cell weui-check__label" wx:for="{{checkBoxObj.items}}" wx:key="id">
             <view class="weui-cell__hd">
@@ -135,4 +136,6 @@
         </checkbox-group>
       </view>
     </view>
+</view>
+
 </dialog>

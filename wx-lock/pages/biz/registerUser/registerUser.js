@@ -449,12 +449,33 @@ Page({
       isShowQrCode: false,
     })
   },
+  initDataCheckObj(areaId, openId) {
+    request({
+      url: app.globalData.api_getRemoteOpenDeviceList + "?areaId=" + areaId + "&openId=" + openId,
+      method: 'post',
+    }).then(res => {
+      var list=res.data.data
+      var newList = []
+      list.forEach(element => {
+        if(element.checked){
+          newList.push(element)
+        }
+      });
+      this.setData({
+        deviceList: newList
+      })
+
+    })
+  },
   // 远程开门
   remoteClick(e) {
     // 跳过初始化
+    console.log();
+    this.initDataCheckObj(wx.getStorageSync("userInfo").areaId,wx.getStorageSync("userInfo").openId)
     if(e.detail.value == undefined ){
       return
     }
+
     var deviceCode=  this.data.deviceList[e.detail.value].code
     var openId = wx.getStorageSync("userInfo").openId
     request({
@@ -490,8 +511,8 @@ Page({
       })
       return 
     }
+    console.log(this.data.areaListIndex);
     var areaId=this.data.areaList[this.data.areaListIndex].code
-    if(this.data.checkBoxObj.items.length === 0){
       request({
         url: app.globalData.api_getRemoteOpenDeviceList +"?areaId="+areaId,
         method: 'post',
@@ -502,7 +523,6 @@ Page({
           checkBoxObj: checkBoxObj
         })
       })
-    }
     this.setData({
       dialogDevice: true
     })

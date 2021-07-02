@@ -19,11 +19,10 @@ Page({
    * 页面的初始数据
    */
   data: {
-    checkBoxObj:{
+    checkBoxObj: {
       itemsChecked: "",
       itemsCheckedNo: "",
-      items: [
-      ]
+      items: []
     },
     userList: [],
     date: '2021-06-01 12:00:00',
@@ -81,6 +80,7 @@ Page({
       })
     })
 
+
     if (options.type != null && options.type == 'visitorList') {
       this.setData({
         isVisitorList: true
@@ -113,12 +113,20 @@ Page({
     this.setData({
       requestData: res
     })
-    
+
     // 初始化加载列表
     this.initDataUserList(this.data.requestData)
   },
   initDataUserList(data) {
-        // 如未修改小区
+    request({
+      url: app.globalData.api_getUserInfo +"?openId=" + wx.getStorageSync("userInfo").openId,
+      method: 'get',
+    }).then(res => {
+      // 存入缓存
+      wx.setStorageSync("userInfo", res.data.data)
+      this.globalData.userInfo = res.data.data
+    })
+    // 如未修改小区
     // this.buildAreaId();
     if (wx.getStorageSync("userInfo") != null && wx.getStorageSync("userInfo") != '') {
       var userInfo = wx.getStorageSync("userInfo")
@@ -172,7 +180,7 @@ Page({
       count: res.count,
       area: res.areaId
     })
-    this.initDataCheckObj(res.areaId)
+    this.initDataCheckObj(res.areaCode, res.openId)
   },
   powerDrawer: function (e) {
     var currentStatu = e.currentTarget.dataset.statu;
@@ -430,39 +438,61 @@ Page({
       });
     }
   },
-  showDialogDevice(){
+  showDialogDevice() {
+    console.log(111);
+
+    if (this.data.areaListIndex === '') {
+      this.util('open2');
+      return
+    }
     this.util('open2');
-  },
-  powerDrawer2(){
-    this.util('close2');
-  },
-  initDataCheckObj(areaId){
+    console.log(this.data.areaListIndex);
+    var areaId = this.data.areaList[this.data.areaListIndex].code
     request({
-      url: app.globalData.api_getRemoteOpenDeviceList +"?areaId="+areaId,
+      url: app.globalData.api_getRemoteOpenDeviceList + "?areaId=" + areaId,
       method: 'post',
     }).then(res => {
-      var checkBoxObj =this.data.checkBoxObj
-      checkBoxObj.items= res.data.data
+      var checkBoxObj = this.data.checkBoxObj
+      checkBoxObj.items = res.data.data
+      this.setData({
+        checkBoxObj: checkBoxObj
+      })
+    })
+    this.setData({
+      dialogDevice: true
+    })
+
+  },
+  powerDrawer2() {
+    this.util('close2');
+  },
+  initDataCheckObj(areaId, openId) {
+    request({
+      url: app.globalData.api_getRemoteOpenDeviceList + "?areaId=" + areaId + "&openId=" + openId,
+      method: 'post',
+    }).then(res => {
+      var checkBoxObj = this.data.checkBoxObj
+      checkBoxObj.items = res.data.data
 
       var values = res.data.data
-      var no=0
+      var no = 0
       for (let j = 0, lenJ = values.length; j < lenJ; ++j) {
         console.log(values[j].checked);
-        if (values[j].checked ===true ) {
-           no++
+        if (values[j].checked === true) {
+          no++
         }
       }
-      checkBoxObj.itemsChecked="已选择"+no+"个设备"
+      checkBoxObj.itemsChecked = "已选择" + no + "个设备"
       checkBoxObj.itemsCheckedNo = no
       this.setData({
-        checkBoxObj:checkBoxObj
+        checkBoxObj: checkBoxObj
       })
 
     })
   },
   checkboxChange(e) {
     console.log('checkbox发生change事件，携带value值为：', e.detail.value)
-    var checkBoxObj =this.data.checkBoxObj
+    var checkBoxObj = this.data.checkBoxObj
     const items = checkBoxObj.items
     const values = e.detail.value
 
@@ -476,12 +506,11 @@ Page({
       }
     }
     console.log(this.data.checkBoxObj.items);
-    checkBoxObj.itemsChecked="已选择"+values.length+"个设备"
+    checkBoxObj.itemsChecked = "已选择" + values.length + "个设备"
     checkBoxObj.itemsCheckedNo = values.length
     this.setData({
-      checkBoxObj:checkBoxObj
+      checkBoxObj: checkBoxObj
     })
-  }
+  },
+
 })
-
-
