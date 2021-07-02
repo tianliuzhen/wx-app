@@ -131,9 +131,7 @@ Page({
     this.loginUser()
   },
   checkUser(userInfo) {
-    console.log(1111);
     // 1、访客或者普通用户直接返回
-    console.log(userInfo);
     if (userInfo.type == 2 || userInfo.type == 3 ||  userInfo.status == 0 ||  userInfo.status == 3 || userInfo.blacklist == 1) {
       wx.showToast({
         title: '暂无权限！',

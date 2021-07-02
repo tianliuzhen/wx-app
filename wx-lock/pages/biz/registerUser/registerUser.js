@@ -40,6 +40,7 @@ Page({
     reRegister: false,
     errorMes: "",
     screenBrightness: "", // 系统默认亮度
+    screenBrightnessCount: 0, // 系统默认亮度次数
     //小区-普通选择器：（普通数组）
     areaList: [],
     //远程开门-普通选择器：（普通数组）
@@ -104,7 +105,7 @@ Page({
     this.initUser()
 
      // 连接socket
-     socket.openSocket(1)
+     socket.openSocket( wx.getStorageSync("userInfo"))
   },
   /**
    * 生命周期函数--监听页面隐藏
@@ -123,7 +124,7 @@ Page({
     // 关闭蓝牙
     this.closeConnect()
     // 关闭socket
-    socket.closeSocket(1)
+    socket.closeSocket(wx.getStorageSync("userInfo"))
   },
 
   /**
@@ -340,14 +341,17 @@ Page({
 
         // 2、亮度调节
         var that = this
-        wx.getScreenBrightness({
-          success: function (res) {
-            console.log("亮度==============================：" + res.value);
-            that.setData({
-              screenBrightness: res.value
-            })
-          }
-        })
+        if(that.data.screenBrightnessCount == 0){
+          wx.getScreenBrightness({
+            success: function (res) {
+              console.log("亮度==============================：" + res.value);
+              that.setData({
+                screenBrightness: res.value,
+                screenBrightnessCount:1
+              })
+            }
+          })
+        }
         // 设置屏幕亮度
         wx.setScreenBrightness({
           value: 1, //屏幕亮度值，范围 0~1，0 最暗，1 最亮

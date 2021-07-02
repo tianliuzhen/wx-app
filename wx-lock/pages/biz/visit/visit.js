@@ -2,6 +2,7 @@
 import {
   request
 } from "../../../component/request/index.js";
+var socket = require("../../../utils/socket")
 var interval;
 const app = getApp()
 Page({
@@ -63,6 +64,8 @@ Page({
       })
     clearInterval(interval);
     this.initUser()
+     // 连接socket
+     socket.openSocket( wx.getStorageSync("userInfoVisitor"))
   },
   /**
    * 生命周期函数--监听页面隐藏
@@ -78,6 +81,8 @@ Page({
         value: this.data.screenBrightness,
       })
     }
+    // 关闭socket
+    socket.closeSocket(wx.getStorageSync("userInfoVisitor"))
   },
 
   /**

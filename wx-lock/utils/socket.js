@@ -1,9 +1,10 @@
 // ----------------------------------
 const app = getApp()
-function openSocket(userId) {
-  if (userId == null || userId == "") {
+function openSocket(userInfo) {
+  if (userInfo == null || userInfo == "") {
     return
   }
+  var userId=userInfo.openId +"_"+userInfo.type
   // 连接socket
   wx.connectSocket({
     url: app.globalData.api_websocket + userId,
@@ -28,9 +29,9 @@ function openSocket(userId) {
   })
 }
 
-function closeSocket(userId){
-  if(userId==null || userId==""){
-    return  
+function closeSocket(userInfo){
+  if (userInfo == null || userInfo == "") {
+    return
   }
   //如果 wx.connectSocket 还没回调 wx.onSocketOpen，而先调用 wx.closeSocket，那么就做不到关闭 WebSocket 的目的。
   //必须在 WebSocket 打开期间调用 wx.closeSocket 才能关闭。

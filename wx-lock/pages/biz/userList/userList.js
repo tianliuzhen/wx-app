@@ -118,33 +118,31 @@ Page({
   },
   onShow: function () {
     // 初始化加载列表
-    this.initDataUserList(this.data.requestData)
+    this.initDataUserList()
   },
   initDataUserList() {
-    request({
+   request({
       url: app.globalData.api_getUserInfoByOpenId +"?openId=" + wx.getStorageSync("userInfo").openId+"&types=0,1",
       method: 'get',
     }).then(res => {
       // 存入缓存
       if(res.data.data !=null){
         wx.setStorageSync("userInfo", res.data.data)
-        this.data.requestData.condition.area_id = res.data.data.areaId
-      }
-      request({
-        url: app.globalData.api_getUsersPage,
-        data: this.data.requestData,
-        method: 'POST',
-      }).then(res => {
-        this.setData({
-          userList: res.data.data.data,
-          totalPage: res.data.data.totalPage
+        var req=this.data.requestData
+        req.condition.area_id = res.data.data.areaId
+        request({
+          url: app.globalData.api_getUsersPage,
+          data: req,
+          method: 'POST',
+        }).then(res => {
+          this.setData({
+            userList: res.data.data.data,
+            totalPage: res.data.data.totalPage
+          })
+          wx.stopPullDownRefresh()
         })
-        wx.stopPullDownRefresh()
-      })
+      }
     })
-    // 如未修改小区
-    // this.buildAreaId();
-
     
   },
   bindPickerChange: function (e) {
@@ -181,9 +179,9 @@ Page({
         time: res.endTime.substring(11, 16)
       },
       count: res.count,
-      area: res.areaId
+      area: res.areaName
     })
-    this.initDataCheckObj(res.areaCode, res.openId)
+    this.initDataCheckObj(res.areaId, res.openId)
   },
   powerDrawer: function (e) {
     var currentStatu = e.currentTarget.dataset.statu;
@@ -193,7 +191,7 @@ Page({
     /* 动画部分 */
     // 第1步：创建动画实例 
     var animation = wx.createAnimation({
-      duration: 100, //动画时长
+      duration: 400, //动画时长
       timingFunction: "linear", //线性
       delay: 0 //0则不延迟
     });
@@ -362,8 +360,7 @@ Page({
       requestData: res,
       userList: []
     })
-
-    this.initDataUserList(this.data.requestData)
+    this.initDataUserList()
   },
   // doAudit 用户操作
   doAudit(e) {
@@ -413,6 +410,7 @@ Page({
     this.data.userinfo.startTime = startTime
     this.data.userinfo.endTime = endTime
     this.data.userinfo.deviceList = this.data.checkBoxObj.items
+ 
     // 如未修改小区
     this.buildAreaId();
     wx.showModal({
@@ -487,11 +485,9 @@ Page({
     }).then(res => {
       var checkBoxObj = this.data.checkBoxObj
       checkBoxObj.items = res.data.data
-
       var values = res.data.data
       var no = 0
       for (let j = 0, lenJ = values.length; j < lenJ; ++j) {
-        console.log(values[j].checked);
         if (values[j].checked === true) {
           no++
         }
@@ -519,7 +515,6 @@ Page({
         }
       }
     }
-    console.log(this.data.checkBoxObj.items);
     checkBoxObj.itemsChecked = "已选择" + values.length + "个设备"
     checkBoxObj.itemsCheckedNo = values.length
     this.setData({

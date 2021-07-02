@@ -23,7 +23,7 @@
         </view>
         <view class="flex_1_1">
           <view class="detail_left">小区：</view>
-          <view class="detail_right">{{item.areaId}}</view>
+          <view class="detail_right">{{item.areaName}}</view>
         </view>
         <view class="flex_1_1">
           <view class="detail_left">是否拉黑</view>
