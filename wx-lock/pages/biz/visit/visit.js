@@ -24,6 +24,7 @@ Page({
      //普通选择器：（普通数组）
     areaList: [],
     areaListIndex:"", // 选择框选中值
+    areaListIndexTemp: "", // 选择框选中值
     isVisitorQrcode:false,
     inputValue:""
 
@@ -206,6 +207,9 @@ Page({
     this.refush()
     },
     refush(){
+      if(wx.getStorageSync("userInfoVisitor") == null){
+        return
+      }
       request({
         url: app.globalData.api_getUserInfoByOpenId + "?openId=" +  wx.getStorageSync("userInfoVisitor").openId,
         method: 'get',

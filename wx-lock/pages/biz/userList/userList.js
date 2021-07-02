@@ -114,36 +114,38 @@ Page({
       requestData: res
     })
 
+
+  },
+  onShow: function () {
     // 初始化加载列表
     this.initDataUserList(this.data.requestData)
   },
-  initDataUserList(data) {
+  initDataUserList() {
     request({
-      url: app.globalData.api_getUserInfo +"?openId=" + wx.getStorageSync("userInfo").openId,
+      url: app.globalData.api_getUserInfoByOpenId +"?openId=" + wx.getStorageSync("userInfo").openId+"&types=0,1",
       method: 'get',
     }).then(res => {
       // 存入缓存
-      wx.setStorageSync("userInfo", res.data.data)
-      this.globalData.userInfo = res.data.data
+      if(res.data.data !=null){
+        wx.setStorageSync("userInfo", res.data.data)
+        this.data.requestData.condition.area_id = res.data.data.areaId
+      }
+      request({
+        url: app.globalData.api_getUsersPage,
+        data: this.data.requestData,
+        method: 'POST',
+      }).then(res => {
+        this.setData({
+          userList: res.data.data.data,
+          totalPage: res.data.data.totalPage
+        })
+        wx.stopPullDownRefresh()
+      })
     })
     // 如未修改小区
     // this.buildAreaId();
-    if (wx.getStorageSync("userInfo") != null && wx.getStorageSync("userInfo") != '') {
-      var userInfo = wx.getStorageSync("userInfo")
-      console.log(userInfo);
-      this.data.requestData.condition.area_id = userInfo.areaId
-    }
-    request({
-      url: app.globalData.api_getUsersPage,
-      data: data,
-      method: 'POST',
-    }).then(res => {
-      this.setData({
-        userList: res.data.data.data,
-        totalPage: res.data.data.totalPage
-      })
-      wx.stopPullDownRefresh()
-    })
+
+    
   },
   bindPickerChange: function (e) {
     // console.log('picker发送选择改变，携带值为', e.detail.value)
@@ -153,7 +155,8 @@ Page({
     this.setData({
       areaListIndex: e.detail.value,
       area: area,
-      userinfo: userinfo
+      userinfo: userinfo,
+      checkBoxObj:{}
     })
   },
   // 点击编辑按钮
@@ -423,7 +426,7 @@ Page({
             method: 'POST',
           }).then(res => {
             this.util('close')
-            this.initDataUserList(this.data.requestData)
+            this.initDataUserList()
           })
         }
       }
@@ -446,7 +449,15 @@ Page({
       return
     }
     this.util('open2');
-    console.log(this.data.areaListIndex);
+   
+    if(this.data.areaListIndexTemp == this.data.areaListIndex){
+      this.setData({
+        dialogDevice: true
+      })
+        return
+    }
+
+
     var areaId = this.data.areaList[this.data.areaListIndex].code
     request({
       url: app.globalData.api_getRemoteOpenDeviceList + "?areaId=" + areaId,
@@ -460,6 +471,9 @@ Page({
     })
     this.setData({
       dialogDevice: true
+    })
+    this.setData({
+      areaListIndexTemp:this.data.areaListIndex
     })
 
   },

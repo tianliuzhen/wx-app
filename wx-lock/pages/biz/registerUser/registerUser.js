@@ -45,6 +45,7 @@ Page({
     //远程开门-普通选择器：（普通数组）
     deviceList: [],
     areaListIndex: "", // 选择框选中值
+    areaListIndexTemp: "", // 选择框选中值
     deviceId: "", // 设备蓝牙 deviceId
     deviceName: "", // 设备蓝牙 deviceName
     deviceData: "", // 设备蓝牙 deviceData
@@ -99,6 +100,7 @@ Page({
       time: 10 * 6
     })
     clearInterval(interval);
+    console.log("onShow");
     this.initUser()
 
      // 连接socket
@@ -224,7 +226,7 @@ Page({
     }
 
     // 
-    this.initDataCheckObj(wx.getStorageSync("userInfo").areaId,wx.getStorageSync("userInfo").openId)
+    this.initDataCheckObj()
 
   },
   // 用户检测
@@ -272,7 +274,8 @@ Page({
   bindPickerChange: function (e) {
     console.log('picker发送选择改变，携带值为', e.detail.value)
     this.setData({
-      areaListIndex: e.detail.value
+      areaListIndex: e.detail.value,
+      checkBoxObj:{}
     })
   },
   formSubmit: function (e) {
@@ -452,7 +455,12 @@ Page({
       isShowQrCode: false,
     })
   },
-  initDataCheckObj(areaId, openId) {
+  initDataCheckObj() {
+    if( wx.getStorageSync("userInfo") == null){
+        return
+    }
+   var areaId =  wx.getStorageSync("userInfo").areaId
+   var openId = wx.getStorageSync("userInfo").openId
     request({
       url: app.globalData.api_getRemoteOpenDeviceList + "?areaId=" + areaId + "&openId=" + openId,
       method: 'post',
@@ -504,6 +512,7 @@ Page({
     })
   },
   showDialogDevice: function () {
+    
     if(this.data.areaListIndex === ''){
       wx.showToast({
         title: '请先选择小区！', 
@@ -512,7 +521,15 @@ Page({
       })
       return 
     }
-    console.log(this.data.areaListIndex);
+    // 用于记录当前选中的小区code
+    if(this.data.areaListIndexTemp == this.data.areaListIndex){
+      this.setData({
+        dialogDevice: true
+      })
+        return
+    }
+
+  
     var areaId=this.data.areaList[this.data.areaListIndex].code
       request({
         url: app.globalData.api_getRemoteOpenDeviceList +"?areaId="+areaId,
@@ -526,6 +543,9 @@ Page({
       })
     this.setData({
       dialogDevice: true
+    })
+    this.setData({
+      areaListIndexTemp:this.data.areaListIndex
     })
   },
   closeDialog: function () {
@@ -859,11 +879,13 @@ Page({
         }
       }
     }
-    console.log(this.data.checkBoxObj.items);
+    
+    checkBoxObj.items = items 
     checkBoxObj.itemsChecked="已选择"+values.length+"个设备"
     checkBoxObj.itemsCheckedNo = values.length
     this.setData({
       checkBoxObj:checkBoxObj
     })
+   
   }
 })
