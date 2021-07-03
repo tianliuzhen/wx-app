@@ -30,7 +30,6 @@ Page({
     img_add: '/icon/add.png',
     img_sub: '/icon/sub.png',
     showModalStatus: false,
-    showModalStatus2: false,
     userinfo: {},
     pageSize: 10, // 每页显示数量
     page: 1, // 当前页
@@ -61,7 +60,10 @@ Page({
     areaList: [],
     areaListIndex: "", // 选择框选中值
     area: "",
-    type: "" // 用户类型
+    type: "", // 用户类型
+    dialogType:{
+      device:false
+    } // 弹窗类型
   },
 
 
@@ -200,7 +202,6 @@ Page({
     }
     if (currentStatu == "close2") {
       this.setData({
-        showModalStatus2: false,
         showModalStatus: true
       });
     }
@@ -419,18 +420,14 @@ Page({
     }
   },
   showDialogDevice() {
-    console.log(111);
+
+    this.openDialog('device')
 
     if (this.data.areaListIndex === '') {
-      this.util('open2');
       return
     }
-    this.util('open2');
    
     if(this.data.areaListIndexTemp == this.data.areaListIndex){
-      this.setData({
-        dialogDevice: true
-      })
         return
     }
 
@@ -498,6 +495,27 @@ Page({
     checkBoxObj.itemsCheckedNo = values.length
     this.setData({
       checkBoxObj: checkBoxObj
+    })
+  },
+  confirm: function (e) {
+    var type=e.currentTarget.dataset.type
+    this.closeDialog(type)
+  },
+  cancel: function (e) {
+    this.closeDialog(e.currentTarget.dataset.type)
+  },
+  closeDialog(type){
+    var dialogType=  this.data.dialogType
+    dialogType[type]=false
+    this.setData({
+      dialogType:dialogType
+    })
+  },
+ openDialog(type){
+    var dialogType=  this.data.dialogType
+    dialogType[type]=true
+    this.setData({
+      dialogType:dialogType
     })
   },
 

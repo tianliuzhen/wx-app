@@ -190,17 +190,9 @@
     </block>
   </view>
 </view>
-<!--mask-->
-<view class="drawer_screen" bindtap="powerDrawer" data-statu="close" wx:if="{{showModalStatus2}}"></view>
+
 <!-- 弹窗2 -->
-<view class="drawer_box" wx:if="{{showModalStatus2}}">
-
-
-  <view bindtap="powerDrawer2" data-statu="close" class='cancel'>
-    <image class="cancel_img" src="{{cancel}}"></image>
-  </view>
-  <!--drawer content-->
-  <view class="drawer_title">请选择小区开锁设备</view>
+  <dialog  wx:if="{{dialogType.device}}" title="请选择小区开锁设备" data-type="device"  bindcancel="cancel"  bindconfirm="confirm" >
   <view class="page-section">
       <view class="page-section-title">设备选择：</view>
       <view class="drawer_content">
@@ -216,4 +208,4 @@
       </view>
       </view>
     </view>
-  </view>
+</dialog>
