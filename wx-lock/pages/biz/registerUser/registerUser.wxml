@@ -104,12 +104,12 @@
 </view>
 
 <dialog  wx:if="{{dialogvisible}}"  bindcancel="cancel"  >
-  <view style='height:20vh;'>
+  <view >
     搜索到设备id：{{deviceId}}
     <view></view>
     搜索到设备名：{{deviceName}}
     <view></view>
-    搜索到设备名：{{deviceName}}
+    service_id：{{service_id}}
     <view></view>
     接口获取数据：{{deviceData}}
     <view></view>
