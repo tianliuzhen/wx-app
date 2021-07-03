@@ -3,5 +3,5 @@
     "dialog": "../../../component/myDialog/index"
   },
   "navigationBarBackgroundColor":"#0094aa",
-  "navigationBarTitleText": "用户注册"
+  "navigationBarTitleText": "首页"
 }

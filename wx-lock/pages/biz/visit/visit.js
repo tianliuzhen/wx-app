@@ -22,6 +22,7 @@ Page({
     reRegister: false,
     errorMes: "",
     screenBrightness:"", // 系统默认亮度
+    screenBrightnessCount: 0, // 系统默认亮度次数
      //普通选择器：（普通数组）
     areaList: [],
     areaListIndex:"", // 选择框选中值
@@ -244,13 +245,17 @@ Page({
 
         // 2、亮度调节
         var that = this
-        wx.getScreenBrightness({
-          success: function (res) {
-            that.setData({
-              screenBrightness: res.value
-            })
-          }
-        })
+        if(that.data.screenBrightnessCount == 0){
+          wx.getScreenBrightness({
+            success: function (res) {
+              console.log("亮度==============================：" + res.value);
+              that.setData({
+                screenBrightness: res.value,
+                screenBrightnessCount:1
+              })
+            }
+          })
+        }
         // 设置屏幕亮度
         wx.setScreenBrightness({
           value: 1,    //屏幕亮度值，范围 0~1，0 最暗，1 最亮
