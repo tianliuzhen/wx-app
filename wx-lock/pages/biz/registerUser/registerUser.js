@@ -12,12 +12,11 @@ Page({
    * 页面的初始数据
    */
   data: {
-    checkBoxObjTemp:"",
-    checkBoxObj:{
+    checkBoxObjTemp: "",
+    checkBoxObj: {
       itemsChecked: "",
       itemsCheckedNo: "",
-      items: [
-      ]
+      items: []
     },
     noObj: {
       floorNo: "",
@@ -51,9 +50,10 @@ Page({
     deviceName: "", // 设备蓝牙 deviceName
     deviceData: "", // 设备蓝牙 deviceData
     service_id: "",
-    blueData: "",
+    blueData: {},
     read_id: "",
     write_id: "",
+    notify_id: "",
     indicate_id: "",
     dialogvisible: false
 
@@ -92,7 +92,7 @@ Page({
     // 初始化用户信息
     // this.initUser()
     this.initSysData()
-   
+
 
   },
   onShow: function () {
@@ -104,8 +104,8 @@ Page({
     console.log("onShow");
     this.initUser()
 
-     // 连接socket
-     socket.openSocket( wx.getStorageSync("userInfo"),this)
+    // 连接socket
+    socket.openSocket(wx.getStorageSync("userInfo"), this)
   },
   /**
    * 生命周期函数--监听页面隐藏
@@ -143,11 +143,9 @@ Page({
     }
     // 关闭蓝牙
     this.closeConnect()
-
   },
 
-  
-  initSysData(){
+  initSysData() {
     request({
       url: app.globalData.api_getRoleChildData,
       method: 'post',
@@ -157,12 +155,12 @@ Page({
       })
     })
 
-    if(wx.getStorageSync("userInfo")==null){
+    if (wx.getStorageSync("userInfo") == null) {
       return
     }
-    var openId= wx.getStorageSync("userInfo").openId
+    var openId = wx.getStorageSync("userInfo").openId
     request({
-      url: app.globalData.api_getRemoteOpenDeviceList +"?openId="+openId,
+      url: app.globalData.api_getRemoteOpenDeviceList + "?openId=" + openId,
       method: 'post',
     }).then(res => {
       this.setData({
@@ -195,7 +193,7 @@ Page({
     // 当处理完数据刷新后，wx.stopPullDownRefresh可以停止当前页面的下拉刷新。
     wx.stopPullDownRefresh()
   },
-  openDoorAfter(){
+  openDoorAfter() {
     this.setData({
       time: 10 * 6
     })
@@ -280,7 +278,7 @@ Page({
     console.log('picker发送选择改变，携带值为', e.detail.value)
     this.setData({
       areaListIndex: e.detail.value,
-      checkBoxObj:{}
+      checkBoxObj: {}
     })
   },
   formSubmit: function (e) {
@@ -296,7 +294,7 @@ Page({
     } = e.detail.value;
     // 待确定1：是否需要短信验证 （|| !verificationCode ）
     console.log(this.data.checkBoxObj.checkBoxObjTemp);
-    if (!mobile || !name   || !this.data.areaListIndex || !this.data.checkBoxObj.itemsCheckedNo) {
+    if (!mobile || !name || !this.data.areaListIndex || !this.data.checkBoxObj.itemsCheckedNo) {
       wx.showToast({
         title: '提交内容不能为空！',
         icon: 'none',
@@ -345,13 +343,13 @@ Page({
 
         // 2、亮度调节
         var that = this
-        if(that.data.screenBrightnessCount == 0){
+        if (that.data.screenBrightnessCount == 0) {
           wx.getScreenBrightness({
             success: function (res) {
               console.log("亮度==============================：" + res.value);
               that.setData({
                 screenBrightness: res.value,
-                screenBrightnessCount:1
+                screenBrightnessCount: 1
               })
             }
           })
@@ -464,19 +462,19 @@ Page({
     })
   },
   initDataCheckObj() {
-    if( wx.getStorageSync("userInfo") == null){
-        return
+    if (wx.getStorageSync("userInfo") == null) {
+      return
     }
-   var areaId =  wx.getStorageSync("userInfo").areaId
-   var openId = wx.getStorageSync("userInfo").openId
+    var areaId = wx.getStorageSync("userInfo").areaId
+    var openId = wx.getStorageSync("userInfo").openId
     request({
       url: app.globalData.api_getRemoteOpenDeviceList + "?areaId=" + areaId + "&openId=" + openId,
       method: 'post',
     }).then(res => {
-      var list=res.data.data
+      var list = res.data.data
       var newList = []
       list.forEach(element => {
-        if(element.checked){
+        if (element.checked) {
           newList.push(element)
         }
       });
@@ -489,14 +487,14 @@ Page({
   // 远程开门
   remoteClick(e) {
     // 跳过初始化
-    if(e.detail.value == undefined ){
+    if (e.detail.value == undefined) {
       return
     }
 
-    var deviceCode=  this.data.deviceList[e.detail.value].code
+    var deviceCode = this.data.deviceList[e.detail.value].code
     var openId = wx.getStorageSync("userInfo").openId
     request({
-      url: app.globalData.api_remoteOpen + "?openId=" + openId + "&deviceCode="+deviceCode+"&types=0,1",
+      url: app.globalData.api_remoteOpen + "?openId=" + openId + "&deviceCode=" + deviceCode + "&types=0,1",
       method: 'post',
     }).then(res => {
       if (res.data.success) {
@@ -520,46 +518,46 @@ Page({
     })
   },
   showDialogDevice: function () {
-    
-    if(this.data.areaListIndex === ''){
+
+    if (this.data.areaListIndex === '') {
       wx.showToast({
-        title: '请先选择小区！', 
+        title: '请先选择小区！',
         icon: 'none',
-        duration: 1500  
+        duration: 1500
       })
-      return 
+      return
     }
     // 用于记录当前选中的小区code
-    if(this.data.areaListIndexTemp == this.data.areaListIndex){
+    if (this.data.areaListIndexTemp == this.data.areaListIndex) {
       this.setData({
         dialogDevice: true
       })
-        return
+      return
     }
 
-  
-    var areaId=this.data.areaList[this.data.areaListIndex].code
-      request({
-        url: app.globalData.api_getRemoteOpenDeviceList +"?areaId="+areaId,
-        method: 'post',
-      }).then(res => {
-        var checkBoxObj =this.data.checkBoxObj
-        checkBoxObj.items= res.data.data
-        this.setData({
-          checkBoxObj: checkBoxObj
-        })
+
+    var areaId = this.data.areaList[this.data.areaListIndex].code
+    request({
+      url: app.globalData.api_getRemoteOpenDeviceList + "?areaId=" + areaId,
+      method: 'post',
+    }).then(res => {
+      var checkBoxObj = this.data.checkBoxObj
+      checkBoxObj.items = res.data.data
+      this.setData({
+        checkBoxObj: checkBoxObj
       })
+    })
     this.setData({
       dialogDevice: true
     })
     this.setData({
-      areaListIndexTemp:this.data.areaListIndex
+      areaListIndexTemp: this.data.areaListIndex
     })
   },
   closeDialog: function () {
     this.setData({
       dialogvisible: false,
-      dialogDevice:false
+      dialogDevice: false
     })
     // this._toast('关闭')
   },
@@ -608,9 +606,6 @@ Page({
     wx.getBluetoothDevices({
       success: function (res) {
         console.log('发现设备:', res)
-        if (res.devices[0]) {
-          console.log(res.devices[0])
-        }
         //5s内未搜索到设备，关闭搜索，关闭蓝牙模块
         setTimeout(function () {
           if (!that.data.deviceId) {
@@ -628,10 +623,10 @@ Page({
     });
     // 1.4、监听发现设备
     wx.onBluetoothDeviceFound(function (devices) {
-      console.log('发现设备:', devices.devices)
+      console.log('监听设备:', devices.devices)
       for (let i = 0; i < devices.devices.length; i++) {
         //检索指定设备
-        if (devices.devices[i].name.substr(0, 4) == "FGBT") {
+        if (devices.devices[i].name.substr(0, 4) == "Feas") {
           wx.hideLoading()
           that.setData({
             deviceId: devices.devices[i].deviceId,
@@ -640,6 +635,7 @@ Page({
           // =====>  蓝牙2、******* 连接设备
           that.toConnectionBlueToothDevice()
           //关闭搜索
+          console.log("关闭搜索");
           wx.stopBluetoothDevicesDiscovery();
           console.log('已找到指定设备id:', devices.devices[i].deviceId);
           console.log('已找到指定设备name:', devices.devices[i].name);
@@ -652,23 +648,24 @@ Page({
    * 蓝牙2、******* 连接设备
    */
   toConnectionBlueToothDevice() {
-    console.log("toConnectionBlueToothDevice");
     var that = this
+    console.log("toConnectionBlueToothDevice");
     if (that.data.deviceId === '') {
       return;
     }
-    that.showDialog()
     // 2.1、建立连接
+    console.log("建立连接");
     wx.createBLEConnection({
       deviceId: that.data.deviceId, //搜索设备获得的蓝牙设备 id
       success: function (res) {
-        console.log('连接蓝牙:', res.errMsg);
-
         var blueData = that.data.blueData
-        blueData.connectData = '连接蓝牙成功'
+        blueData.connectData = '连接蓝牙成功了'
         that.setData({
-          blueData: blueData
+          blueData: blueData,
+          dialogvisible: true
         })
+        // =======>  2.2、获取服务UUID
+        that.getBLEServiceId(that.data.deviceId)
       },
       fail: function (res) {
         wx.showModal({
@@ -677,21 +674,32 @@ Page({
         that.closeBluetoothAdapter();
       }
     })
-    // 2.2、获取服务UUID
+
+
+
+  },
+  // 2.2、获取服务UUID
+  getBLEServiceId(deviceId) {
+    console.log("获取服务UUID:" + deviceId);
+    var that = this
     wx.getBLEDeviceServices({
-      deviceId: that.data.deviceId, //搜索设备获得的蓝牙设备 id
+      deviceId: deviceId, //搜索设备获得的蓝牙设备 id
       success: function (res) {
         let serviceId = "";
+        var services = res.services;
         if (services.length <= 0) {
           wx.showModal({
             content: '未找到主服务列表'
           });
         }
-        if (services.length == 1) {
+        if (services.length >= 1) {
+          // 这里搜到多个服务，默认取第一个
           serviceId = services[0].uuid;
           that.setData({
             service_id: serviceId
           })
+          // =====>2.3 获取特征值
+          that.getBLECharactedId(deviceId, serviceId);
         }
         console.log('service_id:', that.data.service_id);
       },
@@ -699,97 +707,99 @@ Page({
         console.log(res);
       }
     })
-    // 2.3 获取特征值
+  },
+  // 2.3 获取特征值
+  getBLECharactedId(deviceId, serviceId) {
+    var that = this
     wx.getBLEDeviceCharacteristics({
-      deviceId: that.data.deviceId, //搜索设备获得的蓝牙设备 id
-      serviceId: that.data.service_id, //服务ID
+      deviceId: deviceId, //搜索设备获得的蓝牙设备 id
+      serviceId: serviceId, //服务ID
       success: function (res) {
         console.log('device特征值:', res.characteristics)
         for (let i = 0; i < res.characteristics.length; i++) {
           let charc = res.characteristics[i];
-          if (charc.properties.indicate) {
-            that.setData({
-              indicate_id: charc.uuid
-            });
-            console.log('indicate_id:', that.data.indicate_id);
-          }
+
+          // if (charc.properties.indicate) {
+          //   that.setData({
+          //     indicate_id: charc.uuid
+          //   });
+          //   console.log('indicate_id:', that.data.indicate_id);
+          // }
           if (charc.properties.write) {
             that.setData({
               write_id: charc.uuid
             });
             console.log('写write_id:', that.data.write_id);
+            that.sendBLECharacterNotice();
           }
-          if (charc.properties.read) {
+          if (charc.properties.notify) {
             that.setData({
-              read_id: charc.uuid
+              notify_id: charc.uuid
             });
-            console.log('读read_id:', that.data.read_id);
+            console.log('通知notify:', that.data.notify_id);
+            that.recvBLECharacterNotice(deviceId, serviceId, charc.uuid);
           }
+          // if (charc.properties.read) {
+          //   that.setData({        read_id: charc.uuid     });
+          //   console.log('读read_id:', that.data.read_id);
+          // }
+
         }
       }
     });
-    // 2.4、开启notify
+  },
+  // 2.4、开启notify
+  recvBLECharacterNotice(deviceId, serviceId, charId) {
     wx.notifyBLECharacteristicValueChange({
       state: true, // 启用 notify 功能
-      deviceId: that.data.deviceId, //蓝牙设备id
-      serviceId: that.data.service_id, //服务id
-      characteristicId: that.data.indicate_id, //服务特征值indicate
+      deviceId: deviceId, //蓝牙设备id
+      serviceId: serviceId, //服务id
+      characteristicId: charId, //服务特征值indicate
       success: function (res) {
         console.log('开启notify', res.errMsg)
         //监听低功耗蓝牙设备的特征值变化
         wx.onBLECharacteristicValueChange(function (res) {
-          console.log('特征值变化', res.value);
+          console.log("收到Notify数据: "+JSON.stringify(res));
         })
-        //写入数据
-        var openId = wx.getStorageSync("userInfo").openId
-        request({
-          url: app.globalData.api_getQrCodeDataByBluetooth + "?openId=" + openId,
-          method: 'post',
-        }).then(res => {
-          if (res.data.success) {
-            that.setData({
-              deviceData: "53" + res.data.data.para + "0D"
-            })
-            // 规定：头部+53，尾部+0D
-            that.wrireToBlueToothDevice("53" + res.data.data.para + "0D")
-          }
-
-        })
-
+      },
+      fail: function (res) {
+        console.log(res);
+        console.log("特征值Notice 接收数据失败: " + res.errMsg);
       }
     })
   },
-  // 测试发送数据
-  blueToothClick_test() {
-    var that = this
-    var openId = wx.getStorageSync("userInfo").openId
+  // 2.5、发送数据
+  sendBLECharacterNotice() {
+    //写入数据
     request({
-      url: app.globalData.api_getQrCodeDataByBluetooth + "?openId=" + openId,
+      url: app.globalData.api_getQrCodeDataByBluetooth + "?openId=" + wx.getStorageSync("userInfo").openId,
       method: 'post',
     }).then(res => {
       if (res.data.success) {
-        that.setData({
-          deviceData: "53" + res.data.data.para + "0D"
+        this.setData({
+          deviceData: "53" + res.data.data + "0D"
         })
         // 规定：头部+53，尾部+0D
-        that.wrireToBlueToothDevice("53" + res.data.data.para + "0D")
+        this.wrireToBlueToothDevice("53" + res.data.data + "0D")
       }
-
     })
   },
+
   /**
    * 3、 ********* 分片写入数据
    */
   wrireToBlueToothDevice(msg) {
+    console.log("msg:" + msg);
     let buffer = this.hexStringToArrayBuffer(msg);
     let pos = 0;
     let bytes = buffer.byteLength;
-    console.log("bytes", bytes)
+    console.log("bytes：", bytes)
     while (bytes > 0) {
       let tmpBuffer;
       if (bytes > 20) {
         // return this.delay(0.25).then(() => {
         tmpBuffer = buffer.slice(pos, pos + 20);
+        console.log(this.ab2hex(tmpBuffer));
         console.log("pos: " + pos + " pos2: " + (pos + 20))
         pos += 20;
         bytes -= 20;
@@ -800,18 +810,15 @@ Page({
           characteristicId: that.data.write_id,
           value: tmpBuffer,
           success(res) {
-            var blueData = that.data.blueData
-            blueData.sendData = res.errMsg
-            that.setData({
-              blueData: blueData
-            })
-            console.log('发送数据：', res.errMsg)
+            console.log(tmpBuffer);
+            console.log('发送成功：', res)
           }
         })
         // })
       } else {
         // return this.delay(0.25).then(() => {
         tmpBuffer = buffer.slice(pos, pos + bytes);
+        console.log(this.ab2hex(tmpBuffer));
         console.log("pos: " + pos + " pos2: " + (pos + bytes))
         pos += bytes;
         bytes -= bytes;
@@ -822,12 +829,8 @@ Page({
           characteristicId: that.data.write_id,
           value: tmpBuffer,
           success(res) {
-            var blueData = that.data.blueData
-            blueData.sendData = res.errMsg
-            that.setData({
-              blueData: blueData
-            })
-            console.log('最后一次发送数据：', res.errMsg)
+            console.log(tmpBuffer);
+            console.log('发送成功：', res)
           },
           fail: function (res) {
             console.log('发送失败', res)
@@ -837,6 +840,9 @@ Page({
       }
     }
   },
+  /**
+   * 将字符串转换成ArrayBufer
+   */
   hexStringToArrayBuffer(str) {
     if (!str) {
       return new ArrayBuffer(0);
@@ -850,6 +856,18 @@ Page({
       ind++
     }
     return buffer;
+  },
+  /**
+   * 将ArrayBuffer转换成字符串
+   */
+  ab2hex(buffer) {
+    var hexArr = Array.prototype.map.call(
+      new Uint8Array(buffer),
+      function (bit) {
+        return ('00' + bit.toString(16)).slice(-2)
+      }
+    )
+    return hexArr.join('');
   },
   delay(ms, res) {
     return new Promise(function (resolve, reject) {
@@ -874,7 +892,7 @@ Page({
   },
   checkboxChange(e) {
     console.log('checkbox发生change事件，携带value值为：', e.detail.value)
-    var checkBoxObj =this.data.checkBoxObj
+    var checkBoxObj = this.data.checkBoxObj
     const items = checkBoxObj.items
     const values = e.detail.value
 
@@ -887,13 +905,13 @@ Page({
         }
       }
     }
-    
-    checkBoxObj.items = items 
-    checkBoxObj.itemsChecked="已选择"+values.length+"个设备"
+
+    checkBoxObj.items = items
+    checkBoxObj.itemsChecked = "已选择" + values.length + "个设备"
     checkBoxObj.itemsCheckedNo = values.length
     this.setData({
-      checkBoxObj:checkBoxObj
+      checkBoxObj: checkBoxObj
     })
-   
+
   }
 })
