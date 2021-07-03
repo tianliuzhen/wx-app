@@ -130,21 +130,25 @@ Page({
         wx.setStorageSync("userInfo", res.data.data)
         var req=this.data.requestData
         req.condition.area_id = res.data.data.areaId
-        request({
-          url: app.globalData.api_getUsersPage,
-          data: req,
-          method: 'POST',
-        }).then(res => {
-          this.setData({
-            userList: res.data.data.data,
-            totalPage: res.data.data.totalPage
-          })
-          wx.stopPullDownRefresh()
-        })
+        this.initUserList(req)
       }
     })
     
   },
+  initUserList(req){
+    request({
+      url: app.globalData.api_getUsersPage,
+      data: req,
+      method: 'POST',
+    }).then(res => {
+      this.setData({
+        userList: res.data.data.data,
+        totalPage: res.data.data.totalPage
+      })
+      wx.stopPullDownRefresh()
+    })
+  },
+
   bindPickerChange: function (e) {
     // console.log('picker发送选择改变，携带值为', e.detail.value)
     var area = this.data.areaList[e.detail.value].name

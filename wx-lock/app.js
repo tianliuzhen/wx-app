@@ -69,7 +69,8 @@ App({
     api_updatePassword: domain+'/wx-lock-api/updatePassword',
     api_getQrCodeDataByBluetooth: domain+'/wx-lock-api/getQrCodeDataByBluetooth',
     api_getRemoteOpenDeviceList: domain+'/wx-lock-api/getRemoteOpenDeviceList',
-    api_websocket: 'ws://localhost:9999/socketServer/',
+    // api_websocket: 'ws://localhost:9999/socketServer/',
+    api_websocket: 'wss://codeok.cn/socketServer/',
   },
   
 })
