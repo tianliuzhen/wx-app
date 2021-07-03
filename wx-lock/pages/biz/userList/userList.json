@@ -1,6 +1,7 @@
 {
   "usingComponents": {
-    "popup": "/component/popup/popup"
+    "popup": "/component/popup/popup",
+    "dialog": "../../../component/myDialog/index"
   },
   "navigationBarTitleText": "用户列表"
   

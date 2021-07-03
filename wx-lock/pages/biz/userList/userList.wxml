@@ -49,7 +49,7 @@
 <view class="drawer_screen" bindtap="powerDrawer" data-statu="close" wx:if="{{showModalStatus}}"></view>
 <!--content-->
 <!--使用animation属性指定需要执行的动画-->
-<view animation="{{animationData}}" class="drawer_box" wx:if="{{showModalStatus}}">
+<view  class="drawer_box" wx:if="{{showModalStatus}}">
   <view bindtap="powerDrawer" data-statu="close" class='cancel'>
     <image class="cancel_img" src="{{cancel}}"></image>
   </view>
@@ -193,7 +193,9 @@
 <!--mask-->
 <view class="drawer_screen" bindtap="powerDrawer" data-statu="close" wx:if="{{showModalStatus2}}"></view>
 <!-- 弹窗2 -->
-<view animation="{{animationData}}" class="drawer_box" wx:if="{{showModalStatus2}}">
+<view class="drawer_box" wx:if="{{showModalStatus2}}">
+
+
   <view bindtap="powerDrawer2" data-statu="close" class='cancel'>
     <image class="cancel_img" src="{{cancel}}"></image>
   </view>

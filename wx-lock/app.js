@@ -1,8 +1,12 @@
 // app.js
 
 import { request} from "/component/request/index.js";
-var  domain='http://localhost:9999';
-// var  domain= 'https://codeok.cn';
+
+// var  domain='http://localhost:9999';
+// var  socketDomain='ws://localhost:9999';
+
+var  domain='https://codeok.cn';
+var  socketDomain= 'wss://codeok.cn';
 
 App({
   // 1、生命周期回调——监听小程序初始化
@@ -69,8 +73,7 @@ App({
     api_updatePassword: domain+'/wx-lock-api/updatePassword',
     api_getQrCodeDataByBluetooth: domain+'/wx-lock-api/getQrCodeDataByBluetooth',
     api_getRemoteOpenDeviceList: domain+'/wx-lock-api/getRemoteOpenDeviceList',
-    api_websocket: 'ws://localhost:9999/socketServer/',
-    // api_websocket: domain+'wss://codeok.cn/socketServer/'.replace("hhtp",""),
+    api_websocket:socketDomain+ '/socketServer/',
   },
   
 })
