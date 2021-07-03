@@ -1,6 +1,6 @@
 // ----------------------------------
 const app = getApp()
-function openSocket(userInfo) {
+function openSocket(userInfo,that) {
   if (userInfo == null || userInfo == "") {
     return
   }
@@ -26,6 +26,7 @@ function openSocket(userInfo) {
       icon: 'none',
       duration: 2500
     })
+    that.openDoorAfter()
   })
 }
 

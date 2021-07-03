@@ -105,7 +105,7 @@ Page({
     this.initUser()
 
      // 连接socket
-     socket.openSocket( wx.getStorageSync("userInfo"))
+     socket.openSocket( wx.getStorageSync("userInfo"),this)
   },
   /**
    * 生命周期函数--监听页面隐藏
@@ -145,7 +145,7 @@ Page({
     this.closeConnect()
 
   },
- 
+
   
   initSysData(){
     request({
@@ -190,15 +190,19 @@ Page({
    */
   onPullDownRefresh: function () {
     console.log("onPullDownRefresh");
+    this.openDoorAfter()
+    // this.getQrocdeByClick(wx.getStorageSync("userInfo").openId)
+    // 当处理完数据刷新后，wx.stopPullDownRefresh可以停止当前页面的下拉刷新。
+    wx.stopPullDownRefresh()
+  },
+  openDoorAfter(){
     this.setData({
       time: 10 * 6
     })
     clearInterval(interval);
     this.refush()
-    // this.getQrocdeByClick(wx.getStorageSync("userInfo").openId)
-    // 当处理完数据刷新后，wx.stopPullDownRefresh可以停止当前页面的下拉刷新。
-    wx.stopPullDownRefresh()
   },
+
   initUser() {
     // 初始化用户信息
     if (wx.getStorageSync("userInfo") != null && wx.getStorageSync("userInfo") != '') {

@@ -73,7 +73,7 @@ Page({
     if (userInfo != null) {
       userInfo.type = 3
     }
-    socket.openSocket(userInfo)
+    socket.openSocket(userInfo,this)
   },
   /**
    * 生命周期函数--监听页面隐藏
@@ -115,14 +115,27 @@ Page({
    */
   onPullDownRefresh: function () {
     console.log("onPullDownRefresh");
+    // this.getQrocdeByClick(wx.getStorageSync("userInfoVisitor").openId)
+    // 当处理完数据刷新后，wx.stopPullDownRefresh可以停止当前页面的下拉刷新。
+    this.openDoorAfter()
+    wx.stopPullDownRefresh()
+  },
+  openDoorAfter(){
     this.setData({
       time: 10 * 6
     })
     clearInterval(interval);
-    // this.getQrocdeByClick(wx.getStorageSync("userInfoVisitor").openId)
-    // 当处理完数据刷新后，wx.stopPullDownRefresh可以停止当前页面的下拉刷新。
-    wx.stopPullDownRefresh()
+    this.refush()
+   
   },
+ refush(){
+  // 访客没有缓存信息，主人才有
+  if(wx.getStorageSync("userInfo") == null){
+    return
+  }
+    this.getQrocdeByClick(wx.getStorageSync("userInfo").openId)
+  },
+
   formSubmit: function (e) {
     console.log('form发生了submit事件，携带数据为：', e.detail.value);
     let {
