@@ -103,7 +103,7 @@
   </view>
 </view>
 
-<dialog  wx:if="{{dialogvisible}}"  bindcancel="cancel"  >
+<dialog  wx:if="{{dialogvisible}}"  bindcancel="cancelBlue" bindconfirm="confirmBlue" >
   <view >
     搜索到设备id：{{deviceId}}
     <view></view>

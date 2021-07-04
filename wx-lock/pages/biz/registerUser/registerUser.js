@@ -7,6 +7,7 @@ const app = getApp()
 var chinese = require("../../../utils/Chinese.js")
 var english = require("../../../utils/English.js")
 var socket = require("../../../utils/socket")
+var blueTooth = require("../../../utils/blueTooth")
 Page({
   /**
    * 页面的初始数据
@@ -122,7 +123,7 @@ Page({
       })
     }
     // 关闭蓝牙
-    this.closeConnect()
+    blueTooth.closeBlueTooth(this)
     // 关闭socket
     socket.closeSocket(wx.getStorageSync("userInfo"))
   },
@@ -141,8 +142,7 @@ Page({
         value: this.data.screenBrightness,
       })
     }
-    // 关闭蓝牙
-    this.closeConnect()
+    
   },
 
   initSysData() {
@@ -168,21 +168,6 @@ Page({
       })
     })
   },
-  closeConnect() {
-    if (this.deviceId) {
-      // 断开设备连接
-      wx.closeBLEConnection({
-        deviceId: this.connectedDeviceId,
-        success: function (res) {},
-        fail(res) {}
-      })
-      // 关闭蓝牙模块
-      wx.closeBluetoothAdapter({
-        success: function (res) {},
-        fail: function (err) {}
-      })
-    }
-  },
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
@@ -204,9 +189,6 @@ Page({
   initUser() {
     // 初始化用户信息
     if (wx.getStorageSync("userInfo") != null && wx.getStorageSync("userInfo") != '') {
-      if (wx.getStorageSync("userInfo").type === 2) {
-        // return
-      }
       this.checkUser(wx.getStorageSync("userInfo"))
     } else {
       // 登录
@@ -227,10 +209,8 @@ Page({
         }
       })
     }
-
-    // 
+    // 初始化小区设备列表
     this.initDataCheckObj()
-
   },
   // 用户检测
   checkUser(userInfo) {
@@ -580,295 +560,10 @@ Page({
    *  蓝牙1、******* 判断蓝牙是否打开、搜索指定设备、解析deviceId
    */
   blueToothClick() {
-    // 1.1、如何判断蓝牙是否打开
-    wx.openBluetoothAdapter({
-      success: function (res) {
-        console.log(res)
-      },
-      fail: function (res) {
-        wx.showModal({
-          content: '请开启手机蓝牙后再试'
-        })
-        return
-      }
-    });
-    // 1.2、开始搜索蓝牙
-    wx.startBluetoothDevicesDiscovery({
-      success: function (res) {
-        wx.showLoading({
-          title: '搜索设备中...',
-        })
-        console.log('search:========', res)
-      }
-    })
-    // 1.3、发现设备
-    var that = this
-    wx.getBluetoothDevices({
-      success: function (res) {
-        console.log('发现设备:', res)
-        //5s内未搜索到设备，关闭搜索，关闭蓝牙模块
-        setTimeout(function () {
-          if (!that.data.deviceId) {
-            wx.hideLoading()
-            wx.showModal({
-              content: '未搜到设备...'
-            });
-            //关闭搜索
-            wx.stopBluetoothDevicesDiscovery();
-            //关闭蓝牙
-            wx.closeBluetoothAdapter();
-          }
-        }, 5000)
-      }
-    });
-    // 1.4、监听发现设备
-    wx.onBluetoothDeviceFound(function (devices) {
-      console.log('监听设备:', devices.devices)
-      for (let i = 0; i < devices.devices.length; i++) {
-        //检索指定设备
-        if (devices.devices[i].name.substr(0, 4) == "Feas") {
-          wx.hideLoading()
-          that.setData({
-            deviceId: devices.devices[i].deviceId,
-            deviceName: devices.devices[i].name
-          })
-          // =====>  蓝牙2、******* 连接设备
-          that.toConnectionBlueToothDevice()
-          //关闭搜索
-          console.log("关闭搜索");
-          wx.stopBluetoothDevicesDiscovery();
-          console.log('已找到指定设备id:', devices.devices[i].deviceId);
-          console.log('已找到指定设备name:', devices.devices[i].name);
-        }
-      }
-    })
-
+    blueTooth.initBlueTooth(this)
   },
-  /**
-   * 蓝牙2、******* 连接设备
-   */
-  toConnectionBlueToothDevice() {
-    var that = this
-    console.log("toConnectionBlueToothDevice");
-    if (that.data.deviceId === '') {
-      return;
-    }
-    // 2.1、建立连接
-    console.log("建立连接");
-    wx.createBLEConnection({
-      deviceId: that.data.deviceId, //搜索设备获得的蓝牙设备 id
-      success: function (res) {
-        var blueData = that.data.blueData
-        blueData.connectData = '连接蓝牙成功了'
-        that.setData({
-          blueData: blueData,
-          dialogvisible: true
-        })
-        // =======>  2.2、获取服务UUID
-        that.getBLEServiceId(that.data.deviceId)
-      },
-      fail: function (res) {
-        wx.showModal({
-          content: '连接超时,请重试'
-        });
-        that.closeBluetoothAdapter();
-      }
-    })
-
-
-
-  },
-  // 2.2、获取服务UUID
-  getBLEServiceId(deviceId) {
-    console.log("获取服务UUID:" + deviceId);
-    var that = this
-    wx.getBLEDeviceServices({
-      deviceId: deviceId, //搜索设备获得的蓝牙设备 id
-      success: function (res) {
-        let serviceId = "";
-        var services = res.services;
-        if (services.length <= 0) {
-          wx.showModal({
-            content: '未找到主服务列表'
-          });
-        }
-        if (services.length >= 1) {
-          // 这里搜到多个服务，默认取第一个
-          serviceId = services[0].uuid;
-          that.setData({
-            service_id: serviceId
-          })
-          // =====>2.3 获取特征值
-          that.getBLECharactedId(deviceId, serviceId);
-        }
-        console.log('service_id:', that.data.service_id);
-      },
-      fail(res) {
-        console.log(res);
-      }
-    })
-  },
-  // 2.3 获取特征值
-  getBLECharactedId(deviceId, serviceId) {
-    var that = this
-    wx.getBLEDeviceCharacteristics({
-      deviceId: deviceId, //搜索设备获得的蓝牙设备 id
-      serviceId: serviceId, //服务ID
-      success: function (res) {
-        console.log('device特征值:', res.characteristics)
-        for (let i = 0; i < res.characteristics.length; i++) {
-          let charc = res.characteristics[i];
-
-          // if (charc.properties.indicate) {
-          //   that.setData({
-          //     indicate_id: charc.uuid
-          //   });
-          //   console.log('indicate_id:', that.data.indicate_id);
-          // }
-          if (charc.properties.write) {
-            that.setData({
-              write_id: charc.uuid
-            });
-            console.log('写write_id:', that.data.write_id);
-            that.sendBLECharacterNotice();
-          }
-          if (charc.properties.notify) {
-            that.setData({
-              notify_id: charc.uuid
-            });
-            console.log('通知notify:', that.data.notify_id);
-            that.recvBLECharacterNotice(deviceId, serviceId, charc.uuid);
-          }
-          // if (charc.properties.read) {
-          //   that.setData({        read_id: charc.uuid     });
-          //   console.log('读read_id:', that.data.read_id);
-          // }
-
-        }
-      }
-    });
-  },
-  // 2.4、开启notify
-  recvBLECharacterNotice(deviceId, serviceId, charId) {
-    wx.notifyBLECharacteristicValueChange({
-      state: true, // 启用 notify 功能
-      deviceId: deviceId, //蓝牙设备id
-      serviceId: serviceId, //服务id
-      characteristicId: charId, //服务特征值indicate
-      success: function (res) {
-        console.log('开启notify', res.errMsg)
-        //监听低功耗蓝牙设备的特征值变化
-        wx.onBLECharacteristicValueChange(function (res) {
-          console.log("收到Notify数据: "+JSON.stringify(res));
-        })
-      },
-      fail: function (res) {
-        console.log(res);
-        console.log("特征值Notice 接收数据失败: " + res.errMsg);
-      }
-    })
-  },
-  // 2.5、发送数据
-  sendBLECharacterNotice() {
-    //写入数据
-    request({
-      url: app.globalData.api_getQrCodeDataByBluetooth + "?openId=" + wx.getStorageSync("userInfo").openId,
-      method: 'post',
-    }).then(res => {
-      if (res.data.success) {
-        this.setData({
-          deviceData: "53" + res.data.data + "0D"
-        })
-        // 规定：头部+53，尾部+0D
-        this.wrireToBlueToothDevice("53" + res.data.data + "0D")
-      }
-    })
-  },
-
-  /**
-   * 3、 ********* 分片写入数据
-   */
-  wrireToBlueToothDevice(msg) {
-    console.log("msg:" + msg);
-    let buffer = this.hexStringToArrayBuffer(msg);
-    let pos = 0;
-    let bytes = buffer.byteLength;
-    console.log("bytes：", bytes)
-    while (bytes > 0) {
-      let tmpBuffer;
-      if (bytes > 20) {
-        // return this.delay(0.25).then(() => {
-        tmpBuffer = buffer.slice(pos, pos + 20);
-        console.log(this.ab2hex(tmpBuffer));
-        console.log("pos: " + pos + " pos2: " + (pos + 20))
-        pos += 20;
-        bytes -= 20;
-        var that = this
-        wx.writeBLECharacteristicValue({
-          deviceId: that.data.deviceId,
-          serviceId: that.data.service_id,
-          characteristicId: that.data.write_id,
-          value: tmpBuffer,
-          success(res) {
-            console.log(tmpBuffer);
-            console.log('发送成功：', res)
-          }
-        })
-        // })
-      } else {
-        // return this.delay(0.25).then(() => {
-        tmpBuffer = buffer.slice(pos, pos + bytes);
-        console.log(this.ab2hex(tmpBuffer));
-        console.log("pos: " + pos + " pos2: " + (pos + bytes))
-        pos += bytes;
-        bytes -= bytes;
-        var that = this
-        wx.writeBLECharacteristicValue({
-          deviceId: that.data.deviceId,
-          serviceId: that.data.service_id,
-          characteristicId: that.data.write_id,
-          value: tmpBuffer,
-          success(res) {
-            console.log(tmpBuffer);
-            console.log('发送成功：', res)
-          },
-          fail: function (res) {
-            console.log('发送失败', res)
-          }
-        })
-        // })
-      }
-    }
-  },
-  /**
-   * 将字符串转换成ArrayBufer
-   */
-  hexStringToArrayBuffer(str) {
-    if (!str) {
-      return new ArrayBuffer(0);
-    }
-    var buffer = new ArrayBuffer(str.length);
-    let dataView = new DataView(buffer)
-    let ind = 0;
-    for (var i = 0, len = str.length; i < len; i += 2) {
-      let code = parseInt(str.substr(i, 2), 16)
-      dataView.setUint8(ind, code)
-      ind++
-    }
-    return buffer;
-  },
-  /**
-   * 将ArrayBuffer转换成字符串
-   */
-  ab2hex(buffer) {
-    var hexArr = Array.prototype.map.call(
-      new Uint8Array(buffer),
-      function (bit) {
-        return ('00' + bit.toString(16)).slice(-2)
-      }
-    )
-    return hexArr.join('');
-  },
+  
+  
   delay(ms, res) {
     return new Promise(function (resolve, reject) {
       setTimeout(function () {
@@ -913,5 +608,13 @@ Page({
       checkBoxObj: checkBoxObj
     })
 
+  },
+  confirmBlue(){
+    blueTooth.sendBLECharacterNotice()
+  },
+  cancelBlue(){
+    this.setData({
+      dialogvisible:false
+    })
   }
 })
