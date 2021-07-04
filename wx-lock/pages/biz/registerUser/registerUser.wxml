@@ -111,13 +111,11 @@
     <view></view>
     service_id：{{service_id}}
     <view></view>
-    接口获取数据：{{deviceData}}
-    <view></view>
     连接状态：{{blueData.connectData}}
     <view></view>
     service_id{{service_id}}
     <view></view>
-    向设备发送数据：{{blueData.sendData}}
+    接口获取数据：{{blueData.sendData}}
   </view>
 </dialog>
 
