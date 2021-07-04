@@ -390,9 +390,14 @@ Page({
     this.data.userinfo.startTime = startTime
     this.data.userinfo.endTime = endTime
     this.data.userinfo.deviceList = this.data.checkBoxObj.items
- 
     // 如未修改小区
     this.buildAreaId();
+    if(!this.data.checkBoxObj.itemsCheckedNo){
+      wx.showModal({
+        content: '设备不能为空'
+      })
+      return
+    }
     wx.showModal({
       title: '提示',
       content: '确认更新该用户信息?',
