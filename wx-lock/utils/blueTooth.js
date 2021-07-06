@@ -8,10 +8,13 @@ import {
   request
 } from "../component/request/index.js";
 var thisGlobal=null
-var sign= "Feas"
+var sign= "FGBT"
 function initBlueTooth(pointer) {
   thisGlobal = pointer
   var that = thisGlobal
+  that.setData({
+    deviceId:""
+  })
   // 1.1、如何判断蓝牙是否打开
   wx.openBluetoothAdapter({
     success: function (res) {
@@ -193,7 +196,8 @@ function recvBLECharacterNotice(deviceId, serviceId, charId) {
       console.log('开启notify', res.errMsg)
       //监听低功耗蓝牙设备的特征值变化
       wx.onBLECharacteristicValueChange(function (res) {
-        console.log("收到Notify数据: " + JSON.stringify(res));
+        console.log("收到Notify数据: ");
+        console.log(ab2hext(res.value))
       })
     },
     fail: function (res) {
@@ -204,7 +208,8 @@ function recvBLECharacterNotice(deviceId, serviceId, charId) {
 }
 
 // 2.5、发送数据
-function sendBLECharacterNotice() {
+function sendBLECharacterNotice(pointer) {
+  thisGlobal = pointer
   var that=thisGlobal
   //写入数据
   request({
@@ -228,7 +233,7 @@ function sendBLECharacterNotice() {
  */
 function wrireToBlueToothDevice(msg) {
   console.log("msg:" + msg);
-  let buffer =hexStringToArrayBuffer(msg);
+  let buffer =toAsciiToArrayBuffer(msg);
   let pos = 0;
   let bytes = buffer.byteLength;
   console.log("bytes：", bytes)
@@ -237,7 +242,6 @@ function wrireToBlueToothDevice(msg) {
     if (bytes > 20) {
       // return this.delay(0.25).then(() => {
       tmpBuffer = buffer.slice(pos, pos + 20);
-      console.log(ab2hex(tmpBuffer));
       console.log("pos: " + pos + " pos2: " + (pos + 20))
       pos += 20;
       bytes -= 20;
@@ -250,13 +254,16 @@ function wrireToBlueToothDevice(msg) {
         success(res) {
           console.log(tmpBuffer);
           console.log('发送成功：', res)
+        },
+        fail: function (res) {
+          console.log('发送失败', res)
         }
       })
       // })
     } else {
       // return this.delay(0.25).then(() => {
-      tmpBuffer = buffer.slice(pos, pos + bytes);
-      console.log(ab2hex(tmpBuffer));
+        tmpBuffer = buffer.slice(pos,(pos + bytes));
+      // tmpBuffer = buffer.substr(pos, pos + 20)
       console.log("pos: " + pos + " pos2: " + (pos + bytes))
       pos += bytes;
       bytes -= bytes;
@@ -278,6 +285,24 @@ function wrireToBlueToothDevice(msg) {
     }
   }
 }
+
+
+/**
+ * 将字符串转换成 ASCII
+ */
+function toAsciiToArrayBuffer(str){
+
+  var buffer = new ArrayBuffer(str.length);
+  let dataView = new DataView(buffer)
+  let ind = 0;
+  for(var i=str.length-1;i>=0;i--){
+    var strOne = str.charAt(i);
+    var code = strOne.charCodeAt();
+    dataView.setUint8(ind, code)
+    ind++
+}
+return buffer
+}
 /**
  * 将字符串转换成ArrayBufer
  */
@@ -298,7 +323,7 @@ function hexStringToArrayBuffer(str) {
 /**
  * 将ArrayBuffer转换成字符串
  */
-function ab2hex(buffer) {
+function ab2hext(buffer) {
   var hexArr = Array.prototype.map.call(
     new Uint8Array(buffer),
     function (bit) {

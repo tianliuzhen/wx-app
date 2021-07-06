@@ -560,6 +560,14 @@ Page({
    *  蓝牙1、******* 判断蓝牙是否打开、搜索指定设备、解析deviceId
    */
   blueToothClick() {
+    if( wx.getStorageSync("userInfo").status == 0){
+      wx.showToast({
+        title: "当前用户未审批，请联系管理员！",
+        icon: 'none',
+        duration: 2000
+      })
+     return
+    }
     blueTooth.initBlueTooth(this)
   },
   
