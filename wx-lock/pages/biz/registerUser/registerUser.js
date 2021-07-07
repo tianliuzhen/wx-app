@@ -282,7 +282,7 @@ Page({
       })
       return;
     }
-    if (!(/^1[34578]\d{9}$/.test(mobile))) {
+    if (!(/^1[12345789]\d{9}$/.test(mobile))) {
       wx.showToast({
         title: '手机号码有误',
         duration: 2000,
