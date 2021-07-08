@@ -8,7 +8,7 @@ import {
   request
 } from "../component/request/index.js";
 var thisGlobal=null
-var sign= "FGBT"
+var sign= "Feas"
 function initBlueTooth(pointer) {
   thisGlobal = pointer
   var that = thisGlobal
@@ -252,6 +252,11 @@ function wrireToBlueToothDevice(msg) {
         characteristicId: that.data.write_id,
         value: tmpBuffer,
         success(res) {
+          var list=that.data.sendBlueDataList
+          list.push(JSON.stringify(res))
+          that.setData({
+            sendBlueDataList:list
+          })
           console.log(tmpBuffer);
           console.log('发送成功：', res)
         },
@@ -276,6 +281,11 @@ function wrireToBlueToothDevice(msg) {
         success(res) {
           console.log(tmpBuffer);
           console.log('发送成功：', res)
+          var list=that.data.sendBlueDataList
+          list.push(JSON.stringify(res))
+          that.setData({
+            sendBlueDataList:list
+          })
         },
         fail: function (res) {
           console.log('发送失败', res)

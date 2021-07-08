@@ -32,20 +32,24 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log("onLoad")
-    console.log(options);
+    console.log("onLoad-临时访客")
+    console.log(options.openId);
     // 一般这里发送页面请求初始化页面
-    this.setData({
-      inputValue: wx.getStorageSync("userInfo").mobile,
-      openId: options.openId
-    })
+    if(wx.getStorageSync("userInfo")!=null){
+      this.setData({
+        inputValue: wx.getStorageSync("userInfo").mobile,
+        openId: options.openId
+      })
+    }
+  
     //  解析分享页面参数
     if (options != null && options != '') {
       if (options.openId != '' && options.openId != null) {
         this.setData({
           isNewUser: false,
           isShowQrCode: true,
-          qrcodePhone: options.mobile
+          qrcodePhone: options.mobile,
+          openId: options.openId
         })
         this.getQrocdeByClick(options.openId)
       }
@@ -73,6 +77,7 @@ Page({
     if (userInfo != null) {
       userInfo.type = 3
     }
+    console.log(this.data.openId);
     socket.openSocket(userInfo,this)
   },
   /**

@@ -23,7 +23,10 @@ Page({
         "childrenNode": [{
           "name": "访客管理",
           "type": "visitorManagerMaster"
-        }]
+        }, {
+          "name": "待批列表",
+          "type": "userListAuditMaster"
+        },]
       }
     }],
     menuTree: [{

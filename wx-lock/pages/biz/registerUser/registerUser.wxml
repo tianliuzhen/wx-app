@@ -116,6 +116,8 @@
     service_id{{service_id}}
     <view></view>
     接口获取数据：{{blueData.sendData}}
+    <view></view>
+    发送到设备回调res：{{sendBlueDataList}}
   </view>
 </dialog>
 

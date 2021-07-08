@@ -110,6 +110,12 @@ Page({
         'respondents_mobile': wx.getStorageSync("userInfo").mobile
       }
     }
+    if (options.type != null && options.type == 'userListAuditMaster') {
+      this.data.requestData.condition = {
+        'status': 0,
+        'respondents_mobile': wx.getStorageSync("userInfo").mobile
+      }
+    }
 
     var res = this.data.requestData
     this.setData({
