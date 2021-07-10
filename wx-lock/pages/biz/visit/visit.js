@@ -166,11 +166,27 @@ Page({
         this.getQrocdeByClick(userInfo.openId)
         // 审批中
       } else if (userInfo.status == 0) {
+        //获取当前时间
+        var currentTime = new Date();
+        //自定义时间
+        var customTime=userInfo.endTime;  
+        customTime= customTime.replace("-","/");//替换字符，变成标准格式  
+        customTime= new Date(Date.parse(customTime));
+        if(currentTime > customTime){
+          this.setData({
+            reRegister: true,
+            isTip: false,
+            errorMes: "用户开门有效时间已过，请重新申请！"
+          })
+          return
+        }
         wx.showToast({
           title: '审批中请等待！',
           icon: 'none',
           duration: 2500
         })
+
+
          // 审批拒绝
       } else if (userInfo.status == 2) {
         this.setData({
