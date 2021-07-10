@@ -176,9 +176,15 @@ Page({
           this.setData({
             reRegister: true,
             isTip: false,
-            errorMes: "用户开门有效时间已过，请重新申请！"
+            errorMes: "用户开门有效时间已过，请重新申请1！"
           })
           return
+        }else{
+          this.setData({
+            reRegister: false,
+            isTip: true,
+            errorMes: ""
+          })
         }
         wx.showToast({
           title: '审批中请等待！',
