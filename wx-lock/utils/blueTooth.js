@@ -8,7 +8,8 @@ import {
   request
 } from "../component/request/index.js";
 var thisGlobal=null
-var sign= "Feas"
+// var sign= "Feas"
+var sign= "FGBT"
 function initBlueTooth(pointer) {
   thisGlobal = pointer
   var that = thisGlobal

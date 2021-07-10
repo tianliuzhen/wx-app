@@ -5,8 +5,11 @@ import { request} from "/component/request/index.js";
 // var  domain='http://localhost:9999';
 // var  socketDomain='ws://localhost:9999';
 
-var  domain='https://codeok.cn';
-var  socketDomain= 'wss://codeok.cn';
+// var  domain='https://codeok.cn';
+// var  socketDomain= 'wss://codeok.cn';
+
+var  domain='https://hyznlock.cn';
+var  socketDomain= 'wss://hyznlock.cn';
 
 App({
   // 1、生命周期回调——监听小程序初始化
