@@ -306,12 +306,12 @@ function toAsciiToArrayBuffer(str){
   var buffer = new ArrayBuffer(str.length);
   let dataView = new DataView(buffer)
   let ind = 0;
-  for(var i=str.length-1;i>=0;i--){
-    var strOne = str.charAt(i);
+  for (let index = 0; index < str.length; index++) {
+    var strOne = str.charAt(index);
     var code = strOne.charCodeAt();
     dataView.setUint8(ind, code)
     ind++
-}
+  }
 return buffer
 }
 /**
