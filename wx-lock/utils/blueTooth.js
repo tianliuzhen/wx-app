@@ -7,14 +7,16 @@ const app = getApp()
 import {
   request
 } from "../component/request/index.js";
-var thisGlobal=null
+var thisGlobal = null
 // var sign= "Feas"
-var sign= "FGBT"
+var sign = "FGBT"
+
 function initBlueTooth(pointer) {
   thisGlobal = pointer
   var that = thisGlobal
   that.setData({
-    deviceId:""
+    deviceId: "",
+    blueData:{}
   })
   // 1.1、如何判断蓝牙是否打开
   wx.openBluetoothAdapter({
@@ -68,11 +70,11 @@ function initBlueTooth(pointer) {
           deviceName: devices.devices[i].name
         })
         // =====>  蓝牙2、******* 连接设备
-       toConnectionBlueToothDevice()
+        toConnectionBlueToothDevice()
         //关闭搜索
         console.log("关闭搜索");
-        wx.stopBluetoothDevicesDiscovery  ({
-          success:function(res){
+        wx.stopBluetoothDevicesDiscovery({
+          success: function (res) {
             console.log('连接蓝牙成功之后关闭蓝牙搜索');
           }
         });
@@ -211,20 +213,20 @@ function recvBLECharacterNotice(deviceId, serviceId, charId) {
 // 2.5、发送数据
 function sendBLECharacterNotice(pointer) {
   thisGlobal = pointer
-  var that=thisGlobal
+  var that = thisGlobal
   //写入数据
   request({
     url: app.globalData.api_getQrCodeDataByBluetooth + "?openId=" + wx.getStorageSync("userInfo").openId,
     method: 'post',
   }).then(res => {
     if (res.data.success) {
-     var blueData= that.data.blueData
-     blueData.sendData = "53" + res.data.data + "0D"
-     that.setData({
+      var blueData = that.data.blueData
+      blueData.sendData = "53" + res.data.data + "0D" + "\\n"
+      that.setData({
         blueData: blueData
       })
       // 规定：头部+53，尾部+0D
-     wrireToBlueToothDevice("53" + res.data.data + "0D")
+      wrireToBlueToothDevice("53" + res.data.data + "0D" + "\\n")
     }
   })
 }
@@ -234,7 +236,7 @@ function sendBLECharacterNotice(pointer) {
  */
 function wrireToBlueToothDevice(msg) {
   console.log("msg:" + msg);
-  let buffer =toAsciiToArrayBuffer(msg);
+  let buffer = toAsciiToArrayBuffer(msg);
   let pos = 0;
   let bytes = buffer.byteLength;
   console.log("bytes：", bytes)
@@ -253,10 +255,10 @@ function wrireToBlueToothDevice(msg) {
         characteristicId: that.data.write_id,
         value: tmpBuffer,
         success(res) {
-          var list=that.data.sendBlueDataList
+          var list = that.data.sendBlueDataList
           list.push(JSON.stringify(res))
           that.setData({
-            sendBlueDataList:list
+            sendBlueDataList: list
           })
           console.log(tmpBuffer);
           console.log('发送成功：', res)
@@ -268,7 +270,7 @@ function wrireToBlueToothDevice(msg) {
       // })
     } else {
       // return this.delay(0.25).then(() => {
-        tmpBuffer = buffer.slice(pos,(pos + bytes));
+      tmpBuffer = buffer.slice(pos, (pos + bytes));
       // tmpBuffer = buffer.substr(pos, pos + 20)
       console.log("pos: " + pos + " pos2: " + (pos + bytes))
       pos += bytes;
@@ -282,10 +284,10 @@ function wrireToBlueToothDevice(msg) {
         success(res) {
           console.log(tmpBuffer);
           console.log('发送成功：', res)
-          var list=that.data.sendBlueDataList
+          var list = that.data.sendBlueDataList
           list.push(JSON.stringify(res))
           that.setData({
-            sendBlueDataList:list
+            sendBlueDataList: list
           })
         },
         fail: function (res) {
@@ -301,7 +303,7 @@ function wrireToBlueToothDevice(msg) {
 /**
  * 将字符串转换成 ASCII
  */
-function toAsciiToArrayBuffer(str){
+function toAsciiToArrayBuffer(str) {
 
   var buffer = new ArrayBuffer(str.length);
   let dataView = new DataView(buffer)
@@ -312,7 +314,7 @@ function toAsciiToArrayBuffer(str){
     dataView.setUint8(ind, code)
     ind++
   }
-return buffer
+  return buffer
 }
 /**
  * 将字符串转换成ArrayBufer
@@ -343,10 +345,11 @@ function ab2hext(buffer) {
   )
   return hexArr.join('');
 }
+
 function closeBlueTooth(thisGlobal) {
-  var deviceId=thisGlobal.data.deviceId
+  var deviceId = thisGlobal.data.deviceId
   console.log(deviceId);
-  if (deviceId!='') {
+  if (deviceId != '') {
     // 断开设备连接
     wx.closeBLEConnection({
       deviceId: deviceId,
@@ -368,13 +371,12 @@ function closeBlueTooth(thisGlobal) {
     })
     console.log("关闭蓝牙==========================");
   }
- 
+
 }
 
 module.exports = {
   initBlueTooth: initBlueTooth,
-  sendBLECharacterNotice:sendBLECharacterNotice,
-  closeBlueTooth:closeBlueTooth
-  
-}
+  sendBLECharacterNotice: sendBLECharacterNotice,
+  closeBlueTooth: closeBlueTooth
 
+}
