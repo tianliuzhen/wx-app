@@ -174,17 +174,28 @@ Page({
    */
   onPullDownRefresh: function () {
     console.log("onPullDownRefresh");
-    this.openDoorAfter()
-    // this.getQrocdeByClick(wx.getStorageSync("userInfo").openId)
-    // 当处理完数据刷新后，wx.stopPullDownRefresh可以停止当前页面的下拉刷新。
-    wx.stopPullDownRefresh()
-  },
-  openDoorAfter() {
     this.setData({
       time: 10 * 6
     })
     clearInterval(interval);
     this.refush()
+    // this.getQrocdeByClick(wx.getStorageSync("userInfo").openId)
+    // 当处理完数据刷新后，wx.stopPullDownRefresh可以停止当前页面的下拉刷新。
+    wx.stopPullDownRefresh()
+  },
+  openDoorAfter() {
+    request({
+      url: app.globalData.api_getQrCode + "?openId=" + wx.getStorageSync("userInfo").openId + "&types=0,1",
+      method: 'post',
+    }).then(res => {
+      if (res.data.success) {
+        this.setData({
+          qrCode: res.data.data,
+          isNewUser: false,
+          isShowQrCode: true,
+        })
+      }
+    })
   },
 
   initUser() {
