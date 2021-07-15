@@ -32,7 +32,7 @@ Page({
     user: {},
     qrCode: "",
     isShowQrCode: false,
-    time: 10 * 6,
+    time: 10 * 0.5,
     count: 0,
     jsCode: "",
     isNewUser: false,
@@ -100,7 +100,7 @@ Page({
   onShow: function () {
     // 页面出现在前台时执行
     this.setData({
-      time: 10 * 6
+      time: 10 * 0.5
     })
     clearInterval(interval);
     console.log("onShow");
@@ -116,7 +116,7 @@ Page({
     // 页面关闭时，清空定时器函数
     clearInterval(interval);
     this.setData({
-      time: 10 * 6
+      time: 10 * 0.5
     })
     if (this.data.screenBrightness != null && this.data.screenBrightness != '') {
       wx.setScreenBrightness({
@@ -136,14 +136,14 @@ Page({
     // 页面关闭时，清空定时器函数
     clearInterval(interval);
     this.setData({
-      time: 10 * 6
+      time: 10 * 0.5
     })
     if (this.data.screenBrightness != null && this.data.screenBrightness != '') {
       wx.setScreenBrightness({
         value: this.data.screenBrightness,
       })
     }
-    
+
   },
 
   initSysData() {
@@ -174,28 +174,16 @@ Page({
    */
   onPullDownRefresh: function () {
     console.log("onPullDownRefresh");
-    this.setData({
-      time: 10 * 6
-    })
-    clearInterval(interval);
-    this.refush()
+    this.openDoorAfter()
     // this.getQrocdeByClick(wx.getStorageSync("userInfo").openId)
     // 当处理完数据刷新后，wx.stopPullDownRefresh可以停止当前页面的下拉刷新。
     wx.stopPullDownRefresh()
   },
   openDoorAfter() {
-    request({
-      url: app.globalData.api_getQrCode + "?openId=" + wx.getStorageSync("userInfo").openId + "&types=0,1",
-      method: 'post',
-    }).then(res => {
-      if (res.data.success) {
-        this.setData({
-          qrCode: res.data.data,
-          isNewUser: false,
-          isShowQrCode: true,
-        })
-      }
+    this.setData({
+      time: 10 * 0.5
     })
+    this.refush()
   },
 
   initUser() {
@@ -427,6 +415,7 @@ Page({
   setTime() {
     let that = this
     var countDown = that.data.time;
+    clearInterval(interval);
     interval = setInterval(function () {
       countDown--;
       that.setData({
@@ -436,7 +425,7 @@ Page({
         clearInterval(interval);
         that.getQrocdeByClick(wx.getStorageSync("userInfo").openId)
         that.setData({
-          time: 10 * 6
+          time: 10 * 0.5
         })
       }
     }, 1000)
@@ -578,12 +567,12 @@ Page({
         icon: 'none',
         duration: 2000
       })
-     return
+      return
     }
     blueTooth.initBlueTooth(this)
   },
-  
-  
+
+
   delay(ms, res) {
     return new Promise(function (resolve, reject) {
       setTimeout(function () {
