@@ -32,7 +32,7 @@ Page({
     user: {},
     qrCode: "",
     isShowQrCode: false,
-    time: 10 * 0.5,
+    time: 10 * 6,
     count: 0,
     jsCode: "",
     isNewUser: false,
@@ -100,7 +100,7 @@ Page({
   onShow: function () {
     // 页面出现在前台时执行
     this.setData({
-      time: 10 * 0.5
+      time: 10 * 6
     })
     clearInterval(interval);
     console.log("onShow");
@@ -116,7 +116,7 @@ Page({
     // 页面关闭时，清空定时器函数
     clearInterval(interval);
     this.setData({
-      time: 10 * 0.5
+      time: 10 * 6
     })
     if (this.data.screenBrightness != null && this.data.screenBrightness != '') {
       wx.setScreenBrightness({
@@ -136,7 +136,7 @@ Page({
     // 页面关闭时，清空定时器函数
     clearInterval(interval);
     this.setData({
-      time: 10 * 0.5
+      time: 10 * 6
     })
     if (this.data.screenBrightness != null && this.data.screenBrightness != '') {
       wx.setScreenBrightness({
@@ -181,7 +181,7 @@ Page({
   },
   openDoorAfter() {
     this.setData({
-      time: 10 * 0.5
+      time: 10 * 6
     })
     this.refush()
   },
@@ -425,7 +425,7 @@ Page({
         clearInterval(interval);
         that.getQrocdeByClick(wx.getStorageSync("userInfo").openId)
         that.setData({
-          time: 10 * 0.5
+          time: 10 * 6
         })
       }
     }, 1000)
