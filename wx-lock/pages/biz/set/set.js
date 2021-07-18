@@ -213,7 +213,7 @@ Page({
     console.log(index);
     list[index].parentNode.isHidden = !list[index].parentNode.isHidden
     this.setData({
-      menuTree: list
+      menuTreeShow: list
     })
 
   }
