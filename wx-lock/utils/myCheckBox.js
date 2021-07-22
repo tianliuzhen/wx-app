@@ -55,7 +55,7 @@
     if (index2 != undefined) {
       list[index].children[index2].bindAll = !list[index].children[index2].bindAll
     }
-
+    checkboxChangeAll(pointer,e)
     console.log(that.data.menuTree);
   }
 
@@ -68,10 +68,6 @@
     var index2 = e.currentTarget.dataset.index2;
     var index3 = e.currentTarget.dataset.index3;
     var type = e.currentTarget.dataset.type;
-    console.log(type);
-    if(type === 'bindAll'){
-      checkboxChangeBindAll(pointer,e)
-    }
     var list = that.data.menuTree
     if (index2 == undefined) {
       // 隐藏第一级，下面所有

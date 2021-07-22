@@ -19,7 +19,7 @@
             src="/icon/f_bottom.png"></image>
             <text style="color:black" bindtap="opens" data-index="{{index}}"
               decode="{{true}}">&nbsp;{{item.title}} &nbsp;</text>
-              <checkbox-group bindchange="checkboxChangeAll" data-type="bindAll"  data-index="{{index}}"  >
+              <checkbox-group bindchange="checkboxChangeBindAll" data-type="bindAll"  data-index="{{index}}"  >
               <checkbox  checked="{{item.bindAll}}"   />绑定{{item.field}}单元
               </checkbox-group>
           </view>
@@ -38,7 +38,7 @@
               <image wx:if="{{item2.isHidden == true}}"  bindtap="opens" data-index="{{index}}" data-index2="{{index2}}" class="icon-chioce" src="/icon/f_left.png"></image>
               <image wx:if="{{item2.isHidden == false}}"  bindtap="opens" data-index="{{index}}" data-index2="{{index2}}" class="icon-chioce" src="/icon/f_bottom.png"></image>
               <text style="color:#0094aa"   bindtap="opens" data-index="{{index}}" data-index2="{{index2}}"  decode="{{true}}">&nbsp; {{item2.title}}&nbsp; &nbsp;</text>
-              <checkbox-group bindchange="checkboxChangeAll" data-type="bindAll" data-index="{{index}}" data-index2="{{index2}}" >
+              <checkbox-group bindchange="checkboxChangeBindAll" data-type="bindAll" data-index="{{index}}" data-index2="{{index2}}" >
               <checkbox  checked="{{item2.bindAll}}"  />绑定{{item2.field}}楼层
               </checkbox-group>
             </view>
