@@ -168,6 +168,7 @@ Page({
       userinfo: userinfo,
       checkBoxObj:{}
     })
+
   },
   // 点击编辑按钮
   audit(e) {
@@ -198,6 +199,15 @@ Page({
   powerDrawer: function (e) {
     var currentStatu = e.currentTarget.dataset.statu;
     this.util(currentStatu)
+    
+    request({
+      url: app.globalData.api_getRoleChildData,
+      method: 'post',
+    }).then(res => {
+      this.setData({
+        areaList: res.data.data
+      })
+    })
   },
   util: function (currentStatu) {
      //关闭
