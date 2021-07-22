@@ -1,0 +1,66 @@
+<template name="msgItem">
+<view class="divcss5-max">
+  <view class="page-section ">
+    <view class="weui-cells weui-cells_after-title "></view>
+    <view>
+      <!-- 第一层 -->
+        <block class="weui-cell weui-check__label line-center" wx:for="{{menuTree}}" wx:for-index="index"
+          wx:for-item="item" wx:key="id">
+          <view class="paddingBottom_10 "></view>
+          <view class="paddingLeft_10">
+          <view class="treeMenuCenter">
+            <checkbox-group bindchange="checkboxChangeAll" data-type="checked" data-index="{{index}}" >
+              <checkbox value="{{item.field}}"  checked="{{item.checked}}" />
+              </checkbox-group>
+            <!-- 箭头图标 -->
+            <image wx:if="{{item.isHidden == true}}"  bindtap="opens" data-index="{{index}}"  class="icon-chioce" 
+            src="/icon/f_left.png"></image>
+            <image wx:if="{{item.isHidden == false}}"  bindtap="opens" data-index="{{index}}" class="icon-chioce" 
+            src="/icon/f_bottom.png"></image>
+            <text style="color:black" bindtap="opens" data-index="{{index}}"
+              decode="{{true}}">&nbsp;{{item.title}} &nbsp;</text>
+              <checkbox-group bindchange="checkboxChangeAll" data-type="bindAll"  data-index="{{index}}"  >
+              <checkbox  checked="{{item.bindAll}}"   />绑定{{item.field}}单元
+              </checkbox-group>
+          </view>
+           
+          </view>
+          <!-- 第二层 -->
+          <view class="" hidden="{{item.isHidden}}" wx:for="{{item.children}}" wx:for-index="index2" wx:for-item="item2"
+            wx:key="id">
+            <view class="paddingLeft_20 ">
+            <view class="treeMenuCenter">
+            <!-- <view class="dashedStyleWidth_40"></view> -->
+            <checkbox-group bindchange="checkboxChangeAll" data-type="checked" data-index="{{index}}" data-index2="{{index2}}" >
+            <checkbox value="{{item2.field}}" checked="{{item2.checked}}" />
+            </checkbox-group>
+              <!-- 箭头图标 -->
+              <image wx:if="{{item2.isHidden == true}}"  bindtap="opens" data-index="{{index}}" data-index2="{{index2}}" class="icon-chioce" src="/icon/f_left.png"></image>
+              <image wx:if="{{item2.isHidden == false}}"  bindtap="opens" data-index="{{index}}" data-index2="{{index2}}" class="icon-chioce" src="/icon/f_bottom.png"></image>
+              <text style="color:#0094aa"   bindtap="opens" data-index="{{index}}" data-index2="{{index2}}"  decode="{{true}}">&nbsp; {{item2.title}}&nbsp; &nbsp;</text>
+              <checkbox-group bindchange="checkboxChangeAll" data-type="bindAll" data-index="{{index}}" data-index2="{{index2}}" >
+              <checkbox  checked="{{item2.bindAll}}"  />绑定{{item2.field}}楼层
+              </checkbox-group>
+            </view>
+              
+            </view>
+            <!-- 第三层 -->
+            <block class="" wx:for="{{item2.children}}" wx:for-item="item3"  wx:for-index="index3" wx:key="id">
+              <view class="paddingLeft_30 " hidden="{{item2.isHidden}}">
+                <!-- <view class="dashedStyleWidth_80"></view> -->
+                <checkbox-group bindchange="checkboxChangeAll"  data-type="checked"
+                 data-index="{{index}}" data-index2="{{index2}}"  data-index3="{{index3}}" >
+                <checkbox value="{{item3.field}}" checked="{{item3.checked}}" />
+                {{item3.title}}
+              </checkbox-group>
+               
+              </view>
+            </block>
+          </view>
+          <view class="paddingBottom_10 "></view>
+          <view class="weui-cells weui-cells_after-title "></view>
+        </block>
+    </view>
+  </view>
+</view>
+</template>
