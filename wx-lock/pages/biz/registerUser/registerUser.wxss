@@ -1,5 +1,6 @@
 /* pages/company/company.wxss */
 @import '../../../lib/weui.wxss';
+@import "../../../component/myCheckbox/myCheckbox.wxss";
 .content{
   width: 100vw;
   height:100vh;

@@ -2,14 +2,14 @@
 
 import { request} from "/component/request/index.js";
 
-// var  domain='http://localhost:9999';
-// var  socketDomain='ws://localhost:9999';
+var  domain='http://localhost:9999';
+var  socketDomain='ws://localhost:9999';
 
 // var  domain='https://codeok.cn';
 // var  socketDomain= 'wss://codeok.cn';
 
-var  domain='https://hyznlock.cn';
-var  socketDomain= 'wss://hyznlock.cn';
+// var  domain='https://hyznlock.cn';
+// var  socketDomain= 'wss://hyznlock.cn';
 
 App({
   // 1、生命周期回调——监听小程序初始化
@@ -76,6 +76,7 @@ App({
     api_updatePassword: domain+'/wx-lock-api/updatePassword',
     api_getQrCodeDataByBluetooth: domain+'/wx-lock-api/getQrCodeDataByBluetooth',
     api_getRemoteOpenDeviceList: domain+'/wx-lock-api/getRemoteOpenDeviceList',
+    api_getDeviceTreeMenu: domain+'/wx-lock-api/getDeviceTreeMenu',
     api_websocket:socketDomain+ '/socketServer/',
   },
   

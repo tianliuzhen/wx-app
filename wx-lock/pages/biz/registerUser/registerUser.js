@@ -8,11 +8,84 @@ var chinese = require("../../../utils/Chinese.js")
 var english = require("../../../utils/English.js")
 var socket = require("../../../utils/socket")
 var blueTooth = require("../../../utils/blueTooth")
+var myCheckBox = require("../../../utils/myCheckBox")
 Page({
   /**
    * 页面的初始数据
    */
   data: {
+    menuTreeImgLeft: "../../icon/f_left.png",
+    menuTreeImgBottom: "../../icon/f_bottom.png",
+    menuTree: [{
+      "checked": false,
+      "children": [{
+        "checked": false,
+        "children": [{
+          "checked": true,
+          "field": "1",
+          "title": "设备1"
+        }, {
+          "checked": false,
+          "field": "2",
+          "title": "设备2"
+        }],
+        "field": "1-floor",
+        "title": "1楼",
+        "isHidden": true,
+        "bindAll":false,
+      }, {
+        "checked": false,
+        "children": [{
+          "checked": false,
+          "field": "3",
+          "title": "设备3"
+        }],
+        "field": "2-floor",
+        "title": "2楼",
+        "isHidden": true,
+      }, {
+        "checked": false,
+        "children": [{
+          "checked": true,
+          "field": "4",
+          "title": "设备4"
+        }],
+        "field": "3-floor",
+        "title": "3楼",
+        "isHidden": true,
+      }],
+      "isHidden": true,
+      "bindAll":false,
+      "field": "1-unit",
+      "title": "1单元"
+    }, {
+      "checked": false,
+      "children": [{
+        "checked": false,
+        "children": [{
+          "checked": false,
+          "field": "5",
+          "title": "设备5"
+        }],
+        "field": "1-floor",
+        "title": "1楼",
+        "isHidden": true,
+      }, {
+        "checked": false,
+        "children": [{
+          "checked": false,
+          "field": "6",
+          "title": "设备6"
+        }],
+        "field": "2-floor",
+        "title": "2楼",
+        "isHidden": true,
+      }],
+      "bindAll":false,
+      "isHidden": true,
+      "field": "2-unit",
+      "title": "2单元"
+    }],
     checkBoxObjTemp: "",
     checkBoxObj: {
       itemsChecked: "",
@@ -260,6 +333,8 @@ Page({
       areaListIndex: e.detail.value,
       checkBoxObj: {}
     })
+    // 初始化菜单信息
+    this.initChekBox( this.data.areaList[this.data.areaListIndex].code,"")
   },
   formSubmit: function (e) {
     console.log('form发生了submit事件，携带数据为：', e.detail.value);
@@ -630,5 +705,23 @@ Page({
     this.setData({
       dialogvisible:false
     })
+  },
+
+  /**
+   * 多选框操作事件
+   */
+  checkboxChangeBindAll(e){
+    myCheckBox.checkboxChangeBindAll(this,e)
+  },
+  checkboxChangeAll(e){
+    myCheckBox.checkboxChangeAll(this,e)
+  },
+  opens(e){
+    myCheckBox.opens(this,e)
+  },
+  initChekBox(areaId,openId){
+    myCheckBox.initChekBox(this,areaId,openId)
   }
+
+
 })
