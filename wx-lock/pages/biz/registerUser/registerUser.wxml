@@ -36,7 +36,7 @@
       <view class="item2-left" bindtap="showDialogDevice">
           <view style="">
             <text style="color: gray;">设备选择：</text> 
-              {{checkBoxObj.itemsChecked}}
+              {{menuTreeRes}}
           </view>
       </view>
     </view>

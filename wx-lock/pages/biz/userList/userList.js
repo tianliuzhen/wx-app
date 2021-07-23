@@ -20,6 +20,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    menuTreeRes: '',
     menuTree: [],
     checkBoxObj: {
       itemsChecked: "",
@@ -170,6 +171,8 @@ Page({
       userinfo: userinfo,
       checkBoxObj:{}
     })
+      // 初始化设备
+    this.initChekBox(userinfo.areaId,userinfo.openId)
 
   },
   // 点击编辑按钮
@@ -413,8 +416,8 @@ Page({
     this.data.userinfo.endTime = endTime
     this.data.userinfo.deviceTreeMenus = this.data.menuTree
     // 如未修改小区
-    this.buildAreaId();
-    if(!this.data.checkBoxObj.itemsCheckedNo){
+    this.buildAreaId();;
+    if(this.data.menuTreeRes == '未选择设备'){
       wx.showModal({
         content: '设备不能为空'
       })
@@ -527,6 +530,7 @@ Page({
   confirm: function (e) {
     var type=e.currentTarget.dataset.type
     this.closeDialog(type)
+    this.checkForChecked()
   },
   cancel: function (e) {
     this.closeDialog(e.currentTarget.dataset.type)
@@ -560,6 +564,9 @@ Page({
   },
   initChekBox(areaId,openId){
     myCheckBox.initChekBox(this,areaId,openId)
+  },
+  checkForChecked(){
+    myCheckBox.checkForChecked(this,this.data.menuTree)
   }
 
 })

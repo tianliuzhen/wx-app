@@ -6,7 +6,7 @@
     // 请求数据
     var data=[]
     wx.request({
-      url: app.globalData.api_getDeviceTreeMenu+"?areaId="+areaId+"&openId="+openId,
+      url: app.globalData.api_getDeviceTreeMenu+"?areaId="+areaId+"&openId="+openId+"&type=1",
       method: 'post',
       success:(res) =>{
         data = res.data.data
@@ -33,6 +33,7 @@
         that.setData({
           menuTree:data
         })
+        checkForChecked(that,data)
         // ==============
       }
     })
@@ -55,8 +56,11 @@
     if (index2 != undefined) {
       list[index].children[index2].bindAll = !list[index].children[index2].bindAll
     }
-    checkboxChangeAll(pointer,e)
-    console.log(that.data.menuTree);
+    // checkboxChangeAll(pointer,e)
+    // console.log(that.data.menuTree);
+    that.setData({
+      menuTree: list
+    })
   }
 
     /**
@@ -148,12 +152,11 @@
         }
       }
     }
-
     that.setData({
       menuTree: list
     })
-
     // console.log(this.data.menuTree);
+
   }
   /**
    * 点击层级文字显示与否事件
@@ -176,10 +179,51 @@
 
   }
 
+  /**
+   * 检测是否被选中
+   */
+  function checkForChecked(pointer,data){
+    var that=pointer
+    var res=false
+    for (let j = 0; j < data.length; j++) {
+      // 第一层
+      const unit = data[j];
+     
+      if(unit.bindAll){
+        console.log("unit.bindAll");
+        res = true
+        break
+      }
+      for (let k = 0; k < unit.children.length; k++) {
+        // 第二层
+        const floor = unit.children[k];
+        if(floor.bindAll){
+          console.log("floor.bindAll");
+          res = true
+          break
+        }
+        for (let i = 0; i < floor.children.length; i++) {
+          // 第三层
+          const device = floor.children[i];
+          // console.log(device);
+          if(device.checked){
+            console.log("device.checked");
+            res = true
+            break
+          }
+        }
+      }
+    }
+    that.setData({
+      menuTreeRes: res ? "已选择设备" : "未选择设备"
+    })
+  }
+
   module.exports = {
     initChekBox: initChekBox,
     checkboxChangeBindAll: checkboxChangeBindAll,
     checkboxChangeAll: checkboxChangeAll,
-    opens:opens
+    opens:opens,
+    checkForChecked:checkForChecked
   
   }

@@ -89,7 +89,7 @@
     </view>
     <view class="top grid">
       <label class="title col-0"> <text style="color: gray;">设备：</text></label>
-      <input class="input_base input_h30 col-1" disabled="false" bindtap="showDialogDevice"value="{{checkBoxObj.itemsChecked}}" ></input>
+      <input class="input_base input_h30 col-1" disabled="false" bindtap="showDialogDevice"value="{{menuTreeRes}}" ></input>
     </view>
     <view class="top grid">
       <label class="title col-0">申请时间：</label>

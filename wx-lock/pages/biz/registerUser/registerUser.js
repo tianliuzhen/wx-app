@@ -14,6 +14,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    menuTreeRes: '',
     menuTree: [],
     checkBoxObjTemp: "",
     checkBoxObj: {
@@ -278,7 +279,7 @@ Page({
     } = e.detail.value;
     // 待确定1：是否需要短信验证 （|| !verificationCode ）
     console.log(this.data.checkBoxObj.checkBoxObjTemp);
-    if (!mobile || !name || !this.data.areaListIndex ) {
+    if (!mobile || !name || !this.data.areaListIndex || this.data.menuTreeRes == '未选择设备' ) {
       wx.showToast({
         title: '提交内容不能为空！',
         icon: 'none',
@@ -550,6 +551,7 @@ Page({
   confirm: function () {
     this.closeDialog()
     // this._toast('confirm')
+    this.checkForChecked()
   },
   cancel: function () {
     this.closeDialog()
@@ -651,6 +653,9 @@ Page({
   },
   initChekBox(areaId,openId){
     myCheckBox.initChekBox(this,areaId,openId)
+  },
+  checkForChecked(){
+    myCheckBox.checkForChecked(this,this.data.menuTree)
   }
 
 
