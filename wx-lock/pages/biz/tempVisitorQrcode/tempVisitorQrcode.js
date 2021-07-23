@@ -299,7 +299,9 @@ Page({
   /*点击加号*/
   bindPlus: function () {
     var num = this.data.count;
-    num++;
+    if (num < 256) {
+      num++;
+    }
     this.setData({
       count: num
     })

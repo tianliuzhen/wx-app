@@ -193,19 +193,10 @@
 
 <!-- 弹窗2 -->
   <dialog  wx:if="{{dialogType.device}}" title="请选择小区开锁设备" data-type="device"  bindcancel="cancel"  bindconfirm="confirm" >
-  <view class="page-section">
-      <view class="page-section-title">设备选择：</view>
-      <view class="drawer_content">
-      <view class="weui-cells weui-cells_after-title">
-        <checkbox-group bindchange="checkboxChange">
-          <label class="weui-cell weui-check__label" wx:for="{{checkBoxObj.items}}" wx:key="id">
-            <view class="weui-cell__hd">
-              <checkbox value="{{item.code}}" checked="{{item.checked}}"/>
-            </view>
-            <view class="weui-cell__bd">{{item.name}}</view>
-          </label>
-        </checkbox-group>
-      </view>
-      </view>
+    <view class="divcss5-max">
+  <view class="page-section overflowHight" >
+    <import src ="../../../component/myCheckbox/myCheckbox.wxml"/>
+    <template is="msgItem" data="{{menuTree:menuTree}}"/>
+  </view>
     </view>
 </dialog>

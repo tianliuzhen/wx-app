@@ -13,12 +13,14 @@ const app = getApp()
 import {
   request
 } from "../../../component/request/index.js";
+var myCheckBox = require("../../../utils/myCheckBox")
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    menuTree: [],
     checkBoxObj: {
       itemsChecked: "",
       itemsCheckedNo: "",
@@ -195,11 +197,15 @@ Page({
       area: res.areaName
     })
     this.initDataCheckObj(res.areaId, res.openId)
+
+    // 初始化设备
+    this.initChekBox(res.areaId, res.openId)
   },
   powerDrawer: function (e) {
     var currentStatu = e.currentTarget.dataset.statu;
     this.util(currentStatu)
     
+    // 初始化小区
     request({
       url: app.globalData.api_getRoleChildData,
       method: 'post',
@@ -405,7 +411,7 @@ Page({
     var endTime = this.data.endTime.date + " " + this.data.endTime.time + ":00"
     this.data.userinfo.startTime = startTime
     this.data.userinfo.endTime = endTime
-    this.data.userinfo.deviceList = this.data.checkBoxObj.items
+    this.data.userinfo.deviceTreeMenus = this.data.menuTree
     // 如未修改小区
     this.buildAreaId();
     if(!this.data.checkBoxObj.itemsCheckedNo){
@@ -539,5 +545,21 @@ Page({
       dialogType:dialogType
     })
   },
+  
+  /**
+   * 多选框操作事件
+   */
+  checkboxChangeBindAll(e){
+    myCheckBox.checkboxChangeBindAll(this,e)
+  },
+  checkboxChangeAll(e){
+    myCheckBox.checkboxChangeAll(this,e)
+  },
+  opens(e){
+    myCheckBox.opens(this,e)
+  },
+  initChekBox(areaId,openId){
+    myCheckBox.initChekBox(this,areaId,openId)
+  }
 
 })

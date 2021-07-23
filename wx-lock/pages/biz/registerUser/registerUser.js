@@ -14,78 +14,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    menuTreeImgLeft: "../../icon/f_left.png",
-    menuTreeImgBottom: "../../icon/f_bottom.png",
-    menuTree: [{
-      "checked": false,
-      "children": [{
-        "checked": false,
-        "children": [{
-          "checked": true,
-          "field": "1",
-          "title": "设备1"
-        }, {
-          "checked": false,
-          "field": "2",
-          "title": "设备2"
-        }],
-        "field": "1-floor",
-        "title": "1楼",
-        "isHidden": true,
-        "bindAll":false,
-      }, {
-        "checked": false,
-        "children": [{
-          "checked": false,
-          "field": "3",
-          "title": "设备3"
-        }],
-        "field": "2-floor",
-        "title": "2楼",
-        "isHidden": true,
-      }, {
-        "checked": false,
-        "children": [{
-          "checked": true,
-          "field": "4",
-          "title": "设备4"
-        }],
-        "field": "3-floor",
-        "title": "3楼",
-        "isHidden": true,
-      }],
-      "isHidden": true,
-      "bindAll":false,
-      "field": "1-unit",
-      "title": "1单元"
-    }, {
-      "checked": false,
-      "children": [{
-        "checked": false,
-        "children": [{
-          "checked": false,
-          "field": "5",
-          "title": "设备5"
-        }],
-        "field": "1-floor",
-        "title": "1楼",
-        "isHidden": true,
-      }, {
-        "checked": false,
-        "children": [{
-          "checked": false,
-          "field": "6",
-          "title": "设备6"
-        }],
-        "field": "2-floor",
-        "title": "2楼",
-        "isHidden": true,
-      }],
-      "bindAll":false,
-      "isHidden": true,
-      "field": "2-unit",
-      "title": "2单元"
-    }],
+    menuTree: [],
     checkBoxObjTemp: "",
     checkBoxObj: {
       itemsChecked: "",
@@ -349,7 +278,7 @@ Page({
     } = e.detail.value;
     // 待确定1：是否需要短信验证 （|| !verificationCode ）
     console.log(this.data.checkBoxObj.checkBoxObjTemp);
-    if (!mobile || !name || !this.data.areaListIndex || !this.data.checkBoxObj.itemsCheckedNo) {
+    if (!mobile || !name || !this.data.areaListIndex ) {
       wx.showToast({
         title: '提交内容不能为空！',
         icon: 'none',
@@ -449,7 +378,8 @@ Page({
         // console.log("res.code:"+res.code);
         requestData.jsCode = res.code
         requestData.areaId = this.data.areaList[this.data.areaListIndex].code
-        requestData.deviceList = this.data.checkBoxObj.items
+        requestData.deviceTreeMenus = this.data.menuTree
+        
         request({
           url: app.globalData.api_addUser,
           data: requestData,
