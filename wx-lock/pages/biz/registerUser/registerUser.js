@@ -14,6 +14,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    allChecked:false,
     menuTreeRes: '',
     menuTree: [],
     checkBoxObjTemp: "",
@@ -380,6 +381,7 @@ Page({
         requestData.jsCode = res.code
         requestData.areaId = this.data.areaList[this.data.areaListIndex].code
         requestData.deviceTreeMenus = this.data.menuTree
+        requestData.allChecked = this.data.allChecked
         
         request({
           url: app.globalData.api_addUser,
@@ -642,6 +644,9 @@ Page({
   /**
    * 多选框操作事件
    */
+/**
+   * 多选框操作事件
+   */
   checkboxChangeBindAll(e){
     myCheckBox.checkboxChangeBindAll(this,e)
   },
@@ -656,6 +661,9 @@ Page({
   },
   checkForChecked(){
     myCheckBox.checkForChecked(this,this.data.menuTree)
+  },
+  allChecked(status){
+    myCheckBox.allChecked(this,status)
   }
 
 

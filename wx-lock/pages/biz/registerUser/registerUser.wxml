@@ -126,7 +126,7 @@
   <view class="page-section ">
 
     <import src ="../../../component/myCheckbox/myCheckbox.wxml"/>
-    <template is="msgItem" data="{{menuTree:menuTree}}"/>
+    <template is="msgItem" data="{{menuTree:menuTree,allChecked:allChecked}}"/>
  
       <!-- <view class="page-section-title">设备选择：</view>
       <view class="weui-cells weui-cells_after-title ">
