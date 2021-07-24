@@ -1,6 +1,11 @@
 <template name="msgItem">
 <view class="divcss5-max">
   <view class="page-section ">
+    <view class="paddingLeft_10 paddingBottom_10 ">
+      <checkbox-group bindchange="allChecked"  >
+              <checkbox value="{{allChecked}}"  checked="{{allChecked}}" />绑定所有单元
+    </checkbox-group>
+    </view>
     <view class="weui-cells weui-cells_after-title "></view>
     <view>
       <!-- 第一层 -->

@@ -190,7 +190,6 @@
       const unit = data[j];
      
       if(unit.bindAll){
-        console.log("unit.bindAll");
         res = true
         break
       }
@@ -198,7 +197,6 @@
         // 第二层
         const floor = unit.children[k];
         if(floor.bindAll){
-          console.log("floor.bindAll");
           res = true
           break
         }
@@ -207,16 +205,32 @@
           const device = floor.children[i];
           // console.log(device);
           if(device.checked){
-            console.log("device.checked");
             res = true
             break
           }
         }
       }
     }
+    if(that.allChecked){
+      res = true
+    }
+
     that.setData({
       menuTreeRes: res ? "已选择设备" : "未选择设备"
     })
+  }
+
+  function allChecked(pointer,status){
+    var that=pointer
+    that.setData({
+      allChecked:!that.data.allChecked
+    })
+
+   if(status ==true || status==false){
+    that.setData({
+      allChecked:status
+    })
+   }
   }
 
   module.exports = {
@@ -224,6 +238,7 @@
     checkboxChangeBindAll: checkboxChangeBindAll,
     checkboxChangeAll: checkboxChangeAll,
     opens:opens,
-    checkForChecked:checkForChecked
+    checkForChecked:checkForChecked,
+    allChecked:allChecked
   
   }

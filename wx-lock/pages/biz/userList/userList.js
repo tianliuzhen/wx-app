@@ -20,6 +20,8 @@ Page({
    * 页面的初始数据
    */
   data: {
+    areaCopy:"",
+    allChecked:false,
     menuTreeRes: '',
     menuTree: [],
     checkBoxObj: {
@@ -171,9 +173,20 @@ Page({
       userinfo: userinfo,
       checkBoxObj:{}
     })
-      // 初始化设备
+    // 初始化设备
     this.initChekBox(userinfo.areaId,userinfo.openId)
-
+    // 如果切换的小区不是当前小区
+    console.log(userinfo.areaId);
+    console.log( this.data.areaCopy);
+    var isAllChecked=false
+    if(this.data.areaCopy != userinfo.areaId){
+      isAllChecked=  false
+    }else{
+      isAllChecked=  userinfo.allChecked
+    }
+    this.setData({
+      allChecked:isAllChecked
+    })
   },
   // 点击编辑按钮
   audit(e) {
@@ -186,7 +199,13 @@ Page({
     } else {
       status = true
     }
+    res["typeStatus"] = false
+    if(res.type =='管理员' || res.type =='普通用户'){
+      res["typeStatus"]=true
+    }
+    
     this.setData({
+      areaCopy:res.areaId,
       userinfo: res,
       startTime: {
         date: res.startTime.substring(0, 10),
@@ -203,6 +222,7 @@ Page({
 
     // 初始化设备
     this.initChekBox(res.areaId, res.openId)
+    this.allChecked(res.allChecked)
   },
   powerDrawer: function (e) {
     var currentStatu = e.currentTarget.dataset.statu;
@@ -341,7 +361,9 @@ Page({
   bindPlus: function () {
     var userInfo = this.data.userinfo
     var num = userInfo.count;
-    num++;
+    if (num == 255) {
+      num++;
+    }
     userInfo.count = num
     this.setData({
       count: num
@@ -415,6 +437,7 @@ Page({
     this.data.userinfo.startTime = startTime
     this.data.userinfo.endTime = endTime
     this.data.userinfo.deviceTreeMenus = this.data.menuTree
+    this.data.userinfo.allChecked = this.data.allChecked
     // 如未修改小区
     this.buildAreaId();;
     if(this.data.menuTreeRes == '未选择设备'){
@@ -567,6 +590,9 @@ Page({
   },
   checkForChecked(){
     myCheckBox.checkForChecked(this,this.data.menuTree)
+  },
+  allChecked(status){
+    myCheckBox.allChecked(this,status)
   }
 
 })

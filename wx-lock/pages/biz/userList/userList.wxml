@@ -80,16 +80,29 @@
       <label class="title col-0"> <text style="color: gray;">小区：</text></label>
       <!-- <input class="input_base input_h30 col-1" name="phone" bindinput="inputedit" data-obj="code"
         value="{{userinfo.areaId}}"></input> -->
-      <picker bindchange="bindPickerChange" range-key="name" data-array="{{areaList}}" value="{{index}}"
+        <view wx:if="{{userinfo.typeStatus}}">
+          <picker bindchange="bindPickerChange" range-key="name" data-array="{{areaList}}" value="{{index}}"
         range="{{areaList}}">
         <view class="picker">
-          <input class="input_base input_h30 col-1" value="{{area}}"></input>
+          <input class="input_base input_h30 col-1" disabled="false"  value="{{area}}"></input>
         </view>
       </picker>
+        </view>
+        <view wx:if="{{!userinfo.typeStatus}}">
+          <input class="input_base input_h30 col-1" disabled="false"  value="{{area}}"></input>
+        </view>
+
+    
     </view>
     <view class="top grid">
       <label class="title col-0"> <text style="color: gray;">设备：</text></label>
-      <input class="input_base input_h30 col-1" disabled="false" bindtap="showDialogDevice"value="{{menuTreeRes}}" ></input>
+      <view wx:if="{{userinfo.typeStatus}}">
+        <input class="input_base input_h30 col-1" disabled="false" bindtap="showDialogDevice"value="{{menuTreeRes}}" ></input>
+       </view>
+      <view wx:if="{{!userinfo.typeStatus}}"> 
+        <input class="input_base input_h30 col-1" disabled="false" value="{{menuTreeRes}}" ></input>
+      </view>
+    
     </view>
     <view class="top grid">
       <label class="title col-0">申请时间：</label>
@@ -196,7 +209,7 @@
     <view class="divcss5-max">
   <view class="page-section overflowHight" >
     <import src ="../../../component/myCheckbox/myCheckbox.wxml"/>
-    <template is="msgItem" data="{{menuTree:menuTree}}"/>
+    <template is="msgItem" data="{{menuTree:menuTree,allChecked:allChecked}}"/>
   </view>
     </view>
 </dialog>
