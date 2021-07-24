@@ -211,7 +211,7 @@
         }
       }
     }
-    if(that.allChecked){
+    if(that.data.allChecked){
       res = true
     }
 
