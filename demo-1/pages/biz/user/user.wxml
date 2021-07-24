@@ -1,0 +1,25 @@
+<!--pages/biz/user/user.wxml-->
+<!-- 
+  test == span
+  view == div
+ -->
+<text>轮播显示</text>
+ <view class="index_swiper">
+ <!-- 
+   1、swiper标签存在默认的宽度和高度：100% * 150px
+   2、image 标签也存在默认的高度和宽度：320px * 240px
+
+  -->
+  <swiper autoplay="true" duration="1000" interval="3000" circular="true">
+  <swiper-item  wx:for="{{swiperList}}" wx:key="id">
+    <navigation>
+      <image  src="{{item.url}}"></image>
+    </navigation>
+  </swiper-item>
+  </swiper>
+</view>
+
+<button bindtap="testfun">测试</button>
+<view>
+  {{msg}}
+</view>

@@ -1,0 +1,11 @@
+<!--pages/biz/banner/banner.wxml-->
+<text>pages/biz/banner/banner.wxml</text>
+<view>
+  <swiper>
+  <swiper-item wx:for="{{swiperList}}" wx:key="id">
+    <navigation>
+
+    </navigation>
+  </swiper-item>
+  </swiper>
+</view>

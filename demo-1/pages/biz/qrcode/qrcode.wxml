@@ -1,0 +1,29 @@
+<!--pages/biz/qrcode/qrcode.wxml-->
+<text>
+学习wxml语法：https://developers.weixin.qq.com/miniprogram/dev/reference/wxml/list.html
+</text>
+<view></view>
+<!-- 数据绑定 -->
+<view>{{msg}}</view>
+<view>{{person.age}}</view>
+<!-- 列表渲染 -->
+<view wx:for="{{array}}" wx:key="unique">  {{index}}: {{item}}</view>
+<view wx:for="{{arrayObj}}" wx:key="unique"> {{index}}: {{item.person.age}} </view>
+
+<!-- 使用 wx:for-item 可以指定数组当前元素的变量名，使用 wx:for-index 可以指定数组当前下标的变量名： -->
+<view wx:for="{{array}}" wx:for-index="idx" wx:for-item="itemName" wx:key="unique" >
+  {{idx}}: {{itemName}}
+</view>
+
+<!--条件渲染-->
+<view wx:if="{{view == 'WEBVIEW'}}"> WEBVIEW </view>
+<view wx:elif="{{view == 'APP'}}"> APP </view>
+<view wx:else="{{view == 'MINA'}}"> MINA </view>
+
+<view>
+<checkbox checked="true"></checkbox>
+</view>
+
+<view>
+<checkbox ></checkbox>
+</view>

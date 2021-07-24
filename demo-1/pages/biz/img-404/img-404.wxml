@@ -1,0 +1,4 @@
+<view >
+        <image style="width: 200px; height: 200px; background-color: #eeeeee;" mode="{{item.mode}}"
+         src="{{src2}}"></image>
+</view>

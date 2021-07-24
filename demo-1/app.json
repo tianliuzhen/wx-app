@@ -1,0 +1,52 @@
+{
+  "pages":[
+    "pages/index/index",
+    "pages/logs/logs",
+    "pages/biz/user/user", 
+    "pages/biz/qrcode/qrcode", 
+    "pages/biz/img-404/img-404",
+    "pages/biz/banner/banner",
+    "pages/biz/treeMenu/treeMenu"
+  ],
+  "window":{
+    "backgroundTextStyle":"dark",
+    "navigationBarBackgroundColor": "#5ea6eb",
+    "navigationBarTitleText": "我的应用",
+    "navigationBarTextStyle":"black",
+    "enablePullDownRefresh":true,
+    "backgroundColor":"#5ea6eb" 
+  },
+  "tabBar": {
+    "list": [{
+      "pagePath": "pages/index/index",
+      "text": "首页",
+      "iconPath": "icon/_index.png",
+      "selectedIconPath": "icon/index.png"
+    },
+    {
+      "pagePath": "pages/biz/user/user",
+      "text": "注册用户",
+      "iconPath": "icon/_user.png",
+      "selectedIconPath": "icon/user.png"
+    },
+    {
+      "pagePath": "pages/biz/qrcode/qrcode",
+      "text": "二维码申请",
+      "iconPath": "icon/_qrcode.png",
+      "selectedIconPath": "icon/qrcode.png"
+    },
+    {
+      "pagePath": "pages/biz/treeMenu/treeMenu",
+      "text": "树形菜单",
+      "iconPath": "icon/_user.png",
+      "selectedIconPath": "icon/user.png"
+    }],
+    "color":"#000",
+    "selectedColor":"#5ea6eb",
+    "backgroundColor":"",
+    "position":"bottom"
+  }
+  ,
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

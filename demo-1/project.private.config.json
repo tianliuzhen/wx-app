@@ -1,0 +1,36 @@
+{
+  "setting": {},
+  "condition": {
+    "plugin": {
+      "list": []
+    },
+    "game": {
+      "list": []
+    },
+    "gamePlugin": {
+      "list": []
+    },
+    "miniprogram": {
+      "list": [
+        {
+          "name": "不存在的页面",
+          "pathName": "pages/index/index123",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "模拟场景启动",
+          "pathName": "pages/biz/user/user",
+          "query": "id=asd",
+          "scene": 1012
+        },
+        {
+          "name": "pages/biz/treeMenu/treeMenu",
+          "pathName": "pages/biz/treeMenu/treeMenu",
+          "query": "",
+          "scene": null
+        }
+      ]
+    }
+  }
+}
