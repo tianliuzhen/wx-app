@@ -361,7 +361,7 @@ Page({
   bindPlus: function () {
     var userInfo = this.data.userinfo
     var num = userInfo.count;
-    if (num == 255) {
+    if (num <= 255) {
       num++;
     }
     userInfo.count = num

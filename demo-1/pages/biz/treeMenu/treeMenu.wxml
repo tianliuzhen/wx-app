@@ -1,6 +1,6 @@
 <view class="divcss5-max">
   <view class="page-section ">
-    <view style="padding-bottom:10px">设备选择：</view>
+    <view style="padding-bottom:10px">设备选择列表：{{menuTree.length}}</view>
     <view class="weui-cells weui-cells_after-title "></view>
     <view>
       <!-- 第一层 -->
@@ -13,10 +13,12 @@
               <checkbox value="{{item.field}}"  checked="{{item.checked}}" />
               </checkbox-group>
             <!-- 箭头图标 -->
-            <image wx:if="{{item.isHidden == true}}"  bindtap="opens" data-index="{{index}}"  class="icon-chioce" src="{{menuTreeImgLeft}}"></image>
-            <image wx:if="{{item.isHidden == false}}"  bindtap="opens" data-index="{{index}}" class="icon-chioce" src="{{menuTreeImgBottom}}"></image>
-            <text style="color:black" bindtap="opens" data-index="{{index}}"
+            <view class="treeMenuCenter"  bindtap="opens" data-index="{{index}}"  >
+            <image wx:if="{{item.isHidden == true}}"  class="icon-chioce" src="{{menuTreeImgLeft}}"></image>
+            <image wx:if="{{item.isHidden == false}}"  class="icon-chioce" src="{{menuTreeImgBottom}}"></image>
+            <text style="color:black" 
               decode="{{true}}">&nbsp;{{item.title}} &nbsp;</text>
+              </view>
               <checkbox-group bindchange="checkboxChangeBindAll" data-index="{{index}}"  >
               <checkbox  checked="{{item.bindAll}}"   />绑定单元
               </checkbox-group>
@@ -33,9 +35,11 @@
             <checkbox value="{{item2.field}}" checked="{{item2.checked}}" />
             </checkbox-group>
               <!-- 箭头图标 -->
-              <image wx:if="{{item2.isHidden == true}}"  bindtap="opens" data-index="{{index}}" data-index2="{{index2}}" class="icon-chioce" src="{{menuTreeImgLeft}}"></image>
-              <image wx:if="{{item2.isHidden == false}}"  bindtap="opens" data-index="{{index}}" data-index2="{{index2}}" class="icon-chioce" src="{{menuTreeImgBottom}}"></image>
-              <text style="color:#0094aa"   bindtap="opens" data-index="{{index}}" data-index2="{{index2}}"  decode="{{true}}">&nbsp; {{item2.title}}&nbsp; &nbsp;</text>
+              <view class="treeMenuCenter"  bindtap="opens" data-index="{{index}}" data-index2="{{index2}}" >
+              <image wx:if="{{item2.isHidden == true}}" class="icon-chioce" src="{{menuTreeImgLeft}}"></image>
+              <image wx:if="{{item2.isHidden == false}}"   class="icon-chioce" src="{{menuTreeImgBottom}}"></image>
+              <text style="color:#0094aa"    decode="{{true}}">&nbsp; {{item2.title}}&nbsp; &nbsp;</text>
+            </view>
               <checkbox-group bindchange="checkboxChangeBindAll" data-index="{{index}}" data-index2="{{index2}}" >
               <checkbox  checked="{{item2.bindAll}}"  />绑定楼层
               </checkbox-group>

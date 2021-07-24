@@ -30,7 +30,7 @@ App({
     console.log("onError")
     console.log(msg)
   },
-  // 5、页面不存在监听函数
+  // 5、页面不存在监听函数recursion
   onPageNotFound() {
     // 页面不存在通过js的方式重新跳转页面，重新跳转到第二个首页
     // 不能跳到tabbar页面、导航组件类似

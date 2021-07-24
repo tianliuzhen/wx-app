@@ -83,7 +83,11 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
+       this.checkForChecked()
+    },
+    checkForChecked(){
         var data = this.data.menuTree
+        var dataLength= data.length
         for (let j = 0; j < data.length; j++) {
             // 第一层
             const unit = data[j];
@@ -107,13 +111,39 @@ Page({
         this.setData({
             menuTree: data
         })
+        var deep = 0;
+       var aaa= this.checkForCheckedBySelf(data,deep)
+       console.log(aaa);
+    },
+    // 获取最大深度
+    checkForCheckedBySelf(data,deep){   
+        // 存放每一层级深度 
+        var deepList = []
+        data.forEach(element => {
+          var oneDeep=  this.getDeep(element,0)
+          console.log("oneDeep_:"+oneDeep);
+        });
+        
+    },
+    // 递归
+    getDeep(dataChildren,deep){
+       if( dataChildren.children && dataChildren.children.length>0){
+        dataChildren.children.forEach(element => {
+            console.log(element);
+            deep++;
+            if(element.children && element.children.length>0){
+                console.log(123123);
+                this.getDeep(element.children,deep);
+            }
+        });
+       }else{
+           console.log("deep:"+deep);
+           return deep
+       }
+       
+        
     },
 
-    opensOne(e) {
-        var index = e.currentTarget.dataset.index;
-        var index2 = e.currentTarget.dataset.index2;
-        var list = this.data.menuTree
-    },
     checkboxChangeBindAll(e) {
         var index = e.currentTarget.dataset.index;
         var index2 = e.currentTarget.dataset.index2;
@@ -121,7 +151,6 @@ Page({
         if (index2 == undefined) {
             list[index].bindAll = !list[index].bindAll
         }
-
         if (index2 != undefined) {
             list[index].children[index2].bindAll = !list[index].children[index2].bindAll
         }
