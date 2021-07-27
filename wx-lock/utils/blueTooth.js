@@ -99,7 +99,7 @@ function toConnectionBlueToothDevice() {
     deviceId: that.data.deviceId, //搜索设备获得的蓝牙设备 id
     success: function (res) {
       var blueData = that.data.blueData
-      blueData.connectData = '连接蓝牙成功了'
+      blueData.connectData = '连接蓝牙成功'
       that.setData({
         blueData: blueData,
         dialogvisible: true

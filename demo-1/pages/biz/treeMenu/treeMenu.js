@@ -14,7 +14,12 @@ Page({
                 "children": [{
                     "checked": true,
                     "field": "1",
-                    "title": "设备1"
+                    "title": "设备1",
+                    "children": [{
+                        "checked": true,
+                        "field": "1",
+                        "title": "设备11",
+                    }]
                 }, {
                     "checked": false,
                     "field": "2",
@@ -77,7 +82,8 @@ Page({
             "field": "2-unit",
             "title": "2单元"
         }],
-
+        deepList:[],
+        deepListOne:[]
     },
     /**
      * 生命周期函数--监听页面显示
@@ -111,36 +117,33 @@ Page({
         this.setData({
             menuTree: data
         })
-        var deep = 0;
-       var aaa= this.checkForCheckedBySelf(data,deep)
-       console.log(aaa);
+
+        // todo 测试递归
+       this.checkForCheckedBySelf(data)
     },
     // 获取最大深度
-    checkForCheckedBySelf(data,deep){   
+    checkForCheckedBySelf(data){   
         // 存放每一层级深度 
         var deepList = []
         data.forEach(element => {
-          var oneDeep=  this.getDeep(element,0)
-          console.log("oneDeep_:"+oneDeep);
-        });
-        
+            this.data.deepListOne = []
+            var deepListOne= this.getDeep(element,1)
+            deepList.push(deepListOne)
+            console.log(deepList);
+        });  
     },
     // 递归
     getDeep(dataChildren,deep){
-       if( dataChildren.children && dataChildren.children.length>0){
+
+        this.data.deepListOne.push(deep)
+       if( dataChildren.children!=null && dataChildren.children.length>0){
+        deep++;
         dataChildren.children.forEach(element => {
-            console.log(element);
-            deep++;
-            if(element.children && element.children.length>0){
-                console.log(123123);
-                this.getDeep(element.children,deep);
-            }
+                this.getDeep(element,deep);
         });
-       }else{
-           console.log("deep:"+deep);
-           return deep
        }
-       
+       return  this.data.deepListOne
+     
         
     },
 

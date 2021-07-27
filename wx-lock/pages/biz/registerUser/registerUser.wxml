@@ -104,20 +104,20 @@
 </view>
 
 <dialog  wx:if="{{dialogvisible}}"  bindcancel="cancelBlue" bindconfirm="confirmBlue" >
-  <view >
+  <view style="padding-left:20px;padding-bottom:20px">
     搜索到设备id：{{deviceId}}
     <view></view>
     搜索到设备名：{{deviceName}}
     <view></view>
-    service_id：{{service_id}}
-    <view></view>
+    <!-- service_id：{{service_id}}
+    <view></view> -->
     连接状态：{{blueData.connectData}}
     <view></view>
-    service_id{{service_id}}
+    <!-- service_id{{service_id}}
     <view></view>
     接口获取数据：{{blueData.sendData}}
     <view></view>
-    发送到设备回调res：{{sendBlueDataList}}
+    发送到设备回调res：{{sendBlueDataList}} -->
   </view>
 </dialog>
 

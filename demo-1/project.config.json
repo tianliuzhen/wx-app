@@ -41,7 +41,7 @@
   "compileType": "miniprogram",
   "libVersion": "2.17.0",
   "appid": "wx0624c479b0372058",
-  "projectname": "test-tlz",
+  "projectname": "demo-1",
   "debugOptions": {
     "hidedInDevtools": []
   },

@@ -630,9 +630,9 @@ Page({
   confirmBlue(){
     blueTooth.sendBLECharacterNotice(this)
     // blueTooth.closeBlueTooth(this)
-    // this.setData({
-    //   dialogvisible:false
-    // })
+    this.setData({
+      dialogvisible:false
+    })
   },
   cancelBlue(){
     blueTooth.closeBlueTooth(this)
