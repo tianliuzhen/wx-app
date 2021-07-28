@@ -13,7 +13,7 @@
               <checkbox value="{{item.field}}"  checked="{{item.checked}}" />
               </checkbox-group>
             <!-- 箭头图标 -->
-            <view class="treeMenuCenter"  bindtap="opens" data-index="{{index}}"  >
+            <view class="treeMenuCenter"  bindtap="openAndHide" data-id="{{item.id}}" data-index="{{index}}"  >
             <image wx:if="{{item.isHidden == true}}"  class="icon-chioce" src="{{menuTreeImgLeft}}"></image>
             <image wx:if="{{item.isHidden == false}}"  class="icon-chioce" src="{{menuTreeImgBottom}}"></image>
             <text style="color:black" 
@@ -35,7 +35,8 @@
             <checkbox value="{{item2.field}}" checked="{{item2.checked}}" />
             </checkbox-group>
               <!-- 箭头图标 -->
-              <view class="treeMenuCenter"  bindtap="opens" data-index="{{index}}" data-index2="{{index2}}" >
+              <view class="treeMenuCenter"  bindtap="openAndHide"  data-id="{{item2.id}}"
+               data-index="{{index}}" data-index2="{{index2}}" >
               <image wx:if="{{item2.isHidden == true}}" class="icon-chioce" src="{{menuTreeImgLeft}}"></image>
               <image wx:if="{{item2.isHidden == false}}"   class="icon-chioce" src="{{menuTreeImgBottom}}"></image>
               <text style="color:#0094aa"    decode="{{true}}">&nbsp; {{item2.title}}&nbsp; &nbsp;</text>
