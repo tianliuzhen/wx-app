@@ -1,0 +1,72 @@
+/* pages/biz/treeMenu/treeMenu.wxss */
+@import '../../../lib/weui.wxss';
+
+.empty{
+  padding: 5px 0px;
+}
+.paddingLeft_10{
+  padding-left: 10px;
+  padding-bottom: 5px;
+}
+
+.paddingLeft_20{
+  padding-left: 40px;
+  padding-bottom: 5px;
+}
+
+.paddingLeft_30{
+  padding-left: 80px;
+  padding-bottom: 5px;
+}
+
+.paddingBottom_10{
+  padding-top: 10px;
+}
+.line-center{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column;
+}
+/**
+*参考：https://cloud.tencent.com/developer/article/1690869
+*
+/
+/* 选中后的 背景样式 （红色背景 无边框 可根据UI需求自己修改） */  
+checkbox .wx-checkbox-input.wx-checkbox-input-checked {
+  background: #0094aa;
+}
+/* 选中后的 对勾样式 （白色对勾 可根据UI需求自己修改） */
+checkbox .wx-checkbox-input.wx-checkbox-input-checked::before{
+  color:#fff; /* 对勾颜色 白色 */
+}
+
+.treeMenuCenter{
+  display: flex;
+  align-items: center;
+}
+
+.dashedStyleWidth_80{
+  margin-left: 10px;
+  margin-right: 5px;
+  width: 80px;
+  height: 0px;
+  border: 0.5px dotted gray;
+}
+
+.dashedStyleWidth_40{
+  margin-left: 10px;
+  margin-right: 5px;
+  width: 40px;
+  height: 0px;
+  border: 0.5px dotted gray;
+}
+
+   
+.icon-chioce {
+  height: 15px;
+  width: 15px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: fff;
+ }

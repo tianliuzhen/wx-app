@@ -6,7 +6,8 @@
     "pages/biz/qrcode/qrcode", 
     "pages/biz/img-404/img-404",
     "pages/biz/banner/banner",
-    "pages/biz/treeMenu/treeMenu"
+    "pages/biz/treeMenu/treeMenu",
+    "pages/biz/treeMenu2/treeMenu2"
   ],
   "window":{
     "backgroundTextStyle":"dark",
@@ -36,7 +37,7 @@
       "selectedIconPath": "icon/qrcode.png"
     },
     {
-      "pagePath": "pages/biz/treeMenu/treeMenu",
+      "pagePath": "pages/biz/treeMenu2/treeMenu2",
       "text": "树形菜单",
       "iconPath": "icon/_user.png",
       "selectedIconPath": "icon/user.png"

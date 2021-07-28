@@ -29,6 +29,12 @@
           "pathName": "pages/biz/treeMenu/treeMenu",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "pages/biz/treeMenu2/treeMenu2",
+          "pathName": "pages/biz/treeMenu2/treeMenu2",
+          "query": "",
+          "scene": null
         }
       ]
     }
