@@ -151,16 +151,17 @@ Page({
         return newNodes;
     },
 
-    // 递归 - 根据id获取所有子节点，其实就是先获取当前id的节点对象，然后取当前对象
+    // 递归 - 根据id获取所有子节点，（其实就是先获取当前id的节点对象，然后取当前对象,注意这里返回的是数组）
     getChildrenById(data, id, newNodes = []) {
         var list = data.children
-        console.log(list);
-        list.forEach(element => {
-            newNodes.push(element)
-            if (element.children) {
-                this.getChildrenById(element, id, newNodes)
-            }
-        })
+        if (list != undefined) {
+            list.forEach(element => {
+                newNodes.push(element)
+                if (element.children) {
+                    this.getChildrenById(element, id, newNodes)
+                }
+            })
+        }
         return newNodes;
     },
 
@@ -177,6 +178,43 @@ Page({
         return newCheckedNodes
     },
 
+    // 递归 - 根据节点id获取兄弟所有节点
+    getBrotherNodesById(list, id) {
+        // 非顶级节点：获取节点父节点对象里的children
+        var parentNodes = this.getParentsById(list, id)
+        if (parentNodes && parentNodes.length >= 2) {
+            return parentNodes[1].children
+        }
+        // 顶级节点：第一级是自己，从原始数组中遍历第一层即可
+        return list
+
+    },
+
+    // 根据当前节点id，获取及所有的父级兄弟节点的所有父节点
+    getParentBrotherAllNodesById(list, id) {
+        var result = []
+        // 1、获取当前节点id父节点的父节点
+        var parentNodes = this.getParentsById(list, id)
+
+        // 小于3表示当前父节点是顶级节点
+        if (parentNodes.length < 3) {
+            return parentNodes[parentNodes.length - 1]
+        }
+        var testNode = parentNodes[2];
+        // 2、获取父节点的父节点所有兄弟节点
+        var children = testNode.children
+        children.forEach(element => {
+            var parentNodesById = this.getParentsById(list, element.id)
+            if (parentNodesById.length >= 2) {
+                result.push(...(parentNodesById.slice(0, parentNodesById.length - 1)))
+            }
+        });
+        return result;
+    },
+
+    /**
+     * 点击事件 - 左侧绑定复选框事件
+     */
     checkboxChangeBindAll(e) {
         var index = e.currentTarget.dataset.index;
         var index2 = e.currentTarget.dataset.index2;
@@ -195,99 +233,80 @@ Page({
         console.log('checkbox发生change事件，携带value值为：', e.detail.value)
         const values = e.detail.value
     },
+
+
+    /**
+     * 点击事件 - 右侧复选框事件
+     */
     checkboxChangeAll(e) {
-        var index = e.currentTarget.dataset.index;
-        var index2 = e.currentTarget.dataset.index2;
-        var index3 = e.currentTarget.dataset.index3;
-        var list = this.data.menuTree
-        if (index2 == undefined) {
-            // 隐藏第一级，下面所有
-            list[index].checked = !list[index].checked
-            for (let i = 0; i < list[index].children.length; i++) {
-                if (list[index].checked) {
-                    list[index].children[i].checked = true
-                    list[index].isHidden = false
-                } else {
-                    list[index].children[i].checked = false
-                    // list[index].isHidden = true
-                }
-                for (let k = 0; k < list[index].children[i].children.length; k++) {
-                    if (list[index].children[i].checked) {
-                        list[index].children[i].children[k].checked = true
-                        list[index].children[i].isHidden = false
-                    } else {
-                        list[index].children[i].children[k].checked = false
-                        // list[index].children[i].isHidden = true
-                    }
-                }
-            }
-        }
-        if (index2 != undefined && index3 == undefined) {
-            // 隐藏第二级，下面所有
-            list[index].children[index2].checked = !list[index].children[index2].checked
-            for (let k = 0; k < list[index].children[index2].children.length; k++) {
-                if (list[index].children[index2].checked) {
-                    list[index].children[index2].children[k].checked = true
-                    list[index].checked = true
-                    list[index].children[index2].isHidden = false
-                } else {
-                    list[index].children[index2].children[k].checked = false
-                    // list[index].children[index2].isHidden = true
-                }
-            }
-            var ifTwoChecked = false
-            for (let k = 0; k < list[index].children.length; k++) {
-                if (list[index].children[k].checked == true) {
-                    ifTwoChecked = true
-                }
-            }
-            if (!ifTwoChecked) {
-                list[index].checked = false
-            }
+        var id = e.currentTarget.dataset.id;
+        var data = this.data.menuTree
+        var node = this.getNodeById(data, id)
+        var childrenNodes = this.getChildrenById(node[0], id)
 
-        }
-
-        // 第三级切换
-        if (index3 != undefined) {
-            // list[index].checked = !list[index].checked
-            // list[index].children[index2].checked = !list[index].children[index2].checked
-            list[index].children[index2].children[index3].checked = !list[index].children[index2].children[index3].checked
-
-            if (list[index].children[index2].children[index3].checked) {
-                list[index].children[index2].checked = true
-                list[index].checked = true
-            } else {
-                // 遍历同级的第三级元素是否都选中没有
-                var ifThreeChecked = false
-                for (let k = 0; k < list[index].children[index2].children.length; k++) {
-                    if (list[index].children[index2].children[k].checked == true) {
-                        ifThreeChecked = true
-                    }
-                }
-                if (!ifThreeChecked) {
-                    list[index].children[index2].checked = false
-                }
-
-                var ifTwoChecked = false
-                for (let k = 0; k < list[index].children.length; k++) {
-                    if (list[index].children[k].checked == true) {
-                        ifTwoChecked = true
-                    }
-                }
-                if (!ifTwoChecked) {
-                    list[index].checked = false
-                }
-            }
-        }
-
-        this.setData({
-            menuTree: list
+        // 1、子节点点选中状态-跟随父节点移动
+        node[0].checked = !node[0].checked
+        // 节点下面的所有子节点跟随父节点的选中状态
+        childrenNodes.forEach(element => {
+            element.checked = node[0].checked
         })
 
+        // 2、父节点选中状态,子节点都没选中，父节点默认不选中，子节点有一个选中，父节点也选中
+        // 获取同级兄弟节点
+        var bortherNodes = this.getBrotherNodesById(data, id)
+
+        // 3、同级都选中
+        var allChecked = false
+        bortherNodes.forEach(element => {
+            if (element.checked) {
+                allChecked = true
+            }
+        })
+
+        // 获取节点id所有父节点
+        var parentNodes = this.getParentsById(data, id)
+        if (parentNodes.length > 1) {
+            if (allChecked) {
+                // 下标index=0的节点是其本身，这里跳过
+                for (let index = 1; index < parentNodes.length; index++) {
+                    const element = parentNodes[index];
+                    element.checked = true
+                }
+            }else{
+                parentNodes[1].checked =false
+            }
+        }
+
+        // 4、同级都未选中
+        if (!allChecked) {
+            var allNoChecked = false
+            //  根据当前节点id，获取除去顶级节点的所有的父级兄弟节点的所有父节点
+            var parentBother = this.getParentBrotherAllNodesById(data, id)
+            console.log(parentBother);
+            if (parentBother.length > 1) {
+                parentBother.forEach(element => {
+                    if (element.checked) {
+                        allNoChecked = true
+                    }
+                });
+            }
+            console.log(allNoChecked);
+            // console.log(parentBother);
+            if(!allNoChecked){
+                parentNodes.forEach(element => {
+                    element.checked=false
+                });
+            }
+        }
+
+
+        this.setData({
+            menuTree: data
+        })
         // console.log(this.data.menuTree);
     },
     /**
-     * 点击层级显示与否
+     * 点击事件 - 点击层级显示和折叠事件
      */
     openAndHide(e) {
         var id = e.currentTarget.dataset.id;
@@ -299,13 +318,13 @@ Page({
         // 根据 id 获取选中节点下的所有子节点
         var res = this.getChildrenById(node[0], id)
         // 包含当前id节点本身
-        res.push(node[0]) 
+        res.push(node[0])
 
         // 遍历选中节点（及自己）是否展开
         res.forEach(element => {
             element.isHidden = !element.isHidden
         })
-      
+
         this.setData({
             menuTree: list
         })

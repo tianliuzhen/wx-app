@@ -9,7 +9,7 @@
           <view class="paddingBottom_10 "></view>
           <view class="paddingLeft_10">
           <view class="treeMenuCenter">
-            <checkbox-group bindchange="checkboxChangeAll" data-index="{{index}}" >
+            <checkbox-group bindchange="checkboxChangeAll" data-index="{{index}}" data-id="{{item.id}}" >
               <checkbox value="{{item.field}}"  checked="{{item.checked}}" />
               </checkbox-group>
             <!-- 箭头图标 -->
@@ -31,7 +31,7 @@
             <view class="paddingLeft_20 ">
             <view class="treeMenuCenter">
             <!-- <view class="dashedStyleWidth_40"></view> -->
-            <checkbox-group bindchange="checkboxChangeAll" data-index="{{index}}" data-index2="{{index2}}" >
+            <checkbox-group bindchange="checkboxChangeAll" data-id="{{item2.id}}" data-index="{{index}}" data-index2="{{index2}}" >
             <checkbox value="{{item2.field}}" checked="{{item2.checked}}" />
             </checkbox-group>
               <!-- 箭头图标 -->
@@ -51,7 +51,7 @@
             <block class="" wx:for="{{item2.children}}" wx:for-item="item3"  wx:for-index="index3" wx:key="id">
               <view class="paddingLeft_30 " hidden="{{item2.isHidden}}">
                 <!-- <view class="dashedStyleWidth_80"></view> -->
-                <checkbox-group bindchange="checkboxChangeAll"
+                <checkbox-group bindchange="checkboxChangeAll" data-id="{{item3.id}}"
                  data-index="{{index}}" data-index2="{{index2}}"  data-index3="{{index3}}" >
                 <checkbox value="{{item3.field}}" checked="{{item3.checked}}" />
                 {{item3.title}}
