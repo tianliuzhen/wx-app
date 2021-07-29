@@ -457,7 +457,7 @@ Page({
             method: 'POST',
           }).then(res => {
             this.util('close')
-            this.initDataUserList()
+            this.search()
           })
         }
       }

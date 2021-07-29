@@ -73,8 +73,13 @@
     </view>
     <view class="top grid">
       <label class="title col-0"><text decode="true">手机：</text></label>
-      <input class="input_base input_h30 col-1" bindinput="inputedit" data-obj="name" name="phone"
+      <input class="input_base input_h30 col-1" bindinput="inputedit" data-obj="name" name="phone"  disabled="true"
         value="{{userinfo.mobile}}"></input>
+    </view>
+    <view class="top grid">
+      <label class="title col-0"><text decode="true">卡号：</text></label>
+      <input class="input_base input_h30 col-1" bindinput="inputedit" data-obj="cardId" name="cardId"
+        value="{{userinfo.cardId}}"></input>
     </view>
     <view class="top grid">
       <label class="title col-0"> <text style="color: gray;">小区：</text></label>
