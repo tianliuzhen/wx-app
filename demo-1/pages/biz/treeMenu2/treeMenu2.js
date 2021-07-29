@@ -206,6 +206,7 @@ Page({
         children.forEach(element => {
             var parentNodesById = this.getParentsById(list, element.id)
             if (parentNodesById.length >= 2) {
+                // js 数组中添加多个元素 简单的方法 push(...[])
                 result.push(...(parentNodesById.slice(0, parentNodesById.length - 1)))
             }
         });
