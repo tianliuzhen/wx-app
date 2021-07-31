@@ -97,19 +97,18 @@ Page({
     // 一般这里发送页面请求初始化页面
     // 初始化用户信息
     // this.initUser()
-    this.initSysData()
 
 
   },
   onShow: function () {
+    console.log("onShow");
     // 页面出现在前台时执行
     this.setData({
       time: 10 * 6
     })
     clearInterval(interval);
-    console.log("onShow");
+    this.initSysData()
     this.initUser()
-
     // 连接socket
     socket.openSocket(wx.getStorageSync("userInfo"), this)
   },
@@ -178,6 +177,7 @@ Page({
    */
   onPullDownRefresh: function () {
     console.log("onPullDownRefresh");
+    this.initSysData()
     this.openDoorAfter()
     // this.getQrocdeByClick(wx.getStorageSync("userInfo").openId)
     // 当处理完数据刷新后，wx.stopPullDownRefresh可以停止当前页面的下拉刷新。
