@@ -4,6 +4,7 @@ import {
 } from "../../../component/request/index.js";
 var socket = require("../../../utils/socket")
 var interval;
+var reg_tel = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/;
 const app = getApp()
 Page({
   /**
@@ -40,22 +41,7 @@ Page({
     // 一般这里发送页面请求初始化页面
     // 初始化用户信息
     // this.initUser()
-    request({
-      url: app.globalData.api_getRoleChildData,
-      method: 'post',
-    }).then(res => {
-     this.setData({
-      areaList:res.data.data
-     })
-    })
-  var userInfo= wx.getStorageSync("userInfo")
-  if (userInfo != null && userInfo != '') {
-   if(userInfo.type == 1 || userInfo.type == 0){
-    this.setData({
-      isVisitorQrcode:true
-    })
-   }
-  }
+
 
   },
   onShow: function () {
@@ -65,6 +51,16 @@ Page({
       })
     clearInterval(interval);
     this.initUser()
+
+    var userInfo= wx.getStorageSync("userInfo")
+    if (userInfo != null && userInfo != '') {
+     if(userInfo.type == 1 || userInfo.type == 0){
+      this.setData({
+        isVisitorQrcode:true
+      })
+     }
+    }
+
      // 连接socket
      socket.openSocket( wx.getStorageSync("userInfoVisitor"),this)
   },
@@ -122,32 +118,23 @@ Page({
 
   initUser() {
     // 初始化访客用户信息
-    var userInfo= wx.getStorageSync("userInfoVisitor")
-    console.log(userInfo);
-    if (userInfo != null && userInfo != '') {
-      if(userInfo.type===2){
-        this.checkUser(userInfo)
-      }
-      
-    } else {
-      // 登录
-      wx.login({
-        success: res => {
-          // 发送 res.code 到后台换取 openId, sessionKey, unionId
-          request({
-            url: app.globalData.api_getUserInfo+"?types=2",
-            method: 'get',
-            data: {
-              jsCode: res.code
-            }
-          }).then(res => {
-            // 存入缓存
-            wx.setStorageSync("userInfoVisitor", res.data.data)
-            this.checkUser(res.data.data)
-          })
+   // 登录
+   wx.login({
+    success: res => {
+      // 发送 res.code 到后台换取 openId, sessionKey, unionId
+      request({
+        url: app.globalData.api_getUserInfo+"?types=2",
+        method: 'get',
+        data: {
+          jsCode: res.code
         }
+      }).then(res => {
+        // 存入缓存
+        wx.setStorageSync("userInfoVisitor", res.data.data)
+        this.checkUser(res.data.data)
       })
     }
+  })
 
   },
   // 用户检测
@@ -223,6 +210,24 @@ Page({
       name,
       doorNo
     } = e.detail.value;
+
+    if (!reg_tel.test(mobile)) {
+      wx.showToast({
+        title: '主人手机号码输入有误',
+        duration: 2000,
+        icon: 'none'
+      });
+      return;
+    }
+
+    if (!reg_tel.test(visitorMobile) ) {
+      wx.showToast({
+        title: '访客手机号码输入有误',
+        duration: 2000,
+        icon: 'none'
+      });
+      return;
+    }
     // 待确定1：是否需要短信验证 （|| !verificationCode  || !doorNo ）
     if (!mobile || !name || !visitorMobile ) {
       wx.showToast({
