@@ -108,8 +108,8 @@ Page({
       time: 10 * 6
     })
     clearInterval(interval);
-    this.initUser()
     this.initSysData()
+    this.initUser()
     // 连接socket
     socket.openSocket(wx.getStorageSync("userInfo"), this)
   },
