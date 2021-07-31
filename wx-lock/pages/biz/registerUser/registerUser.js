@@ -109,7 +109,7 @@ Page({
     })
     clearInterval(interval);
     this.initSysData()
-    this.initUser()
+    this.refush()
     // 连接socket
     socket.openSocket(wx.getStorageSync("userInfo"), this)
   },
@@ -179,7 +179,7 @@ Page({
   onPullDownRefresh: function () {
     console.log("onPullDownRefresh");
     this.initSysData()
-    this.initUser()
+    this.refush()
     this.openDoorAfter()
     // this.getQrocdeByClick(wx.getStorageSync("userInfo").openId)
     // 当处理完数据刷新后，wx.stopPullDownRefresh可以停止当前页面的下拉刷新。
@@ -193,28 +193,23 @@ Page({
   },
 
   initUser() {
-    // 初始化用户信息
-    if (wx.getStorageSync("userInfo") != null && wx.getStorageSync("userInfo") != '') {
-      this.checkUser(wx.getStorageSync("userInfo"))
-    } else {
-      // 登录
-      wx.login({
-        success: res => {
-          // 发送 res.code 到后台换取 openId, sessionKey, unionId
-          request({
-            url: app.globalData.api_getUserInfo + "?types=0,1",
-            method: 'get',
-            data: {
-              jsCode: res.code
-            }
-          }).then(res => {
-            // 存入缓存
-            wx.setStorageSync("userInfo", res.data.data)
-            this.checkUser(res.data.data)
-          })
+   // 登录
+   wx.login({
+    success: res => {
+      // 发送 res.code 到后台换取 openId, sessionKey, unionId
+      request({
+        url: app.globalData.api_getUserInfo + "?types=0,1",
+        method: 'get',
+        data: {
+          jsCode: res.code
         }
+      }).then(res => {
+        // 存入缓存
+        wx.setStorageSync("userInfo", res.data.data)
+        this.checkUser(res.data.data)
       })
     }
+  })
     // 初始化小区设备列表
     this.initDataCheckObj()
   },
@@ -305,13 +300,7 @@ Page({
     this.refush()
   },
   refush() {
-    request({
-      url: app.globalData.api_getUserInfoByOpenId + "?openId=" + wx.getStorageSync("userInfo").openId + "&types=0,1",
-      method: 'get',
-    }).then(res => {
-      wx.setStorageSync("userInfo", res.data.data)
-      this.initUser()
-    })
+    this.initUser()
   },
   //  todo 这里调用获取二维码权限
   getQrocdeByClick(openId) {
