@@ -3,6 +3,7 @@ import {
   request
 } from "../../../component/request/index.js";
 var interval;
+var reg_tel = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/;
 const app = getApp()
 var socket = require("../../../utils/socket")
 Page({
@@ -149,6 +150,15 @@ Page({
       name,
       doorNo
     } = e.detail.value;
+    
+    if (!reg_tel.test(visitorMobile)) {
+      wx.showToast({
+        title: '访客手机号码输入有误',
+        duration: 2000,
+        icon: 'none'
+      });
+      return;
+    }
     // 待确定1：是否需要短信验证 （|| !verificationCode || !doorNo ）
     if (!mobile || !name || !visitorMobile) {
       wx.showToast({

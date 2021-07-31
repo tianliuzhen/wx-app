@@ -59,6 +59,10 @@ Page({
         isVisitorQrcode:true
       })
      }
+    }else{
+      this.setData({
+        isVisitorQrcode:false
+      })
     }
 
      // 连接socket
