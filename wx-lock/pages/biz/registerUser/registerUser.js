@@ -9,6 +9,7 @@ var english = require("../../../utils/English.js")
 var socket = require("../../../utils/socket")
 var blueTooth = require("../../../utils/blueTooth")
 var myCheckBox = require("../../../utils/myCheckBox")
+var reg_tel = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/;
 Page({
   /**
    * 页面的初始数据
@@ -107,8 +108,8 @@ Page({
       time: 10 * 6
     })
     clearInterval(interval);
-    this.initSysData()
     this.initUser()
+    this.initSysData()
     // 连接socket
     socket.openSocket(wx.getStorageSync("userInfo"), this)
   },
@@ -280,20 +281,20 @@ Page({
     } = e.detail.value;
     // 待确定1：是否需要短信验证 （|| !verificationCode ）
     console.log(this.data.checkBoxObj.checkBoxObjTemp);
+    if (!reg_tel.test(mobile)) {
+      wx.showToast({
+        title: '手机号码有误',
+        duration: 2000,
+        icon: 'none'
+      });
+      return;
+    }
     if (!mobile || !name || !this.data.areaListIndex || this.data.menuTreeRes == '未选择设备' ) {
       wx.showToast({
         title: '提交内容不能为空！',
         icon: 'none',
         duration: 1500,
       })
-      return;
-    }
-    if (!(/^1[12345789]\d{9}$/.test(mobile))) {
-      wx.showToast({
-        title: '手机号码有误',
-        duration: 2000,
-        icon: 'none'
-      });
       return;
     }
     // 调用接口注册，注册之后弹窗提示注册成功
