@@ -134,6 +134,9 @@ Page({
     this.initDataUserList()
   },
   initDataUserList() {
+    this.setData({
+      userList:[]
+    })
    request({
       url: app.globalData.api_getUserInfoByOpenId +"?openId=" + wx.getStorageSync("userInfo").openId+"&types=0,1",
       method: 'get',
@@ -200,7 +203,7 @@ Page({
       status = true
     }
     res["typeStatus"] = false
-    if(res.type =='管理员' || res.type =='普通用户'){
+    if((res.type =='管理员' || res.type =='普通用户') && res.blacklist=== '否' ){
       res["typeStatus"]=true
     }
     
@@ -400,6 +403,13 @@ Page({
         if (res.confirm) {
           this.userOpertion(type)
         }
+        // 拉黑自己
+        if(this.data.userinfo.openId === wx.getStorageSync("userInfo").openId){
+          // 跳转设置页面直接
+          wx.switchTab({
+            url: '../../biz/set/set',
+          })
+        }
       }
     })
   },
@@ -412,12 +422,6 @@ Page({
   userOpertion(type) {
 
     // 刷新拉黑缓存
-    if (type == 5) {
-      var userInfo = wx.getStorageSync("userInfo")
-      userInfo.blacklist = 1
-      wx.setStorageSync("userInfo", userInfo)
-    }
-
     request({
       url: app.globalData.api_auditPass,
       data: {
