@@ -226,13 +226,11 @@ function sendBLECharacterNotice(pointer) {
         blueData: blueData
       })
       // 规定：头部+53，尾部+0D
-      console.log("###########");
+      console.log("*************");
       wrireToBlueToothDevice("53" + res.data.data + "0D" + "\\n")
-
-
       // 发送完数据之后，断开连接
       setTimeout(function () {
-        console.log("*************");
+        console.log("*****发送完数据之后，断开连接********");
         closeBlueTooth(pointer)
       }, 2000)
      
@@ -252,60 +250,60 @@ function wrireToBlueToothDevice(msg) {
   while (bytes > 0) {
     let tmpBuffer;
     if (bytes > 20) {
-      // return this.delay(0.25).then(() => {
+       delay(250).then(() => {
+        console.log(11);
+      })
+      // setTimeout(function() {
       tmpBuffer = buffer.slice(pos, pos + 20);
       console.log("pos: " + pos + " pos2: " + (pos + 20))
       pos += 20;
       bytes -= 20;
       var that = thisGlobal
-      wx.writeBLECharacteristicValue({
-        deviceId: that.data.deviceId,
-        serviceId: that.data.service_id,
-        characteristicId: that.data.write_id,
-        value: tmpBuffer,
-        success(res) {
-          var list = that.data.sendBlueDataList
-          list.push(JSON.stringify(res))
-          that.setData({
-            sendBlueDataList: list
-          })
-          console.log(tmpBuffer);
-          console.log('发送成功：', res)
-        },
-        fail: function (res) {
-          console.log('发送失败', res)
-        }
-      })
-      // })
+      toWriteBLECharacteristicValue(that,tmpBuffer)
+    // }, 200);
     } else {
-      // return this.delay(0.25).then(() => {
+     delay(250).then(() => {
+      console.log(22);
+    })
+      // setTimeout(function() {
       tmpBuffer = buffer.slice(pos, (pos + bytes));
       // tmpBuffer = buffer.substr(pos, pos + 20)
       console.log("pos: " + pos + " pos2: " + (pos + bytes))
       pos += bytes;
       bytes -= bytes;
       var that = thisGlobal
-      wx.writeBLECharacteristicValue({
-        deviceId: that.data.deviceId,
-        serviceId: that.data.service_id,
-        characteristicId: that.data.write_id,
-        value: tmpBuffer,
-        success(res) {
-          console.log(tmpBuffer);
-          console.log('发送成功：', res)
-          var list = that.data.sendBlueDataList
-          list.push(JSON.stringify(res))
-          that.setData({
-            sendBlueDataList: list
-          })
-        },
-        fail: function (res) {
-          console.log('发送失败', res)
-        }
-      })
-      // })
+      toWriteBLECharacteristicValue(that,tmpBuffer)
+    
+    // }, 200);
     }
   }
+  
+}
+
+function toWriteBLECharacteristicValue(that,tmpBuffer){
+  wx.writeBLECharacteristicValue({
+    deviceId:that.data.deviceId,
+    serviceId: that.data.service_id,
+    characteristicId:  that.data.write_id,
+    value: tmpBuffer,
+    success(res) {
+      console.log(tmpBuffer);
+      console.log('发送成功：', res)
+    },
+    fail: function (res) {
+      console.log('发送失败', res)
+      // 发送失败递归发送直到发送成功为止
+      toWriteBLECharacteristicValue(that,tmpBuffer)
+    }
+  })
+}
+
+function delay(ms, res) {
+  return new Promise(function(resolve, reject) {
+      setTimeout(function() {
+          resolve(res);
+      }, ms);
+  });
 }
 
 
