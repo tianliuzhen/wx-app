@@ -36,13 +36,13 @@ Page({
     console.log("onLoad-临时访客")
     console.log(options.openId);
     // 一般这里发送页面请求初始化页面
-    if(wx.getStorageSync("userInfo")!=null){
+    if (wx.getStorageSync("userInfo") != null) {
       this.setData({
         inputValue: wx.getStorageSync("userInfo").mobile,
         openId: options.openId
       })
     }
-  
+
     //  解析分享页面参数
     if (options != null && options != '') {
       if (options.openId != '' && options.openId != null) {
@@ -55,6 +55,8 @@ Page({
         this.getQrocdeByClick(options.openId)
       }
     }
+    this.connectSocket()
+
 
   },
   onShareAppMessage: function () {
@@ -68,19 +70,17 @@ Page({
 
   },
   onShow: function () {
+    console.log("onShow:" + this.data.openId);
     // 页面出现在前台时执行
     this.setData({
       time: 10 * 6
     })
     clearInterval(interval);
-    // 连接socket
-    var userInfo = wx.getStorageSync("userInfo")
-    if (userInfo != null) {
-      userInfo.type = 3
-    }
-    console.log(this.data.openId);
-    socket.openSocket(userInfo,this)
+
+    this.connectSocket()
   },
+
+
   /**
    * 生命周期函数--监听页面隐藏
    */
@@ -113,8 +113,8 @@ Page({
         value: this.data.screenBrightness,
       })
     }
- // 关闭socket
- socket.closeSocket(wx.getStorageSync("userInfo"))
+    // 关闭socket
+    socket.closeSocket(wx.getStorageSync("userInfo"))
   },
   /**
    * 页面相关事件处理函数--监听用户下拉动作
@@ -126,20 +126,32 @@ Page({
     this.openDoorAfter()
     wx.stopPullDownRefresh()
   },
-  openDoorAfter(){
+  connectSocket() {
+    // 连接socket
+    var userInfo = {
+      openId: this.data.openId
+    }
+    userInfo.type = 3
+    console.log(this.data.openId);
+    socket.closeSocket(userInfo)
+    socket.openSocket(userInfo, this)
+  },
+  openDoorAfter() {
     this.setData({
       time: 10 * 6
     })
     clearInterval(interval);
     this.refush()
-   
+
   },
- refush(){
-  // 访客没有缓存信息，主人才有
-  if(wx.getStorageSync("userInfo") == null){
-    return
-  }
-    this.getQrocdeByClick(wx.getStorageSync("userInfo").openId)
+  refush() {
+    // 访客没有缓存信息，主人才有
+    if (!wx.getStorageSync("userInfo") == null) {
+      this.getQrocdeByClick(wx.getStorageSync("userInfo").openId)
+    } else {
+      this.getQrocdeByClick(this.data.openId)
+    }
+
   },
 
   formSubmit: function (e) {
@@ -150,7 +162,7 @@ Page({
       name,
       doorNo
     } = e.detail.value;
-    
+
     if (!reg_tel.test(visitorMobile)) {
       wx.showToast({
         title: '访客手机号码输入有误',

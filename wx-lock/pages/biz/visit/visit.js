@@ -65,8 +65,6 @@ Page({
       })
     }
 
-     // 连接socket
-     socket.openSocket( wx.getStorageSync("userInfoVisitor"),this)
   },
   /**
    * 生命周期函数--监听页面隐藏
@@ -136,6 +134,9 @@ Page({
         // 存入缓存
         wx.setStorageSync("userInfoVisitor", res.data.data)
         this.checkUser(res.data.data)
+        socket.closeSocket(res.data.data)
+        // 连接socket
+        socket.openSocket(res.data.data,this)
       })
     }
   })
@@ -248,16 +249,7 @@ Page({
     this.refush()
     },
     refush(){
-      if(wx.getStorageSync("userInfoVisitor") == null){
-        return
-      }
-      request({
-        url: app.globalData.api_getUserInfoByOpenId + "?openId=" +  wx.getStorageSync("userInfoVisitor").openId,
-        method: 'get',
-      }).then(res=>{
-        wx.setStorageSync("userInfoVisitor", res.data.data)
-        this.initUser()
-      })
+      this.initUser()
     },
   //  todo 这里调用获取二维码权限
   getQrocdeByClick(openId) {
