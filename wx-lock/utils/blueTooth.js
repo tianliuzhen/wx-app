@@ -226,10 +226,16 @@ function sendBLECharacterNotice(pointer) {
         blueData: blueData
       })
       // 规定：头部+53，尾部+0D
+      console.log("###########");
       wrireToBlueToothDevice("53" + res.data.data + "0D" + "\\n")
 
+
       // 发送完数据之后，断开连接
-      closeBlueTooth(pointer)
+      setTimeout(function () {
+        console.log("*************");
+        closeBlueTooth(pointer)
+      }, 1000)
+     
     }
   })
 }

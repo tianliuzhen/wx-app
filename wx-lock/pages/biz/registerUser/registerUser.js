@@ -15,7 +15,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    allChecked:false,
+    allChecked: false,
     menuTreeRes: '',
     menuTree: [],
     checkBoxObjTemp: "",
@@ -62,7 +62,8 @@ Page({
     notify_id: "",
     indicate_id: "",
     dialogvisible: false,
-    sendBlueDataList:[]
+    sendBlueDataList: [],
+    userInfo: {}
 
   },
   /*点击减号*/
@@ -109,8 +110,10 @@ Page({
     clearInterval(interval);
     this.initSysData()
     this.refush()
-    // 连接socket
-    socket.openSocket(wx.getStorageSync("userInfo"), this)
+    console.log(wx.getStorageSync("userInfo") == null || wx.getStorageSync("userInfo") == '');
+
+    // socket 连接处理
+    this.refushSocket()
   },
   /**
    * 生命周期函数--监听页面隐藏
@@ -149,6 +152,37 @@ Page({
 
   },
 
+  refushSocket(){
+    console.log(wx.getStorageSync("userInfo"));
+    console.log(wx.getStorageSync("userInfo") == null || wx.getStorageSync("userInfo") == '');
+    if (wx.getStorageSync("userInfo") == null || wx.getStorageSync("userInfo") == '') {
+      wx.login({
+        success: res => {
+          request({
+            url: app.globalData.api_getUserInfo + "?types=0,1",
+            method: 'get',
+            data: {  jsCode: res.code    }
+          }).then(res => {
+            console.log(res.data.data);
+            if(res.data.data!=null){
+              wx.setStorageSync("userInfo", res.data.data)
+              // 连接socket
+              console.log(res.data.data);
+              console.log("连接socket");
+              socket.closeSocket(res.data.data)
+              socket.openSocket(res.data.data, this)
+            }
+          
+          })
+        }
+      })
+    }else{
+    socket.closeSocket(wx.getStorageSync("userInfo"))
+    // 连接socket
+    socket.openSocket(wx.getStorageSync("userInfo"), this)
+    }
+  },
+
   initSysData() {
     request({
       url: app.globalData.api_getRoleChildData,
@@ -183,35 +217,46 @@ Page({
     // this.getQrocdeByClick(wx.getStorageSync("userInfo").openId)
     // 当处理完数据刷新后，wx.stopPullDownRefresh可以停止当前页面的下拉刷新。
     wx.stopPullDownRefresh()
+
+    // 必须先关
+    // socket.closeSocket(wx.getStorageSync("userInfo"))
+    // socket 连接处理
+    this.refushSocket()
   },
   openDoorAfter() {
     this.setData({
       time: 10 * 6
     })
     this.refush()
+
+  // socket 连接处理
+  this.refushSocket()
   },
 
   initUser() {
-   // 登录
-   wx.login({
-    success: res => {
-      // 发送 res.code 到后台换取 openId, sessionKey, unionId
-      request({
-        url: app.globalData.api_getUserInfo + "?types=0,1",
-        method: 'get',
-        data: {
-          jsCode: res.code
-        }
-      }).then(res => {
-        // 存入缓存
-        wx.setStorageSync("userInfo", res.data.data)
-        this.checkUser(res.data.data)
+    // 登录
+    wx.login({
+      success: res => {
+        // 发送 res.code 到后台换取 openId, sessionKey, unionId
+        request({
+          url: app.globalData.api_getUserInfo + "?types=0,1",
+          method: 'get',
+          data: {
+            jsCode: res.code
+          }
+        }).then(res => {
+          // 存入缓存
+          wx.setStorageSync("userInfo", res.data.data)
+          this.setData({
+            userInfo: res.data.data
+          })
+          this.checkUser(res.data.data)
           // 初始化小区设备列表
-        this.initDataCheckObj()
-      })
-    }
-  })
-  
+          this.initDataCheckObj()
+        })
+      }
+    })
+
   },
   // 用户检测
   checkUser(userInfo) {
@@ -262,7 +307,7 @@ Page({
       checkBoxObj: {}
     })
     // 初始化菜单信息
-    this.initChekBox( this.data.areaList[this.data.areaListIndex].code,"")
+    this.initChekBox(this.data.areaList[this.data.areaListIndex].code, "")
   },
   formSubmit: function (e) {
     console.log('form发生了submit事件，携带数据为：', e.detail.value);
@@ -285,7 +330,7 @@ Page({
       });
       return;
     }
-    if (!mobile || !name || !this.data.areaListIndex || this.data.menuTreeRes == '未选择设备' ) {
+    if (!mobile || !name || !this.data.areaListIndex || this.data.menuTreeRes == '未选择设备') {
       wx.showToast({
         title: '提交内容不能为空！',
         icon: 'none',
@@ -373,7 +418,7 @@ Page({
         requestData.areaId = this.data.areaList[this.data.areaListIndex].code
         requestData.deviceTreeMenus = this.data.menuTree
         requestData.allChecked = this.data.allChecked
-        
+
         request({
           url: app.globalData.api_addUser,
           data: requestData,
@@ -561,7 +606,7 @@ Page({
    *  蓝牙1、******* 判断蓝牙是否打开、搜索指定设备、解析deviceId
    */
   blueToothClick() {
-    if( wx.getStorageSync("userInfo").status == 0){
+    if (wx.getStorageSync("userInfo").status == 0) {
       wx.showToast({
         title: "当前用户未审批，请联系管理员！",
         icon: 'none',
@@ -618,43 +663,43 @@ Page({
     })
 
   },
-  confirmBlue(){
+  confirmBlue() {
     blueTooth.sendBLECharacterNotice(this)
     // blueTooth.closeBlueTooth(this)
     this.setData({
-      dialogvisible:false
+      dialogvisible: false
     })
   },
-  cancelBlue(){
+  cancelBlue() {
     blueTooth.closeBlueTooth(this)
     this.setData({
-      dialogvisible:false
+      dialogvisible: false
     })
   },
 
   /**
    * 多选框操作事件
    */
-/**
+  /**
    * 多选框操作事件
    */
-  checkboxChangeBindAll(e){
-    myCheckBox.checkboxChangeBindAll(this,e)
+  checkboxChangeBindAll(e) {
+    myCheckBox.checkboxChangeBindAll(this, e)
   },
-  checkboxChangeAll(e){
-    myCheckBox.checkboxChangeAll(this,e)
+  checkboxChangeAll(e) {
+    myCheckBox.checkboxChangeAll(this, e)
   },
-  opens(e){
-    myCheckBox.opens(this,e)
+  opens(e) {
+    myCheckBox.opens(this, e)
   },
-  initChekBox(areaId,openId){
-    myCheckBox.initChekBox(this,areaId,openId)
+  initChekBox(areaId, openId) {
+    myCheckBox.initChekBox(this, areaId, openId)
   },
-  checkForChecked(){
-    myCheckBox.checkForChecked(this,this.data.menuTree)
+  checkForChecked() {
+    myCheckBox.checkForChecked(this, this.data.menuTree)
   },
-  allChecked(status){
-    myCheckBox.allChecked(this,status)
+  allChecked(status) {
+    myCheckBox.allChecked(this, status)
   }
 
 

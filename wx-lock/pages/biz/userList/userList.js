@@ -437,8 +437,34 @@ Page({
       }
     })
   },
+   checkRate(input) { 
+    　　var re = /^[0-9]+.?[0-9]*/;
+    　　if (!re.test(input)) { 
+          wx.showModal({
+            content: '限制次数请输入数字'
+          })
+          return false
+    　　} 
+         return true
+    },
+    
   // 更新用户
   editUser() {
+
+    this.data.userinfo.count=this.data.count
+    if(!(/(^[0-9]*$)/.test(this.data.count))){
+      wx.showModal({
+        content: '限制次数请输入数字！'
+      })
+      return
+    }
+    if(this.data.count >=256){
+      this.data.userinfo.count=256
+    }
+    if(this.data.count <=0){
+      this.data.userinfo.count=0
+    }
+
     var startTime = this.data.startTime.date + " " + this.data.startTime.time + ":00"
     var endTime = this.data.endTime.date + " " + this.data.endTime.time + ":00"
     this.data.userinfo.startTime = startTime

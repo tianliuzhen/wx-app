@@ -120,8 +120,8 @@
         <view class='sub_add_input' type='number' bindtap='bindMinus'>
           <image class="compute_img" src="{{img_sub}}"></image>
         </view>
-        <input class="input_base_count input_w30 col-1" bindinput="inputedit" data-obj="limitCount"
-          value="{{count}}"></input>
+        <input  class="input_base_count input_w30 col-1" bindinput="inputedit" data-obj="limitCount"
+        model:value="{{count}}"></input>
         <view class='sub_add_input' bindtap='bindPlus'>
           <image class="compute_img" src="{{img_add}}"></image>
         </view>
