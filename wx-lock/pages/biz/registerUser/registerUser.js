@@ -99,7 +99,6 @@ Page({
     // 初始化用户信息
     // this.initUser()
 
-
   },
   onShow: function () {
     console.log("onShow");
@@ -207,11 +206,12 @@ Page({
         // 存入缓存
         wx.setStorageSync("userInfo", res.data.data)
         this.checkUser(res.data.data)
+          // 初始化小区设备列表
+        this.initDataCheckObj()
       })
     }
   })
-    // 初始化小区设备列表
-    this.initDataCheckObj()
+  
   },
   // 用户检测
   checkUser(userInfo) {

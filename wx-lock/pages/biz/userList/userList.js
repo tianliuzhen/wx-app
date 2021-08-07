@@ -403,13 +403,7 @@ Page({
         if (res.confirm) {
           this.userOpertion(type)
         }
-        // 拉黑自己
-        if(this.data.userinfo.openId === wx.getStorageSync("userInfo").openId){
-          // 跳转设置页面直接
-          wx.switchTab({
-            url: '../../biz/set/set',
-          })
-        }
+       
       }
     })
   },
@@ -423,15 +417,24 @@ Page({
 
     // 刷新拉黑缓存
     request({
-      url: app.globalData.api_auditPass,
-      data: {
-        id: this.data.userinfo.id,
-        type: type
-      },
-      method: 'get',
+      url: app.globalData.api_auditPass+"?id="+this.data.userinfo.id+"&type="+type,
+      method: 'post',
     }).then(res => {
-      this.util('close')
-      this.initDataUserList(this.data.requestData)
+      if(!res.data.success){
+        wx.showModal({
+          content: res.data.message
+        })
+      }else{
+        this.util('close')
+        this.initDataUserList(this.data.requestData)
+         // 拉黑自己
+         if(this.data.userinfo.openId === wx.getStorageSync("userInfo").openId){
+          // 跳转设置页面直接
+          wx.switchTab({
+            url: '../../biz/set/set',
+          })
+        }
+      }
     })
   },
   // 更新用户

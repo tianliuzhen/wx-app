@@ -85,15 +85,15 @@
       <label class="title col-0"> <text style="color: gray;">小区：</text></label>
       <!-- <input class="input_base input_h30 col-1" name="phone" bindinput="inputedit" data-obj="code"
         value="{{userinfo.areaId}}"></input> -->
-        <view wx:if="{{userinfo.typeStatus}}">
+        <!-- <view wx:if="{{userinfo.typeStatus}}">
           <picker bindchange="bindPickerChange" range-key="name" data-array="{{areaList}}" value="{{index}}"
         range="{{areaList}}">
         <view class="picker">
           <input class="input_base input_h30 col-1" disabled="false"  value="{{area}}"></input>
         </view>
       </picker>
-        </view>
-        <view wx:if="{{!userinfo.typeStatus}}">
+        </view> -->
+        <view >
           <input class="input_base input_h30 col-1" disabled="false"  value="{{area}}"></input>
         </view>
 
