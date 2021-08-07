@@ -22,6 +22,10 @@
       <button style="background-color:{{color}}" bindtap="fun_click_visitor" >邀约码</button>
       <!-- <button open-type='share'>分享</button> -->
     </view>
+    <view class="item-button" wx:if="{{isVisitorQrcode}}">
+      <button style="background-color:{{color}}" bindtap="cancelBack2"  >返回上一级</button>
+      <!-- <button open-type='share'>分享</button> -->
+    </view>
   </form>
 
 </view>

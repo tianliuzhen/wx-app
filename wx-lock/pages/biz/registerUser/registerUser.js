@@ -101,6 +101,16 @@ Page({
     // this.initUser()
 
   },
+
+  onShareAppMessage: function () {
+    // 页面被用户分享时执行
+    return {
+      title: '千里码门禁',
+      path: '/pages/biz/registerUser/registerUser'
+      //这是一个路径
+    }
+
+  },
   onShow: function () {
     console.log("onShow");
     // 页面出现在前台时执行

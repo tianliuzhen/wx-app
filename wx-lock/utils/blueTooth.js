@@ -234,7 +234,7 @@ function sendBLECharacterNotice(pointer) {
       setTimeout(function () {
         console.log("*************");
         closeBlueTooth(pointer)
-      }, 1000)
+      }, 2000)
      
     }
   })

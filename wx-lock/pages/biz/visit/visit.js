@@ -268,8 +268,8 @@ Page({
       if (res.data.success) {
         this.setData({
           qrCode: res.data.data,
-          isNewUser: false,
-          isShowQrCode: true,
+          // isNewUser: false,
+          // isShowQrCode: true,
         })
         // 1、打开定时器去定时获取二维码接口
         this.setTime()
@@ -410,6 +410,12 @@ Page({
     this.setData({
       isShowQrCode:false,
       isNewUser:true
+    })
+  },
+  cancelBack2(){
+    this.setData({
+      isShowQrCode:true,
+      isNewUser:false
     })
   }
   
