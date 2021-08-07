@@ -53,14 +53,16 @@ Page({
           openId: options.openId
         })
         this.getQrocdeByClick(options.openId)
+        this.connectSocket(options.openId)
       }
     }
-    this.connectSocket()
+
 
 
   },
   onShareAppMessage: function () {
     // 页面被用户分享时执行
+    console.log(this.data.openId);
     return {
       title: '临时访客码',
       desc: '请将二维码靠近设置扫码区域',
@@ -76,8 +78,6 @@ Page({
       time: 10 * 6
     })
     clearInterval(interval);
-
-    this.connectSocket()
   },
 
 
@@ -126,13 +126,13 @@ Page({
     this.openDoorAfter()
     wx.stopPullDownRefresh()
   },
-  connectSocket() {
+  connectSocket(openId) {
     // 连接socket
     var userInfo = {
-      openId: this.data.openId
+      openId: openId,
+      type : 3
     }
-    userInfo.type = 3
-    console.log(this.data.openId);
+    console.log(userInfo);
     socket.closeSocket(userInfo)
     socket.openSocket(userInfo, this)
   },
@@ -217,6 +217,7 @@ Page({
             }
 
             this.setData({
+              openId:res.data.data.openId,
               isTip: true,
               isNewUser: false,
               isShowQrCode: true,
@@ -225,12 +226,15 @@ Page({
             })
           }
           if (!res.data.success) {
+            this.setData({
+              openId:wx.getStorageSync("userInfo").openId
+            })
             wx.showToast({
               title: res.data.message,
               icon: 'none',
               duration: 2000,
             })
-            if (res.data.message === '该访客已经申请') {
+            if (res.data.message === '已经生成此人邀请码！') {
               this.setData({
                 isNewUser: false,
                 isShowQrCode: true,

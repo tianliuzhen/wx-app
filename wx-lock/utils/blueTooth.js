@@ -253,14 +253,14 @@ function wrireToBlueToothDevice(msg) {
        delay(250).then(() => {
         console.log(11);
       })
-      // setTimeout(function() {
+      setTimeout(function() {
       tmpBuffer = buffer.slice(pos, pos + 20);
       console.log("pos: " + pos + " pos2: " + (pos + 20))
       pos += 20;
       bytes -= 20;
       var that = thisGlobal
       toWriteBLECharacteristicValue(that,tmpBuffer)
-    // }, 200);
+    }, 200);
     } else {
      delay(250).then(() => {
       console.log(22);
