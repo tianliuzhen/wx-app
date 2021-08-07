@@ -234,6 +234,7 @@ Page({
     this.refushSocket()
   },
   openDoorAfter() {
+    clearInterval(interval);
     this.setData({
       time: 10 * 6
     })
