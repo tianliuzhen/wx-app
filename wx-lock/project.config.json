@@ -39,7 +39,7 @@
     "minifyWXSS": true
   },
   "compileType": "miniprogram",
-  "libVersion": "2.14.1",
+  "libVersion": "2.19.0",
   "appid": "wx17eaa59e75628077",
   "projectname": "wx-lock",
   "debugOptions": {
