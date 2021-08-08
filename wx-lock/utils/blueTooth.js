@@ -1,15 +1,15 @@
 /**
  * 初始化蓝牙
  * 蓝牙1、******* 判断蓝牙是否打开、搜索指定设备、解析deviceId
- * @param {*} this 
+ * @param {*} this
  */
 const app = getApp()
 import {
   request
 } from "../component/request/index.js";
 var thisGlobal = null
-// var sign= "Feas"
-var sign = "FGBT"
+var sign= "Feas"
+// var sign = "FGBT"
 
 function initBlueTooth(pointer) {
   thisGlobal = pointer
@@ -229,20 +229,25 @@ function sendBLECharacterNotice(pointer) {
       console.log("*************");
       wrireToBlueToothDevice("53" + res.data.data + "0D" + "\\n")
       // 发送完数据之后，断开连接
-      setTimeout(function () {
-        console.log("*****发送完数据之后，断开连接********");
-        closeBlueTooth(pointer)
-      }, 2000)
-     
+      // setTimeout(function () {
+      //   console.log("*****发送完数据之后，断开连接********");
+      //   closeBlueTooth(pointer)
+      // }, 3000)
+
     }
   })
 }
 
+
+var init =0
+var dataList = []
 /**
  * 3、 ********* 分片写入数据
  */
 function wrireToBlueToothDevice(msg) {
   console.log("msg:" + msg);
+  dataList=[]
+  init=0
   let buffer = toAsciiToArrayBuffer(msg);
   let pos = 0;
   let bytes = buffer.byteLength;
@@ -250,55 +255,77 @@ function wrireToBlueToothDevice(msg) {
   while (bytes > 0) {
     let tmpBuffer;
     if (bytes > 20) {
-       delay(250).then(() => {
-        console.log(11);
-      })
-      setTimeout(function() {
       tmpBuffer = buffer.slice(pos, pos + 20);
+      dataList.push(tmpBuffer)
       console.log("pos: " + pos + " pos2: " + (pos + 20))
       pos += 20;
       bytes -= 20;
-      var that = thisGlobal
-      toWriteBLECharacteristicValue(that,tmpBuffer)
-    }, 200);
+      // var that = thisGlobal
+      // toWriteBLECharacteristicValue(that,tmpBuffer)
     } else {
-     delay(250).then(() => {
-      console.log(22);
-    })
-      // setTimeout(function() {
       tmpBuffer = buffer.slice(pos, (pos + bytes));
+      dataList.push(tmpBuffer)
       // tmpBuffer = buffer.substr(pos, pos + 20)
       console.log("pos: " + pos + " pos2: " + (pos + bytes))
       pos += bytes;
       bytes -= bytes;
-      var that = thisGlobal
-      toWriteBLECharacteristicValue(that,tmpBuffer)
-    
-    // }, 200);
+      // var that = thisGlobal
+      // toWriteBLECharacteristicValue(that,tmpBuffer)
+
     }
   }
-  
+  console.log("dataList");
+  console.log(dataList);
+  toWriteBLECharacteristicValueLoop(dataList)
 }
 
-function toWriteBLECharacteristicValue(that,tmpBuffer){
+
+function toWriteBLECharacteristicValueLoop(){
+
+  console.log("dataListLength:"+dataList.length);
+  console.log("init:"+init);
+  if (init < dataList.length) {
+    wx.showLoading({
+      title: '发送数据中...',
+    })
+    console.log("蓝牙 setTimeout++++++++++++++++++++: "+init);
   wx.writeBLECharacteristicValue({
-    deviceId:that.data.deviceId,
-    serviceId: that.data.service_id,
-    characteristicId:  that.data.write_id,
-    value: tmpBuffer,
+    deviceId:thisGlobal.data.deviceId,
+    serviceId: thisGlobal.data.service_id,
+    characteristicId:  thisGlobal.data.write_id,
+    value: dataList[init],
     success(res) {
-      console.log(tmpBuffer);
+      console.log(dataList[init]);
       console.log('发送成功：', res)
+      init++;
+      setTimeout(toWriteBLECharacteristicValueLoop, 250);
     },
     fail: function (res) {
       console.log('发送失败', res)
       // 发送失败递归发送直到发送成功为止
-      toWriteBLECharacteristicValue(that,tmpBuffer)
+      // toWriteBLECharacteristicValue(that,tmpBuffer)
     }
   })
+
+} else {
+  console.log('end');
+  wx.hideLoading()
+  wx.showToast({
+    title: "已经执行，请确认",
+    icon: 'none',
+    duration: 1500
+  })
+  closeBlueTooth(thisGlobal)
+}
+
+
 }
 
 function delay(ms, res) {
+
+  // delay(250).then(() => {
+  //   console.log(11);
+  // })
   return new Promise(function(resolve, reject) {
       setTimeout(function() {
           resolve(res);
