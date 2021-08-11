@@ -17,6 +17,52 @@
     </view>
     -->
 
+
+    <view class="item2">有效开始时间：</view>
+    <view class="item3">
+            <view class='timeChooseDate'>
+          <picker mode="date" value="{{startTime.date}}" data-obj="date" start="2020-00-01" end="2050-00-00"
+            bindchange="bindStartTimeChange">
+            <view class="picker">
+              <input disabled="true" class="input_base2 input_h30 " bindinput="inputedit"
+                value="{{startTime.date}}"></input>
+            </view>
+          </picker>
+        </view>
+        <view class="timeChooseTime">
+          <picker mode="time" value="{{startTime.time}}" data-obj="time" start="09:01" end="21:01"
+            bindchange="bindStartTimeChange">
+            <view class="picker">
+              <input disabled="true" class="input_base3 input_h30 " bindinput="inputedit"
+                value="{{startTime.time}}"></input>
+            </view>
+          </picker>
+        </view>
+    </view>
+
+
+    <view class="item2">有效结束时间：</view>
+    <view class="item3">
+              <view class='timeChooseDate'>
+          <picker mode="date" value="{{endTime.date}}" data-obj="date" start="2021-00-00" end="2050-00-00"
+            bindchange="bindEndTimeChange">
+            <view class="picker">
+              <input disabled="true" class="input_base2 input_h30 " bindinput="inputedit"
+                value="{{endTime.date}}"></input>
+            </view>
+          </picker>
+        </view>
+        <view class="timeChooseTime">
+          <picker mode="time" value="{{endTime.time}}" data-obj="time" start="09:01" end="21:01"
+            bindchange="bindEndTimeChange">
+            <view class="picker">
+              <input disabled="true" class="input_base3 input_h30 " bindinput="inputedit"
+                value="{{endTime.time}}"></input>
+            </view>
+          </picker>
+        </view>
+    </view>
+
     <view class="item2">限制次数：</view>
     <view class="item3">
     
@@ -30,6 +76,7 @@
         </view>
       </view>
     </view>
+
     <view class="item-button">
       <button formType="submit" style="background-color:{{color}}" bindtap="fun_click_visitor">生成自己访客码</button>
     </view>

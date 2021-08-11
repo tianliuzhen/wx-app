@@ -27,6 +27,14 @@ Page({
     qrcodePhone: "",
     img_add: '/icon/add.png',
     img_sub: '/icon/sub.png',
+    startTime: {
+      time: "",
+      date: ""
+    },
+    endTime: {
+      time: "",
+      date: ""
+    },
   },
 
   /**
@@ -78,6 +86,24 @@ Page({
       time: 10 * 6
     })
     clearInterval(interval);
+
+    var myDate = new Date();
+    var year = myDate.getFullYear(); //获取完整的年份(4位,1970-????)
+    var month = this.buO(myDate.getMonth() + 1); //获取当前月份(0-11,0代表1月)
+    var date = this.buO(myDate.getDate()); //获取当前日(1-31)
+    var hour = myDate.getHours(); //获取当前小时数(0-23)
+    var minute = myDate.getMinutes(); //获取当前分钟数(0-59)
+
+    this.setData({
+      startTime: {
+        time: hour + ":" + minute,
+        date: year + "-" + month + "-" + date
+      },
+      endTime: {
+        time: 23 + ":" + 59,
+        date: year + "-" + month + "-" + date
+      }
+    })
   },
 
 
@@ -126,11 +152,17 @@ Page({
     this.openDoorAfter()
     wx.stopPullDownRefresh()
   },
+  buO(time) {
+    if (time >= 1 && time <= 9) {
+      time = "0" + time;
+    }
+    return time
+  },
   connectSocket(openId) {
     // 连接socket
     var userInfo = {
       openId: openId,
-      type : 3
+      type: 3
     }
     console.log(userInfo);
     socket.closeSocket(userInfo)
@@ -197,6 +229,11 @@ Page({
       requestData.openId = userInfo.openId
     }
 
+    var startTime = this.data.startTime.date + " " + this.data.startTime.time + ":00"
+    var endTime = this.data.endTime.date + " " + this.data.endTime.time + ":00"
+    requestData.startTime = startTime
+    requestData.endTime = endTime
+
     // 2、发送数据换取开锁二维码
     wx.login({
       success: res => {
@@ -217,7 +254,7 @@ Page({
             }
 
             this.setData({
-              openId:res.data.data.openId,
+              openId: res.data.data.openId,
               isTip: true,
               isNewUser: false,
               isShowQrCode: true,
@@ -227,7 +264,7 @@ Page({
           }
           if (!res.data.success) {
             this.setData({
-              openId:wx.getStorageSync("userInfo").openId
+              openId: wx.getStorageSync("userInfo").openId
             })
             wx.showToast({
               title: res.data.message,
@@ -330,6 +367,25 @@ Page({
     }
     this.setData({
       count: num
+    })
+  },
+
+  bindStartTimeChange(e) {
+    let dataset = e.currentTarget.dataset
+    let value = e.detail.value;
+    let res = this.data.startTime;
+    res[dataset.obj] = value
+    this.setData({
+      startTime: res
+    })
+  },
+  bindEndTimeChange(e) {
+    let dataset = e.currentTarget.dataset
+    let value = e.detail.value;
+    let res = this.data.endTime;
+    res[dataset.obj] = value
+    this.setData({
+      endTime: res
     })
   },
 })

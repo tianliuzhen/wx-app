@@ -15,7 +15,14 @@
         </view>
         <view class="flex_1_1">
           <view class="detail_left">状态：</view>
-          <view class="detail_right"><text style="color:red">{{item.status}}</text></view>
+
+          <view class='detail_right ' wx:if="{{item.status == '待审批'}}">
+            <text style="color:red">{{item.status}}</text>
+         </view>
+
+          <view class="detail_right"  wx:if="{{item.status != '待审批'}}">
+            <text style="color:#0094aa;">{{item.status}}</text>
+          </view>
         </view>
         <view class="flex_1_1">
           <view class="detail_left">手机：</view>

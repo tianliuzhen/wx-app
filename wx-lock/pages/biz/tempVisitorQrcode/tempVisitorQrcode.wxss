@@ -182,3 +182,11 @@ item switch{
     width:24px;
     height: 24px;
   }
+
+  .timeChooseDate{
+    width: 100px;
+  }
+
+  .timeChooseTime{
+    width: 60px;
+  }
