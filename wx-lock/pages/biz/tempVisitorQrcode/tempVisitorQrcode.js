@@ -230,7 +230,7 @@ Page({
     }
 
     var startTime = this.data.startTime.date + " " + this.data.startTime.time + ":00"
-    var endTime = this.data.endTime.date + " " + this.data.endTime.time + ":00"
+    var endTime = this.data.endTime.date + " " + this.data.endTime.time + ":59"
     requestData.startTime = startTime
     requestData.endTime = endTime
 
