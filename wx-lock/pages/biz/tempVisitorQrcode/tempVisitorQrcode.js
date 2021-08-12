@@ -6,6 +6,7 @@ var interval;
 var reg_tel = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/;
 const app = getApp()
 var socket = require("../../../utils/socket")
+var checkTime = require("../../../utils/checkTime")
 Page({
   /**
    * 页面的初始数据
@@ -196,16 +197,10 @@ Page({
     } = e.detail.value;
 
     // 1、输入时间校验
-    var beginTime=this.data.startTime.date +"-"+this.data.startTime.time
-    var endTime=this.data.endTime.date +"-"+this.data.endTime.time
-    if(beginTime.replace(/-/g,"").replace(":","") >= endTime.replace(/-/g,"").replace(":","")){
-      wx.showToast({
-        title: '有效开始时间不能大于有效结束时间！',
-        duration: 2000,
-        icon: 'none'
-      });
-      return;
-    }
+   var check= checkTime.verifyTime(this.data.startTime,this.data.endTime)
+   if(!check){
+      return
+   }
    
 
     // 2、手机号验证 

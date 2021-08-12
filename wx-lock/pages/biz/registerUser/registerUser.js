@@ -250,7 +250,7 @@ Page({
           // 初始化小区设备列表
           this.initDataCheckObj()
           // 如果是正常的用户
-          console.log(res.data.data);
+          // console.log(res.data.data);
           if(res.data.data !=null && res.data.data.status==1){
             return
           }
@@ -358,6 +358,7 @@ Page({
       if (res.data.success) {
         this.setData({
           qrCode: res.data.data,
+          reRegister:false,
           isNewUser: false,
           isShowQrCode: true,
         })

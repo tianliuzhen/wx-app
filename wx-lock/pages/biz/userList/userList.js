@@ -14,6 +14,7 @@ import {
   request
 } from "../../../component/request/index.js";
 var myCheckBox = require("../../../utils/myCheckBox")
+var checkTime = require("../../../utils/checkTime")
 Page({
 
   /**
@@ -465,6 +466,13 @@ Page({
     if(this.data.count <=0){
       this.data.userinfo.count=0
     }
+
+    
+    // 输入时间校验
+   var check= checkTime.verifyTime(this.data.startTime,this.data.endTime)
+   if(!check){
+      return
+   }
 
     var startTime = this.data.startTime.date + " " + this.data.startTime.time + ":00"
     var endTime = this.data.endTime.date + " " + this.data.endTime.time + ":00"
