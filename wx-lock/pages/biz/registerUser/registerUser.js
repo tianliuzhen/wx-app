@@ -222,7 +222,6 @@ Page({
   onPullDownRefresh: function () {
     console.log("onPullDownRefresh");
     this.initSysData()
-    this.refush()
     this.openDoorAfter()
     // this.getQrocdeByClick(wx.getStorageSync("userInfo").openId)
     // 当处理完数据刷新后，wx.stopPullDownRefresh可以停止当前页面的下拉刷新。
