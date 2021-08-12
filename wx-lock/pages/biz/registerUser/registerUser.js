@@ -118,7 +118,6 @@ Page({
       time: 10 * 6
     })
     clearInterval(interval);
-    this.initSysData()
     this.refush()
     console.log(wx.getStorageSync("userInfo") == null || wx.getStorageSync("userInfo") == '');
 
@@ -208,7 +207,7 @@ Page({
    */
   onPullDownRefresh: function () {
     console.log("onPullDownRefresh");
-    this.initSysData()
+   
     this.openDoorAfter()
     // this.getQrocdeByClick(wx.getStorageSync("userInfo").openId)
     // 当处理完数据刷新后，wx.stopPullDownRefresh可以停止当前页面的下拉刷新。
@@ -250,6 +249,12 @@ Page({
           this.checkUser(res.data.data)
           // 初始化小区设备列表
           this.initDataCheckObj()
+          // 如果是正常的用户
+          console.log(res.data.data);
+          if(res.data.data !=null && res.data.data.status==1){
+            return
+          }
+          this.initSysData()
         })
       }
     })

@@ -428,7 +428,8 @@ Page({
         this.util('close')
         this.initDataUserList(this.data.requestData)
          // 拉黑自己
-         if(this.data.userinfo.openId === wx.getStorageSync("userInfo").openId){
+         if(this.data.userinfo.openId === wx.getStorageSync("userInfo").openId
+          && (this.data.userinfo.type =="管理员" || this.data.userinfo.type =="普通用户")){
           // 跳转设置页面直接
           wx.switchTab({
             url: '../../biz/set/set',
