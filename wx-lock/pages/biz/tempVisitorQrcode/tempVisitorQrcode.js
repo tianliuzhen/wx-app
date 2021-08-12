@@ -195,6 +195,20 @@ Page({
       doorNo
     } = e.detail.value;
 
+    // 1、输入时间校验
+    var beginTime=this.data.startTime.date +"-"+this.data.startTime.time
+    var endTime=this.data.endTime.date +"-"+this.data.endTime.time
+    if(beginTime.replace(/-/g,"").replace(":","") >= endTime.replace(/-/g,"").replace(":","")){
+      wx.showToast({
+        title: '有效开始时间不能大于有效结束时间！',
+        duration: 2000,
+        icon: 'none'
+      });
+      return;
+    }
+   
+
+    // 2、手机号验证 
     if (!reg_tel.test(visitorMobile)) {
       wx.showToast({
         title: '访客手机号码输入有误',
@@ -203,6 +217,8 @@ Page({
       });
       return;
     }
+
+    // 3、空校验
     // 待确定1：是否需要短信验证 （|| !verificationCode || !doorNo ）
     if (!mobile || !name || !visitorMobile) {
       wx.showToast({
