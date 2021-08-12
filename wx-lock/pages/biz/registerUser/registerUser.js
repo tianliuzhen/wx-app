@@ -202,19 +202,6 @@ Page({
         areaList: res.data.data
       })
     })
-
-    if (wx.getStorageSync("userInfo") == null) {
-      return
-    }
-    var openId = wx.getStorageSync("userInfo").openId
-    request({
-      url: app.globalData.api_getRemoteOpenDeviceList + "?openId=" + openId,
-      method: 'post',
-    }).then(res => {
-      this.setData({
-        deviceList: res.data.data
-      })
-    })
   },
   /**
    * 页面相关事件处理函数--监听用户下拉动作
