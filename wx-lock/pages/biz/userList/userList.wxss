@@ -348,7 +348,7 @@ radio {
 }
 
 .timeChooseTime {
-  width: 90px;
+  width: 81px;
   height: 30px;
 }
 
