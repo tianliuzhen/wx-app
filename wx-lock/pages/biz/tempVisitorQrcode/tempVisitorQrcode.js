@@ -92,8 +92,8 @@ Page({
     var year = myDate.getFullYear(); //获取完整的年份(4位,1970-????)
     var month = this.buO(myDate.getMonth() + 1); //获取当前月份(0-11,0代表1月)
     var date = this.buO(myDate.getDate()); //获取当前日(1-31)
-    var hour = myDate.getHours(); //获取当前小时数(0-23)
-    var minute = myDate.getMinutes(); //获取当前分钟数(0-59)
+    var hour =this.buO( myDate.getHours()); //获取当前小时数(0-23)
+    var minute = this.buO(myDate.getMinutes()); //获取当前分钟数(0-59)
 
     this.setData({
       startTime: {
