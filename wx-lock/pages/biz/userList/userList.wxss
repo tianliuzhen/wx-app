@@ -144,7 +144,7 @@
 
 /*content*/
 .drawer_box {
-  width: 650rpx;
+  width: 655rpx;
   overflow: hidden;
   position: fixed;
   top: 30%;
@@ -162,7 +162,7 @@
 }
 
 .drawer_content {
-  height: 370px;
+  height: 435px;
   overflow-y: scroll;
   /*超出父盒子高度可滚动*/
 }
@@ -386,7 +386,7 @@ radio {
 
 /* //滚动条的轨道颜色，轨道阴影，轨道圆角 */
 ::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+  /* -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3); */
   background-color: #0094aa;
   border-radius: 3px;
 }
@@ -394,6 +394,6 @@ radio {
 /* //滑块颜色，滑块阴影，滑块圆角 */
 ::-webkit-scrollbar-thumb {
   border-radius: 7px;
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+  /* -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3); */
   background-color: #E8E8E8;
 }
