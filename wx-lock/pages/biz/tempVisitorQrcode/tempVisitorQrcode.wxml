@@ -78,7 +78,7 @@
     </view>
 
     <view class="item-button">
-      <button formType="submit" style="background-color:{{color}}" bindtap="fun_click_visitor">生成自己访客码</button>
+      <button formType="submit" style="background-color:{{color}}" bindtap="fun_click_visitor">生成邀约码</button>
     </view>
   </form>
 

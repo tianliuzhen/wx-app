@@ -100,20 +100,19 @@
         </view>
       </picker>
         </view> -->
-        <view >
           <input class="input_base input_h30 col-1" disabled="false"  value="{{area}}"></input>
-        </view>
+       
 
     
     </view>
     <view class="top grid">
       <label class="title col-0"> <text style="color: gray;">设备：</text></label>
-      <view wx:if="{{userinfo.typeStatus}}">
+      <block wx:if="{{userinfo.typeStatus}}">
         <input class="input_base input_h30 col-1" disabled="false" bindtap="showDialogDevice"value="{{menuTreeRes}}" ></input>
-       </view>
-      <view wx:if="{{!userinfo.typeStatus}}"> 
+       </block>
+      <block wx:if="{{!userinfo.typeStatus}}"> 
         <input class="input_base input_h30 col-1" disabled="false" value="{{menuTreeRes}}" ></input>
-      </view>
+      </block>
     
     </view>
     <view class="top grid">
@@ -141,8 +140,8 @@
         <view class='timeChooseDate'>
           <picker mode="date" value="{{startTime.date}}" data-obj="date" start="2020-00-01" end="2050-00-00"
             bindchange="bindStartTimeChange">
-            <view class="picker">
-              <input disabled="true" class="input_base2 input_h30 " bindinput="inputedit"
+            <view class="picker" >
+              <input disabled="true" class="input_base2 input_h30 inputPaddingLeft_10 " bindinput="inputedit"
                 value="{{startTime.date}}"></input>
             </view>
           </picker>
@@ -165,7 +164,7 @@
           <picker mode="date" value="{{endTime.date}}" data-obj="date" start="2021-00-00" end="2050-00-00"
             bindchange="bindEndTimeChange">
             <view class="picker">
-              <input disabled="true" class="input_base2 input_h30 " bindinput="inputedit"
+              <input disabled="true" class="input_base2 input_h30 inputPaddingLeft_10" bindinput="inputedit"
                 value="{{endTime.date}}"></input>
             </view>
           </picker>
