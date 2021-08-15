@@ -65,28 +65,38 @@
   <view class="drawer_content">
     <view class="top grid">
       <label class="title col-0"><text decode="true">姓名：</text></label>
+      <view class="width_200X">
       <input class="input_base input_h30 col-1" bindinput="inputedit" data-obj="name" name="rName"
         value="{{userinfo.name}}"></input>
+        </view>
     </view>
     <view class="top grid">
       <label class="title col-0"><text decode="true">用户角色：</text></label>
+      <view class="width_200X">
       <input disabled="true" class="input_base input_h30 col-2" bindinput="inputedit" data-obj="name" name="type"
         value="{{userinfo.type}}"></input>
+        </view>
     </view>
     <view class="top grid">
       <label class="title col-0"><text decode="true">当前状态：</text></label>
+      <view class="width_200X">
       <input disabled="true" class="input_base input_h30 col-2" bindinput="inputedit" data-obj="name" name="type"
         value="{{userinfo.status}}"></input>
+        </view>
     </view>
     <view class="top grid">
       <label class="title col-0"><text decode="true">手机：</text></label>
+      <view class="width_200X">
       <input class="input_base input_h30 col-1" bindinput="inputedit" data-obj="name" name="phone"  disabled="true"
         value="{{userinfo.mobile}}"></input>
+        </view>
     </view>
     <view class="top grid">
       <label class="title col-0"><text decode="true">卡号：</text></label>
+      <view class="width_200X">
       <input class="input_base input_h30 col-1" bindinput="inputedit" data-obj="cardId" name="cardId"
         value="{{userinfo.cardId}}"></input>
+      </view>
     </view>
     <view class="top grid">
       <label class="title col-0"> <text style="color: gray;">小区：</text></label>
@@ -100,25 +110,29 @@
         </view>
       </picker>
         </view> -->
+        <view class="width_200X">
           <input class="input_base input_h30 col-1" disabled="false"  value="{{area}}"></input>
-       
+        </view> 
 
     
     </view>
     <view class="top grid">
       <label class="title col-0"> <text style="color: gray;">设备：</text></label>
+      <view class="width_200X">
       <block wx:if="{{userinfo.typeStatus}}">
         <input class="input_base input_h30 col-1" disabled="false" bindtap="showDialogDevice"value="{{menuTreeRes}}" ></input>
        </block>
       <block wx:if="{{!userinfo.typeStatus}}"> 
         <input class="input_base input_h30 col-1" disabled="false" value="{{menuTreeRes}}" ></input>
       </block>
-    
+    </view>
     </view>
     <view class="top grid">
       <label class="title col-0">申请时间：</label>
+      <view class="width_200X">
       <input disabled="true" class="input_base input_h30 col-1" bindinput="inputedit" data-obj="createTime"
         name="createTime" value="{{userinfo.createTime}}"></input>
+      </view>
     </view>
     <view class="top grid">
       <label class="title col-0">限制次数：</label>
@@ -141,8 +155,8 @@
           <picker mode="date" value="{{startTime.date}}" data-obj="date" start="2020-00-01" end="2050-00-00"
             bindchange="bindStartTimeChange">
             <view class="picker" >
-              <input disabled="true" class="input_base2 input_h30 inputPaddingLeft_10 " bindinput="inputedit"
-                value="{{startTime.date}}"></input>
+              <view disabled="true" class="inputPaddingLeft_10 " bindinput="inputedit"
+                >{{startTime.date}}</view>
             </view>
           </picker>
         </view>
@@ -150,8 +164,8 @@
           <picker mode="time" value="{{startTime.time}}" data-obj="time" 
             bindchange="bindStartTimeChange">
             <view class="picker">
-              <input disabled="true" class="input_base3 input_h30 " bindinput="inputedit"
-                value="{{startTime.time}}"></input>
+              <view disabled="true" bindinput="inputedit"
+                >{{startTime.time}}</view>
             </view>
           </picker>
         </view>
@@ -159,13 +173,13 @@
     </view>
     <view class="top grid">
       <label class="title col-0">有效结束时间：</label>
-      <view class='timeChoose'>
+      <view class='timeChoose '>
         <view class='timeChooseDate'>
           <picker mode="date" value="{{endTime.date}}" data-obj="date" start="2021-00-00" end="2050-00-00"
             bindchange="bindEndTimeChange">
             <view class="picker">
-              <input disabled="true" class="input_base2 input_h30 inputPaddingLeft_10" bindinput="inputedit"
-                value="{{endTime.date}}"></input>
+              <view disabled="true"  bindinput="inputedit" class="inputPaddingLeft_10 "
+                >{{endTime.date}}</view>
             </view>
           </picker>
         </view>
@@ -173,8 +187,8 @@
           <picker mode="time" value="{{endTime.time}}" data-obj="time"
             bindchange="bindEndTimeChange">
             <view class="picker">
-              <input disabled="true" class="input_base3 input_h30 " bindinput="inputedit"
-                value="{{endTime.time}}"></input>
+              <view disabled="true" bindinput="inputedit"
+                >{{endTime.time}}</view>
             </view>
           </picker>
         </view>
@@ -182,7 +196,10 @@
     </view>
     <view class="top bottom grid">
       <label class="title col-0">备注：</label>
-      <input class="input_base input_h30 col-1" value="{{userinfo.remark}}"  bindinput="inputedit" data-obj="remark" ></input>
+      <view class="width_200X">
+        <input class="input_base input_h30 col-1" value="{{userinfo.remark}}"  bindinput="inputedit" data-obj="remark" ></input>
+      </view>
+    
     </view>
 
   </view>
