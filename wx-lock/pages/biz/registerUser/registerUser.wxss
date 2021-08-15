@@ -10,6 +10,7 @@
 .hr{
   padding-top: 20px;
 }
+
 .item{
   margin: 0 auto;
   border: 1px solid #cccccc;
@@ -103,6 +104,17 @@ item switch{
 .mobile input{
   margin-top: 8px;
   margin-left: 10px;
+}
+/* buuton 重置样式 */
+button::after { border: none; }
+button { 
+  background-color: #f2f2f2;
+ }
+.codebutton{
+  padding:0px;
+  margin: 0px;
+  height: 40px;
+  line-height: 40px;
 }
 .code{
   border: 1px solid #cccccc;
