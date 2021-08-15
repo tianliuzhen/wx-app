@@ -173,7 +173,7 @@
     </view>
     <view class="top grid">
       <label class="title col-0">有效结束时间：</label>
-      <view class='timeChoose '>
+      <view class='timeChoose'>
         <view class='timeChooseDate'>
           <picker mode="date" value="{{endTime.date}}" data-obj="date" start="2021-00-00" end="2050-00-00"
             bindchange="bindEndTimeChange">
@@ -199,9 +199,8 @@
       <view class="width_200X">
         <input class="input_base input_h30 col-1" value="{{userinfo.remark}}"  bindinput="inputedit" data-obj="remark" ></input>
       </view>
-    
     </view>
-
+   
   </view>
   <view class="btn_ok">
     <block wx:if="{{requestData.condition.blacklist != 1}}">
