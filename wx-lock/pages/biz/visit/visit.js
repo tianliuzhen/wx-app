@@ -29,7 +29,8 @@ Page({
     areaListIndex:"", // 选择框选中值
     areaListIndexTemp: "", // 选择框选中值
     isVisitorQrcode:false,
-    inputValue:""
+    inputValue:"",
+    getPhone:"" // 绑定微信手机号
 
   },
 
@@ -409,7 +410,14 @@ Page({
       isShowQrCode:true,
       isNewUser:false
     })
-  }
+  },
   
+  
+  /**
+   绑定手机号
+   */
+  getPhoneNumber(e) {
+    app.getPhoneNumber(e,this)
+  }
 
 })

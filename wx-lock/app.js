@@ -77,7 +77,44 @@ App({
     api_getQrCodeDataByBluetooth: domain+'/wx-lock-api/getQrCodeDataByBluetooth',
     api_getRemoteOpenDeviceList: domain+'/wx-lock-api/getRemoteOpenDeviceList',
     api_getDeviceTreeMenu: domain+'/wx-lock-api/getDeviceTreeMenu',
+    api_decrypt: domain+'/wx-lock-api/decrypt',
     api_websocket:socketDomain+ '/socketServer/',
   },
+  /**
+   绑定手机号
+   */
+  getPhoneNumber(e,that) {
+    console.log(e.detail.errMsg)
+    console.log(e.detail.iv)
+    console.log(e.detail.encryptedData)
+
+    wx.login({
+      success: res => {
+        request({
+          url:this.globalData.api_decrypt,
+          data: {
+            code:res.code,
+            iv:e.detail.iv,
+            encryptedData:e.detail.encryptedData
+          },
+          method: 'POST',
+        }).then(res => {
+          console.log(res);
+          if(res.data.success){
+            that.setData({
+              getPhone:res.data.data.phoneNumber
+            })
+          }
+          if(!res.data.success){
+            wx.showToast({
+              title: '获取手机号失败',
+              icon: 'none',
+              duration: 1500
+            })
+          }
+        })
+      }
+    })
+  }
   
 })

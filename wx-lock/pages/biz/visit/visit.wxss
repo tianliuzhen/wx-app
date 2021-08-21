@@ -102,7 +102,7 @@ item switch{
   border: 1px solid #cccccc;
   height: 40px;
   width: 35%;
-  background-color: #edeeec;
+  background-color: #0094aa;
   border-radius: 3px;
   text-align: center;
   margin-left: 10px;
@@ -150,4 +150,13 @@ item switch{
   position:fixed; 
   background-size:100% 100%;
   z-index: -1;
+  }
+
+  .codebutton{
+    padding:0px;
+    margin: 0px;
+    height: 40px;
+    line-height: 40px;
+    background-color: #0094aa;
+    border-radius: 5px;
   }

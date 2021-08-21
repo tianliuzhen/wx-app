@@ -115,12 +115,14 @@ button {
   margin: 0px;
   height: 40px;
   line-height: 40px;
+  background-color: #0094aa;
+  border-radius: 5px;
 }
 .code{
   border: 1px solid #cccccc;
   height: 40px;
   width: 35%;
-  background-color: #edeeec;
+  background-color: #0094aa;
   border-radius: 3px;
   text-align: center;
   margin-left: 10px;

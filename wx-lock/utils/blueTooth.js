@@ -218,30 +218,46 @@ function recvBLECharacterNotice(deviceId, serviceId, charId) {
 function sendBLECharacterNotice(pointer) {
     thisGlobal = pointer
     var that = thisGlobal
+
+    /**
+     * 1、该版本是从后台获取数据
+     */
+
     //写入数据
-    request({
-        url: app.globalData.api_getQrCodeDataByBluetooth + "?openId=" + wx.getStorageSync("userInfo").openId,
-        method: 'post',
-    }).then(res => {
-        if (res.data.success) {
-            var blueData = that.data.blueData
-            blueData.sendData = "53" + res.data.data + "0D" + "\\n"
-            that.setData({
-                blueData: blueData
-            })
-            // 规定：头部+53，尾部+0D
-            console.log("###########");
-            wrireToBlueToothDevice("53" + res.data.data + "0D" + "\\n")
+    // request({
+    //     url: app.globalData.api_getQrCodeDataByBluetooth + "?openId=" + wx.getStorageSync("userInfo").openId,
+    //     method: 'post',
+    // }).then(res => {
+    //     if (res.data.success) {
+    //         var blueData = that.data.blueData
+    //         blueData.sendData = "53" + res.data.data + "0D" + "\\n"
+    //         that.setData({
+    //             blueData: blueData
+    //         })
+    //         // 规定：头部+53，尾部+0D
+    //         console.log("###########");
+    //         wrireToBlueToothDevice("53" + res.data.data + "0D" + "\\n")
 
 
-            // 发送完数据之后，断开连接
-            setTimeout(function () {
-                console.log("*************");
-                closeBlueTooth(pointer)
-            }, 2000)
+    //         // 发送完数据之后，断开连接
+    //         setTimeout(function () {
+    //             console.log("*************");
+    //             closeBlueTooth(pointer)
+    //         }, 2000)
 
-        }
-    })
+    //     }
+    // })
+
+
+    /**
+     * 2、该版本是直接向设备发送数据
+     */
+    wrireToBlueToothDevice("D0")
+    // 发送完数据之后，断开连接
+    setTimeout(function () {
+        console.log("*************");
+        closeBlueTooth(pointer)
+    }, 2000)
 }
 
 /**

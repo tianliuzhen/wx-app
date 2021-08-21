@@ -63,7 +63,8 @@ Page({
     indicate_id: "",
     dialogvisible: false,
     sendBlueDataList: [],
-    userInfo: {}
+    userInfo: {},
+    getPhone:"" // 绑定微信手机号
 
   },
   /*点击减号*/
@@ -161,7 +162,7 @@ Page({
 
   },
 
-  refushSocket(){
+  refushSocket() {
     console.log(wx.getStorageSync("userInfo"));
     console.log(wx.getStorageSync("userInfo") == null || wx.getStorageSync("userInfo") == '');
     if (wx.getStorageSync("userInfo") == null || wx.getStorageSync("userInfo") == '') {
@@ -170,10 +171,12 @@ Page({
           request({
             url: app.globalData.api_getUserInfo + "?types=0,1",
             method: 'get',
-            data: {  jsCode: res.code    }
+            data: {
+              jsCode: res.code
+            }
           }).then(res => {
             console.log(res.data.data);
-            if(res.data.data!=null){
+            if (res.data.data != null) {
               wx.setStorageSync("userInfo", res.data.data)
               // 连接socket
               console.log(res.data.data);
@@ -181,14 +184,14 @@ Page({
               socket.closeSocket(res.data.data)
               socket.openSocket(res.data.data, this)
             }
-          
+
           })
         }
       })
-    }else{
-    socket.closeSocket(wx.getStorageSync("userInfo"))
-    // 连接socket
-    socket.openSocket(wx.getStorageSync("userInfo"), this)
+    } else {
+      socket.closeSocket(wx.getStorageSync("userInfo"))
+      // 连接socket
+      socket.openSocket(wx.getStorageSync("userInfo"), this)
     }
   },
 
@@ -207,7 +210,7 @@ Page({
    */
   onPullDownRefresh: function () {
     console.log("onPullDownRefresh");
-   
+
     this.openDoorAfter()
     // this.getQrocdeByClick(wx.getStorageSync("userInfo").openId)
     // 当处理完数据刷新后，wx.stopPullDownRefresh可以停止当前页面的下拉刷新。
@@ -225,8 +228,8 @@ Page({
     })
     this.refush()
 
-  // socket 连接处理
-  this.refushSocket()
+    // socket 连接处理
+    this.refushSocket()
   },
 
   initUser() {
@@ -251,7 +254,7 @@ Page({
           this.initDataCheckObj()
           // 如果是正常的用户
           // console.log(res.data.data);
-          if(res.data.data !=null && res.data.data.status==1){
+          if (res.data.data != null && res.data.data.status == 1) {
             return
           }
           this.initSysData()
@@ -358,7 +361,7 @@ Page({
       if (res.data.success) {
         this.setData({
           qrCode: res.data.data,
-          reRegister:false,
+          reRegister: false,
           isNewUser: false,
           isShowQrCode: true,
         })
@@ -705,11 +708,12 @@ Page({
     myCheckBox.allChecked(this, status)
   },
 
-  
-  getPhoneNumber (e) {
-    console.log(e.detail.errMsg)
-    console.log(e.detail.iv)
-    console.log(e.detail.encryptedData)
+
+  /**
+   绑定手机号
+   */
+  getPhoneNumber(e) {
+    app.getPhoneNumber(e,this)
   }
 
 })

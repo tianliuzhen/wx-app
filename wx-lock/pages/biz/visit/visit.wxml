@@ -6,9 +6,18 @@
       <input type="text"  name="mobile" placeholder="请输入主人手机号"
        placeholder-class="holder" bingblur="accountblur" />
     </view>
-    <view class="item">
+    <!-- <view class="item">
       <input type="text" name="visitorMobile" placeholder="请输入访客手机号" placeholder-class="holder" />
+    </view> -->
+    <view class="mobileInfo">
+      <view class="mobile">
+        <input type="text" model:value="{{getPhone}}" name="visitorMobile" disabled="true" placeholder="请输入访客手机号" placeholder-class="holder" />
+      </view>
+      <view class="code"> <button class="codebutton" style="width:110px" open-type="getPhoneNumber"
+          bindgetphonenumber="getPhoneNumber">绑定手机号 </button></view>
     </view>
+
+
     <view class="item">
       <input type="text" name="name" placeholder="访客姓名" placeholder-class="holder" />
     </view>
