@@ -4,8 +4,8 @@
     </view>
     <view class='meet'>
       <view class='frame'>
-        <custom-input placeholder='请输入用户姓名、手机号' model:value='{{searchContion}}'>
-        </custom-input>
+        <input   placeholder='请输入用户姓名、手机号' value='{{searchContion}}'onBlur="searchContion">
+        </input>
       </view>
       <view class='btn' onTap='antmoveAction' data-antmove-tap='search'>
         查询
@@ -136,13 +136,14 @@
         <custom-label class='title col-0'>
           <text style='color: gray;'>
             设备：          </text>
-        </custom-label>        <view class='width_200X'>
+        </custom-label>
+         <view class='width_200X'>
           <block a:if='{{userinfo.typeStatus}}'>
             <custom-input class='input_base input_h30 col-1' disabled='false' value='{{menuTreeRes}}' onTap='antmoveAction' data-antmove-tap='showDialogDevice'>
             </custom-input>
           </block>
           <block a:if='{{!userinfo.typeStatus}}'>
-            <custom-input class='input_base input_h30 col-1' disabled='false' value='{{menuTreeRes}}'>
+            <custom-input class='input_base input_h30 col-1' disabled='false'  value='{{menuTreeRes}}' >
             </custom-input>
           </block>
         </view>
@@ -164,7 +165,7 @@
             <image class='compute_img' src='{{img_sub}}'>
             </image>
           </view>
-          <custom-input class='input_base_count input_w30 col-1' data-obj='limitCount' model:value='{{count}}' onInput='inputedit'>
+          <custom-input class='input_base_count input_w30 col-1' data-obj='limitCount' value='{{count}}' onInput='inputedit'>
           </custom-input>
           <view class='sub_add_input' onTap='antmoveAction' data-antmove-tap='bindPlus'>
             <image class='compute_img' src='{{img_add}}'>

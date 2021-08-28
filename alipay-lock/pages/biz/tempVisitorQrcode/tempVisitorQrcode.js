@@ -266,7 +266,7 @@ Page({
         requestData.jsCode = res.code;
         requestData.count = this.data.count;
         request({
-          url: app.globalData.api_addUser,
+          url: app.globalData.api_addUser+"?sdkType=alipay",
           data: requestData,
           method: "POST"
         }).then(res => {

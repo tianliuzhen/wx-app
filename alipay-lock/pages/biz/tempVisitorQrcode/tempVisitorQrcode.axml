@@ -75,7 +75,7 @@
         </view>
       </view>
       <view class='item-button'>
-        <btn formType='submit' style='background-color:{{color}}' onTap='antmoveAction' data-antmove-tap='fun_click_visitor'>
+        <btn class='item-button' formType='submit' style='background-color:{{color}}' onTap='antmoveAction' data-antmove-tap='fun_click_visitor'>
           生成邀约码
         </btn>
       </view>

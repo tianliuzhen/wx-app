@@ -384,6 +384,7 @@ Page({
 
   },
   search() {
+    console.log( this.data.searchContion);
     var res = this.data.requestData
     res.pageIndex = 1
     res.condition.name = this.data.searchContion

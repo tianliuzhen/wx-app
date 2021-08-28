@@ -28,12 +28,12 @@
         </btn>
       </view>
       <view class='item-button' a:if='{{isVisitorQrcode}}'>
-        <btn style='background-color:{{color}}' onTap='antmoveAction' data-antmove-tap='fun_click_visitor'>
+        <btn class='item-button' style='background-color:{{color}}' onTap='antmoveAction' data-antmove-tap='fun_click_visitor'>
           邀约码
         </btn>
       </view>
       <view class='item-button' a:if='{{isVisitorQrcode}}'>
-        <btn style='background-color:{{color}}' onTap='antmoveAction' data-antmove-tap='cancelBack2'>
+        <btn class='item-button' style='background-color:{{color}}' onTap='antmoveAction' data-antmove-tap='cancelBack2'>
           返回上一级
         </btn>
       </view>

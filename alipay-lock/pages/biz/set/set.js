@@ -186,7 +186,7 @@ Page({
             success: res => {
                 // 发送 res.code 到后台换取 openId, sessionKey, unionId
                 request({
-                    url: app.globalData.api_getUserInfo + "?types=0,1",
+                    url: app.globalData.api_getUserInfo + "?types=0,1&sdkType=alipay",
                     method: "get",
                     data: {
                         jsCode: res.code
