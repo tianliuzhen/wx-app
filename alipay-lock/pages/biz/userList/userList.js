@@ -564,6 +564,8 @@ Page({
     },
 
     showDialogDevice() {
+        console.log("showDialogDevice")
+
         this.openDialog("device");
 
         if (this.data.areaListIndex === "") {

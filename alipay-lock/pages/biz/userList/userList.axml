@@ -139,8 +139,9 @@
         </custom-label>
          <view class='width_200X'>
           <block a:if='{{userinfo.typeStatus}}'>
-            <custom-input class='input_base input_h30 col-1' disabled='false' value='{{menuTreeRes}}' onTap='antmoveAction' data-antmove-tap='showDialogDevice'>
-            </custom-input>
+            <view class='input_base input_h31 col-1' onTap='antmoveAction' data-antmove-tap='showDialogDevice'>
+            {{menuTreeRes}}
+            </view>
           </block>
           <block a:if='{{!userinfo.typeStatus}}'>
             <custom-input class='input_base input_h30 col-1' disabled='false'  value='{{menuTreeRes}}' >
@@ -291,8 +292,9 @@
                       </image>
                       <image a:if='{{item.isHidden == false}}' data-index='{{index}}' class='icon-chioce' src='/icon/f_bottom.png' onTap='antmoveAction' data-antmove-tap='opens'>
                       </image>
-                      <text style='color:black' data-index='{{index}}' decode='{{true}}' onTap='antmoveAction' data-antmove-tap='opens'>
-                        &nbsp;{{item.title}} &nbsp;                      </text>                      <checkbox-group data-type='bindAll' data-index='{{index}}' onChange='checkboxChangeBindAll'>
+                      <text style='color:black;margin-right:10px' data-index='{{index}}' decode='{{true}}' onTap='antmoveAction' data-antmove-tap='opens'>
+                        &nbsp;{{item.title}} &nbsp;                      </text>
+                       <checkbox-group data-type='bindAll' data-index='{{index}}' onChange='checkboxChangeBindAll'>
                         <custom-checkbox checked='{{item.bindAll}}'>
                         </custom-checkbox>
                         绑定{{item.field}}单元
@@ -309,7 +311,7 @@
                         </image>
                         <image a:if='{{item2.isHidden == false}}' data-index='{{index}}' data-index2='{{index2}}' class='icon-chioce' src='/icon/f_bottom.png' onTap='antmoveAction' data-antmove-tap='opens'>
                         </image>
-                        <text style='color:#0094aa' data-index='{{index}}' data-index2='{{index2}}' decode='{{true}}' onTap='antmoveAction' data-antmove-tap='opens'>
+                        <text style='color:#0094aa;margin-right:10px' data-index='{{index}}' data-index2='{{index2}}' decode='{{true}}' onTap='antmoveAction' data-antmove-tap='opens'>
                           &nbsp; {{item2.title}}&nbsp; &nbsp;                        </text>                        <checkbox-group data-type='bindAll' data-index='{{index}}' data-index2='{{index2}}' onChange='checkboxChangeBindAll'>
                           <custom-checkbox checked='{{item2.bindAll}}'>
                           </custom-checkbox>
