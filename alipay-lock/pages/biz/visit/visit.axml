@@ -9,7 +9,7 @@
       </view>
       <view class='mobileInfo'>
         <view class='mobile'>
-          <custom-input type='text' model:value='{{getPhone}}' name='visitorMobile' disabled='true' placeholder='请输入访客手机号' placeholder-class='holder'>
+          <custom-input type='text' model:value='{{getPhone}}' name='visitorMobile'  placeholder='请输入访客手机号' placeholder-class='holder'>
           </custom-input>
         </view>
         <view class='code'>

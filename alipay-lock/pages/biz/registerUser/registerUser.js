@@ -58,22 +58,7 @@ Page({
         screenBrightnessCount: 0,
         // 系统默认亮度次数
         //小区-普通选择器：（普通数组）
-        areaList: [{
-            "id": "1265476890672672773",
-            "name": "建华家苑小区",
-            "code": "hyznkj_jhjy",
-            "checked": null
-        }, {
-            "id": "1265476890672672774",
-            "name": "北城天地小区",
-            "code": "hyznkj_bctd",
-            "checked": null
-        }, {"id": "1430706197469945858", "name": "ZDM", "code": "CDZDM", "checked": null}, {
-            "id": "1431413986446106625",
-            "name": "JKDX",
-            "code": "JKDX",
-            "checked": null
-        }],
+        areaList: [],
         //远程开门-普通选择器：（普通数组）
         deviceList: [],
         areaListIndex: "",
