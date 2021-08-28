@@ -1,0 +1,7 @@
+{
+	"usingComponents": {
+		"custom-input": "../../../__antmove/component/custom-input/custom-input"
+	},
+	"defaultTitle": "开锁记录",
+	"component": true
+}

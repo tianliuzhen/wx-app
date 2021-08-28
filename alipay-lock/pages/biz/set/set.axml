@@ -1,0 +1,37 @@
+<view class='content' ref='saveChildRef0'>
+  <view class='noRoleTip' a:if='{{isManager == false}}'>
+    <view>
+      <image class='noRole' src='{{img_role}}'>
+      </image>
+    </view>
+    <view>
+      暂无权限访问！
+    </view>
+  </view>
+  <view a:if='{{isManager == true}}'>
+    <block a:for='{{menuTreeShow}}' a:key='{{name}}' a:for-item='oneMenu' ref-numbers='{{menuTreeShow}}'>
+      <view class='everyMenu'>
+        <view class='choice-bar'>
+          <view data-index='{{oneMenu.parentNode.id}}' class='item itemBgColor' onTap='antmoveAction' data-antmove-tap='opens'>
+            {{oneMenu.parentNode.name}}
+          </view>
+          <view class='item2 '>
+            <image class='icon-chioce' src='{{openimgMain}}'>
+            </image>
+          </view>
+        </view>
+        <block a:for='{{oneMenu.parentNode.childrenNode}}' a:key='{{name}}' a:for-item='twoMenu' ref-numbers='{{oneMenu.parentNode.childrenNode}}'>
+          <view class='choice-bar' hidden='{{oneMenu.parentNode.isHidden}}'>
+            <view class='item pos' data-type='{{twoMenu.type}}' onTap='antmoveAction' data-antmove-tap='clickToUserList'>
+              {{twoMenu.name}}
+            </view>
+            <view class='item2'>
+              <image class='icon-chioce' src='{{openimg}}'>
+              </image>
+            </view>
+          </view>
+        </block>
+      </view>
+    </block>
+  </view>
+</view>

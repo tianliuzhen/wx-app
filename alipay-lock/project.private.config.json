@@ -1,0 +1,48 @@
+{
+  "setting": {},
+  "condition": {
+    "plugin": {
+      "list": []
+    },
+    "game": {
+      "list": []
+    },
+    "gamePlugin": {
+      "list": []
+    },
+    "miniprogram": {
+      "list": [
+        {
+          "name": "pages/biz/userList/userList",
+          "pathName": "pages/biz/userList/userList",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/biz/banner/banner",
+          "pathName": "pages/biz/banner/banner",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/biz/registerUser/registerUser",
+          "pathName": "pages/biz/registerUser/registerUser",
+          "query": "id=123231",
+          "scene": 1048
+        },
+        {
+          "name": "pages/biz/tempVisitorQrcode/tempVisitorQrcode",
+          "pathName": "pages/biz/tempVisitorQrcode/tempVisitorQrcode",
+          "query": "openId=oCV2H4vv6qbJVLUbARsFmweH2A3o&mobile=15612121212",
+          "scene": 1000
+        },
+        {
+          "name": "pages/biz/tempVisitorQrcode/tempVisitorQrcode",
+          "pathName": "pages/biz/tempVisitorQrcode/tempVisitorQrcode",
+          "query": "",
+          "scene": null
+        }
+      ]
+    }
+  }
+}

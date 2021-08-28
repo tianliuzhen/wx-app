@@ -1,0 +1,23 @@
+<view class='myDialog-index {{className}}' style='{{style}}' ref='saveChildRef0'>
+  <view class='mask' style='background-color: rgba(0, 0, 0, {{opacity}})' catchTouchStart='antmoveAction' data-antmove-touchstart='touchMask'>
+  </view>
+  <view class="dialog dialog-{{position}} {{animation ? 'animation-' + position : 'none-animation-' + position}}" style="width:{{width}};max-width:{{width}};{{position === 'top' ? 'border-top-left-radius: 0rpx;border-top-right-radius: 0rpx;':''}}{{position === 'bottom' ? 'border-bottom-left-radius: 0rpx;border-bottom-right-radius: 0rpx;':''}}">
+    <view class='dialog--header' a:if='{{title}}'>
+      {{ title }}
+    </view>
+    <view class='dialog--body'>
+      <slot>
+      </slot>
+    </view>
+    <custom-form report-submit='true' onSubmit='formSubmit'>
+      <view class='dialog--footer' a:if='{{showConfirm || showCancel}}'>
+        <button a:if='{{showCancel}}' class="dialog--footer__button dialog--footer__button-cancel {{!showConfirm ? 'dialog--footer__button-single':''}}" style="color:{{cancelColor}};background-color:{{cancelBackgroundColor}};{{position === 'bottom' ? 'border-radius: 0rpx;':''}}" form-type="{{gatherFormId ? 'submit':''}}" open-type='{{cancelOpenType}}' app-parameter='{{appParameter}}' onGetUserInfo='getUserinfo' onGetPhoneNumber='getphonenumber' onOpenSetting='opensetting' catchTap='antmoveAction' data-antmove-tap="{{cancelOpenType ? '' : 'cancel'}}">
+          {{ cancelText }}
+        </button>
+        <button a:if='{{showConfirm}}' class="dialog--footer__button dialog--footer__button-confirm {{!showCancel ? 'dialog--footer__button-single':''}}" style="color:{{confirmColor}};background-color:{{confirmBackgroundColor}};{{position === 'bottom' ? 'border-radius: 0rpx;':''}}" form-type="{{gatherFormId ? 'submit':''}}" open-type='{{confirmOpenType}}' loading='{{loading}}' app-parameter='{{appParameter}}' onGetUserInfo='getUserinfo' onGetPhoneNumber='getphonenumber' onOpenSetting='opensetting' catchTap='antmoveAction' data-antmove-tap="{{confirmOpenType ? '' : 'confirm'}}">
+          {{ confirmText }}
+        </button>
+      </view>
+    </custom-form>
+  </view>
+</view>

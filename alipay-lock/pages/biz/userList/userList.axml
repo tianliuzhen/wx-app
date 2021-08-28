@@ -1,0 +1,339 @@
+<view class='page-container-classname' ref='saveChildRef0'>
+  <view class='content'>
+    <view class='hr'>
+    </view>
+    <view class='meet'>
+      <view class='frame'>
+        <custom-input placeholder='请输入用户姓名、手机号' model:value='{{searchContion}}'>
+        </custom-input>
+      </view>
+      <view class='btn' onTap='antmoveAction' data-antmove-tap='search'>
+        查询
+      </view>
+    </view>
+    <block a:for='{{userList}}' a:key='{{id}}' ref-numbers='{{userList}}'>
+      <view class='meet'>
+        <view class='flex_1'>
+          <view class='flex_1_1'>
+            <view class='detail_left'>
+              姓名：
+            </view>
+            <view class='detail_right'>
+              {{item.name}}（              <text style='color:#0094aa'>
+                {{item.type}}              </text>              ）
+            </view>
+          </view>          <view class='flex_1_1'>
+            <view class='detail_left'>
+              状态：
+            </view>
+            <view class='detail_right ' a:if="{{item.status == '待审批'}}">
+              <text style='color:red'>
+                {{item.status}}              </text>
+            </view>            <view class='detail_right' a:if="{{item.status != '待审批'}}">
+              <text style='color:#0094aa;'>
+                {{item.status}}              </text>
+            </view>
+          </view>          <view class='flex_1_1'>
+            <view class='detail_left'>
+              手机：
+            </view>
+            <view class='detail_right'>
+              {{item.mobile}}
+            </view>
+          </view>
+          <view class='flex_1_1'>
+            <view class='detail_left'>
+              小区：
+            </view>
+            <view class='detail_right'>
+              {{item.areaName}}
+            </view>
+          </view>
+          <view class='flex_1_1'>
+            <view class='detail_left'>
+              是否拉黑
+            </view>
+            <view class='detail_right'>
+              <text style='color:#000'>
+                {{item.blacklist }}              </text>
+            </view>
+          </view>          <view class='flex_1_1'>
+            <view class='detail_left'>
+              申请时间：
+            </view>
+            <view class='detail_right'>
+              {{item.createTime}}
+            </view>
+          </view>
+        </view>        <view class='flex_2' a:if='{{isVisitorList == false}}'>
+          <view decode='{{true}}' data-userinfo='{{item}}' data-id='{{item.id}}' class='flex_2_top ' onTap='antmoveAction' data-antmove-tap='audit'>
+            <text data-statu='open' decode='{{true}}' onTap='antmoveAction' data-antmove-tap='powerDrawer'>
+              &nbsp;操作&nbsp;            </text>
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>  <view class='drawer_screen' data-statu='close' a:if='{{showModalStatus}}' onTap='antmoveAction' data-antmove-tap='powerDrawer'>
+  </view>
+  <view class='drawer_box' a:if='{{showModalStatus}}'>
+    <view data-statu='close' class='cancel' onTap='antmoveAction' data-antmove-tap='powerDrawer'>
+      <image class='cancel_img' src='{{cancel}}'>
+      </image>
+    </view>
+    <view class='drawer_title'>
+      用户操作
+    </view>
+    <view class='drawer_content'>
+      <view class='top grid'>
+        <custom-label class='title col-0'>
+          <text decode='true'>
+            姓名：          </text>
+        </custom-label>        <view class='width_200X'>
+          <custom-input class='input_base input_h30 col-1' data-obj='name' name='rName' value='{{userinfo.name}}' onInput='inputedit'>
+          </custom-input>
+        </view>
+      </view>      <view class='top grid'>
+        <custom-label class='title col-0'>
+          <text decode='true'>
+            用户角色：          </text>
+        </custom-label>        <view class='width_200X'>
+          <custom-input disabled='true' class='input_base input_h30 col-2' data-obj='name' name='type' value='{{userinfo.type}}' onInput='inputedit'>
+          </custom-input>
+        </view>
+      </view>      <view class='top grid'>
+        <custom-label class='title col-0'>
+          <text decode='true'>
+            当前状态：          </text>
+        </custom-label>        <view class='width_200X'>
+          <custom-input disabled='true' class='input_base input_h30 col-2' data-obj='name' name='type' value='{{userinfo.status}}' onInput='inputedit'>
+          </custom-input>
+        </view>
+      </view>      <view class='top grid'>
+        <custom-label class='title col-0'>
+          <text decode='true'>
+            手机：          </text>
+        </custom-label>        <view class='width_200X'>
+          <custom-input class='input_base input_h30 col-1' data-obj='name' name='phone' disabled='true' value='{{userinfo.mobile}}' onInput='inputedit'>
+          </custom-input>
+        </view>
+      </view>      <view class='top grid'>
+        <custom-label class='title col-0'>
+          <text decode='true'>
+            卡号：          </text>
+        </custom-label>        <view class='width_200X'>
+          <custom-input class='input_base input_h30 col-1' data-obj='cardId' name='cardId' value='{{userinfo.cardId}}' onInput='inputedit'>
+          </custom-input>
+        </view>
+      </view>      <view class='top grid'>
+        <custom-label class='title col-0'>
+          <text style='color: gray;'>
+            小区：          </text>
+        </custom-label>        <view class='width_200X'>
+          <custom-input class='input_base input_h30 col-1' disabled='false' value='{{area}}'>
+          </custom-input>
+        </view>
+      </view>      <view class='top grid'>
+        <custom-label class='title col-0'>
+          <text style='color: gray;'>
+            设备：          </text>
+        </custom-label>        <view class='width_200X'>
+          <block a:if='{{userinfo.typeStatus}}'>
+            <custom-input class='input_base input_h30 col-1' disabled='false' value='{{menuTreeRes}}' onTap='antmoveAction' data-antmove-tap='showDialogDevice'>
+            </custom-input>
+          </block>
+          <block a:if='{{!userinfo.typeStatus}}'>
+            <custom-input class='input_base input_h30 col-1' disabled='false' value='{{menuTreeRes}}'>
+            </custom-input>
+          </block>
+        </view>
+      </view>      <view class='top grid'>
+        <custom-label class='title col-0'>
+          申请时间：
+        </custom-label>
+        <view class='width_200X'>
+          <custom-input disabled='true' class='input_base input_h30 col-1' data-obj='createTime' name='createTime' value='{{userinfo.createTime}}' onInput='inputedit'>
+          </custom-input>
+        </view>
+      </view>
+      <view class='top grid'>
+        <custom-label class='title col-0'>
+          限制次数：
+        </custom-label>
+        <view class='computeCount'>
+          <view class='sub_add_input' type='number' onTap='antmoveAction' data-antmove-tap='bindMinus'>
+            <image class='compute_img' src='{{img_sub}}'>
+            </image>
+          </view>
+          <custom-input class='input_base_count input_w30 col-1' data-obj='limitCount' model:value='{{count}}' onInput='inputedit'>
+          </custom-input>
+          <view class='sub_add_input' onTap='antmoveAction' data-antmove-tap='bindPlus'>
+            <image class='compute_img' src='{{img_add}}'>
+            </image>
+          </view>
+        </view>
+      </view>
+      <view class='top grid'>
+        <custom-label class='title col-0'>
+          有效起始时间：
+        </custom-label>
+        <view class='timeChoose'>
+          <view class='timeChooseDate'>
+            <picker mode='date' value='{{startTime.date}}' data-obj='date' start='2020-00-01' end='2050-00-00' onChange='bindStartTimeChange'>
+              <view class='picker'>
+                <view disabled='true' class='inputPaddingLeft_10 ' onInput='inputedit'>
+                  {{startTime.date}}
+                </view>
+              </view>
+            </picker>
+          </view>
+          <view class='timeChooseTime'>
+            <picker mode='time' value='{{startTime.time}}' data-obj='time' onChange='bindStartTimeChange'>
+              <view class='picker'>
+                <view disabled='true' onInput='inputedit'>
+                  {{startTime.time}}
+                </view>
+              </view>
+            </picker>
+          </view>
+        </view>
+      </view>
+      <view class='top grid'>
+        <custom-label class='title col-0'>
+          有效结束时间：
+        </custom-label>
+        <view class='timeChoose'>
+          <view class='timeChooseDate'>
+            <picker mode='date' value='{{endTime.date}}' data-obj='date' start='2021-00-00' end='2050-00-00' onChange='bindEndTimeChange'>
+              <view class='picker'>
+                <view disabled='true' class='inputPaddingLeft_10 ' onInput='inputedit'>
+                  {{endTime.date}}
+                </view>
+              </view>
+            </picker>
+          </view>
+          <view class='timeChooseTime'>
+            <picker mode='time' value='{{endTime.time}}' data-obj='time' onChange='bindEndTimeChange'>
+              <view class='picker'>
+                <view disabled='true' onInput='inputedit'>
+                  {{endTime.time}}
+                </view>
+              </view>
+            </picker>
+          </view>
+        </view>
+      </view>
+      <view class='top bottom grid'>
+        <custom-label class='title col-0'>
+          备注：
+        </custom-label>
+        <view class='width_200X'>
+          <custom-input class='input_base input_h30 col-1' value='{{userinfo.remark}}' data-obj='remark' onInput='inputedit'>
+          </custom-input>
+        </view>
+      </view>
+    </view>    <view class='btn_ok'>
+      <block a:if='{{requestData.condition.blacklist != 1}}'>
+        <block a:if="{{userinfo.status != '删除'}}">
+          <block a:if="{{userinfo.status == '待审批'}}">
+            <view class='operateBtn ' a:if="{{userinfo.status != '通过'}}" data-desc='通过' data-type='1' onTap='antmoveAction' data-antmove-tap='doAudit'>
+              <text style=" ">
+                通过              </text>
+            </view>            <view class='operateBtn ' a:if="{{userinfo.status != '通过'}}" data-desc='拒绝' data-type='2' onTap='antmoveAction' data-antmove-tap='doAudit'>
+              <text style=" ">
+                驳回              </text>
+            </view>
+          </block>          <view class='operateBtn' onTap='antmoveAction' data-antmove-tap='editUser'>
+            <text style=" ">
+              更新            </text>
+          </view>          <view class='operateBtn limitStyle' data-desc='拉黑' data-type='5' a:if="{{userinfo.blacklist == '否'}}" onTap='antmoveAction' data-antmove-tap='doAudit'>
+            拉黑
+          </view>
+          <view class='operateBtn limitStyle' data-desc='解禁' data-type='5' a:elif="{{userinfo.blacklist == '是'}}" onTap='antmoveAction' data-antmove-tap='doAudit'>
+            恢复
+          </view>
+        </block>        <view class='operateBtn deleteStyle' data-desc='删除' data-type='3' a:if="{{userinfo.status != '删除'}}" onTap='antmoveAction' data-antmove-tap='doAudit'>
+          <text style=" ">
+            删除          </text>
+        </view>
+      </block>      <block a:if='{{requestData.condition.blacklist == 1}}'>
+        <view class='operateBtn limitStyle' data-desc='解禁' data-type='5' onTap='antmoveAction' data-antmove-tap='doAudit'>
+          恢复
+        </view>
+      </block>
+    </view>
+  </view>  <dialog a:if='{{dialogType.device}}' title='请选择小区开锁设备' data-type='device' onCancel='cancel' onConfirm='confirm' ref='saveChildRef1'>
+    <view class='divcss5-max'>
+      <view class='page-section overflowHight'>
+        <block a:for='{{ [{ menuTree:menuTree,allChecked:allChecked }] }}' a:for-item='amitem' a:for-index='amindex' _is='msgItem' ref-numbers='{{ [{ menuTree:menuTree,allChecked:allChecked }] }}'>
+          <view class='divcss5-max'>
+            <view class='page-section '>
+              <view class='paddingLeft_10 paddingBottom_10 '>
+                <checkbox-group onChange='allChecked'>
+                  <custom-checkbox value='{{amitem.allChecked}}' checked='{{amitem.allChecked}}'>
+                  </custom-checkbox>
+                  绑定所有单元
+                </checkbox-group>
+              </view>
+              <view class='weui-cells weui-cells_after-title '>
+              </view>
+              <view>
+                <block class='weui-cell weui-check__label line-center' a:for='{{amitem.menuTree}}' a:for-index='index' a:for-item='item' a:key='{{id}}' ref-numbers='{{amitem.menuTree}}'>
+                  <view class='paddingBottom_10 '>
+                  </view>
+                  <view class='paddingLeft_10'>
+                    <view class='treeMenuCenter'>
+                      <checkbox-group data-type='checked' data-index='{{index}}' onChange='checkboxChangeAll'>
+                        <custom-checkbox value='{{item.field}}' checked='{{item.checked}}'>
+                        </custom-checkbox>
+                      </checkbox-group>
+                      <image a:if='{{item.isHidden == true}}' data-index='{{index}}' class='icon-chioce' src='/icon/f_left.png' onTap='antmoveAction' data-antmove-tap='opens'>
+                      </image>
+                      <image a:if='{{item.isHidden == false}}' data-index='{{index}}' class='icon-chioce' src='/icon/f_bottom.png' onTap='antmoveAction' data-antmove-tap='opens'>
+                      </image>
+                      <text style='color:black' data-index='{{index}}' decode='{{true}}' onTap='antmoveAction' data-antmove-tap='opens'>
+                        &nbsp;{{item.title}} &nbsp;                      </text>                      <checkbox-group data-type='bindAll' data-index='{{index}}' onChange='checkboxChangeBindAll'>
+                        <custom-checkbox checked='{{item.bindAll}}'>
+                        </custom-checkbox>
+                        绑定{{item.field}}单元
+                      </checkbox-group>
+                    </view>
+                  </view>                  <view class=' ' hidden='{{item.isHidden}}' a:for='{{item.children}}' a:for-index='index2' a:for-item='item2' a:key='{{id}}' ref-numbers='{{item.children}}'>
+                    <view class='paddingLeft_20 '>
+                      <view class='treeMenuCenter'>
+                        <checkbox-group data-type='checked' data-index='{{index}}' data-index2='{{index2}}' onChange='checkboxChangeAll'>
+                          <custom-checkbox value='{{item2.field}}' checked='{{item2.checked}}'>
+                          </custom-checkbox>
+                        </checkbox-group>
+                        <image a:if='{{item2.isHidden == true}}' data-index='{{index}}' data-index2='{{index2}}' class='icon-chioce' src='/icon/f_left.png' onTap='antmoveAction' data-antmove-tap='opens'>
+                        </image>
+                        <image a:if='{{item2.isHidden == false}}' data-index='{{index}}' data-index2='{{index2}}' class='icon-chioce' src='/icon/f_bottom.png' onTap='antmoveAction' data-antmove-tap='opens'>
+                        </image>
+                        <text style='color:#0094aa' data-index='{{index}}' data-index2='{{index2}}' decode='{{true}}' onTap='antmoveAction' data-antmove-tap='opens'>
+                          &nbsp; {{item2.title}}&nbsp; &nbsp;                        </text>                        <checkbox-group data-type='bindAll' data-index='{{index}}' data-index2='{{index2}}' onChange='checkboxChangeBindAll'>
+                          <custom-checkbox checked='{{item2.bindAll}}'>
+                          </custom-checkbox>
+                          绑定{{item2.field}}楼层
+                        </checkbox-group>
+                      </view>
+                    </view>                    <block class=' ' a:for='{{item2.children}}' a:for-item='item3' a:for-index='index3' a:key='{{id}}' ref-numbers='{{item2.children}}'>
+                      <view class='paddingLeft_30 ' hidden='{{item2.isHidden}}'>
+                        <checkbox-group data-type='checked' data-index='{{index}}' data-index2='{{index2}}' data-index3='{{index3}}' onChange='checkboxChangeAll'>
+                          <custom-checkbox value='{{item3.field}}' checked='{{item3.checked}}'>
+                          </custom-checkbox>
+                          {{item3.title}}
+                        </checkbox-group>
+                      </view>
+                    </block>
+                  </view>                  <view class='paddingBottom_10 '>
+                  </view>
+                  <view class='weui-cells weui-cells_after-title '>
+                  </view>
+                </block>
+              </view>
+            </view>
+          </view>
+        </block>
+      </view>
+    </view>
+  </dialog>
+</view>

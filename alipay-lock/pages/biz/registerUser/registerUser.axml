@@ -1,0 +1,190 @@
+<view class='page-container-classname' ref='saveChildRef0'>
+  <view a:if='{{isNewUser}}' class='content'>
+    <custom-form onSubmit='formSubmit' onReset='formReset'>
+      <view class='hr'>
+      </view>
+      <view class='item'>
+        <custom-input type='text' name='name' placeholder='请输入用户姓名' placeholder-class='holder' bingblur='accountblur'>
+        </custom-input>
+      </view>
+      <view class='mobileInfo'>
+        <view class='mobile'>
+          <custom-input type='text' model:value='{{getPhone}}' name='mobile' disabled='true' placeholder='请填写手机号' placeholder-class='holder'>
+          </custom-input>
+        </view>
+        <view class='code'>
+          <btn class='codebutton' style='width:140px' open-type='getPhoneNumber' onGetPhoneNumber='getPhoneNumber'>
+            绑定手机号
+          </btn>
+        </view>
+      </view>
+      <view class='item'>
+        <custom-input type='text' name='cardId' placeholder='请填写卡号（非必填）' placeholder-class='holder'>
+        </custom-input>
+      </view>
+      <view class='item2'>
+        <view class='item2-left'>
+          <picker range-key='name' data-array='{{areaList}}' value='{{index}}' range='{{areaList}}' onChange='bindPickerChange'>
+            <view class='picker'>
+              <text style='color: gray;'>
+                小区选择：              </text>              {{ areaList[areaListIndex].name}}
+            </view>
+          </picker>
+        </view>
+      </view>      <view class='item2'>
+        <view class='item2-left' onTap='antmoveAction' data-antmove-tap='showDialogDevice'>
+          <view style=" ">
+            <text style='color: gray;'>
+              设备选择：            </text>            {{menuTreeRes}}
+          </view>
+        </view>
+      </view>      <view class='item-switch'>
+        <view class='section__title'>
+          是否为管理员
+        </view>
+        <switch name='isManger' color='{{color}}' class='wx-switch-input'>
+        </switch>
+      </view>
+      <view class='item-button'>
+        <btn class='item-button' formType='submit' style='background-color:{{color}}'>
+          提交申请
+        </btn>
+      </view>
+    </custom-form>
+  </view>  <view class='qrCode' a:if='{{isShowQrCode}}'>
+    <image class='background' src='../../../icon/wx-lock3.png' mode='aspectFill'>
+    </image>
+    <view class='hr'>
+    </view>
+    <view class='qrcodeTop'>
+      <view a:if='{{isTip}}' class='getQrcode' onTap='antmoveAction' data-antmove-tap='getQrocdeByClickManual'>
+        点击获取二维码
+      </view>
+      <block a:if='{{reRegister == true}}'>
+        <view style='background-color:#fff;padding: 3px 5px;border-radius:5px'>
+          提示： {{errorMes}}
+        </view>
+        <view class='getQrcode' onTap='antmoveAction' data-antmove-tap='reRegister'>
+          是否重新注册
+        </view>
+      </block>
+      <block a:if='{{reRegister == false}}'>
+        <view class='hr'>
+        </view>
+        <view style='background-color:#fff;padding: 3px 4px;border-radius:5px;text-align:center;font-family:Microsoft YaHei'>
+          {{content.tipLimitTimeTop}}          <text style='color:red'>
+            {{time}}          </text>          <view>
+          </view>
+          <text style='color:#0094aa'>
+            {{content.tipLimitTimeBoottom}}          </text>
+        </view>
+      </block>      <block a:if='{{reRegister == false}}'>
+        <view class='hr'>
+        </view>
+        <image class='qrCodeImage' src='{{qrCode}}' onTap='antmoveAction' data-antmove-tap='reLoadImage'>
+        </image>
+        <view class='hr'>
+        </view>
+        <view class='bottomQrcode'>
+          <picker range-key='name' data-array='{{deviceList}}' value='{{index}}' range='{{deviceList}}' onChange='remoteClick'>
+            <view style='background-color:#0094aa;padding: 3px 3px;border-radius:5px;min-width:80px;text-align:center;color:#fff;margin-rigjt:20px;' onTap='antmoveAction' data-antmove-tap='remoteClick'>
+              {{content.remoteOpenDoor}}
+            </view>
+          </picker>
+          <view class='hr'>
+          </view>
+          <view style='background-color:#0094aa;padding: 3px 5px;border-radius:5px;min-width:80px;text-align:center;color:#fff;margin-left:20px;' onTap='antmoveAction' data-antmove-tap='blueToothClick'>
+            {{content.blueToothDoor}}
+          </view>
+        </view>
+      </block>
+    </view>
+  </view>  <dialog a:if='{{dialogvisible}}' onCancel='cancelBlue' onConfirm='confirmBlue' ref='saveChildRef1'>
+    <view style='padding-left:20px;padding-bottom:20px'>
+      搜索到设备id：{{deviceId}}      <view>
+      </view>
+      搜索到设备名：{{deviceName}}      <view>
+      </view>
+      连接状态：{{blueData.connectData}}      <view>
+      </view>
+    </view>
+  </dialog>
+  <dialog a:if='{{dialogDevice}}' title='请选择小区开锁设备' onCancel='cancel' onConfirm='confirm' ref='saveChildRef2'>
+    <view class='divcss5-max'>
+      <view class='page-section '>
+        <block a:for='{{ [{ menuTree:menuTree,allChecked:allChecked }] }}' a:for-item='amitem' a:for-index='amindex' _is='msgItem' ref-numbers='{{ [{ menuTree:menuTree,allChecked:allChecked }] }}'>
+          <view class='divcss5-max'>
+            <view class='page-section '>
+              <view class='paddingLeft_10 paddingBottom_10 '>
+                <checkbox-group onChange='allChecked'>
+                  <custom-checkbox value='{{amitem.allChecked}}' checked='{{amitem.allChecked}}'>
+                  </custom-checkbox>
+                  绑定所有单元
+                </checkbox-group>
+              </view>
+              <view class='weui-cells weui-cells_after-title '>
+              </view>
+              <view>
+                <block class='weui-cell weui-check__label line-center' a:for='{{amitem.menuTree}}' a:for-index='index' a:for-item='item' a:key='{{id}}' ref-numbers='{{amitem.menuTree}}'>
+                  <view class='paddingBottom_10 '>
+                  </view>
+                  <view class='paddingLeft_10'>
+                    <view class='treeMenuCenter'>
+                      <checkbox-group data-type='checked' data-index='{{index}}' onChange='checkboxChangeAll'>
+                        <custom-checkbox value='{{item.field}}' checked='{{item.checked}}'>
+                        </custom-checkbox>
+                      </checkbox-group>
+                      <image a:if='{{item.isHidden == true}}' data-index='{{index}}' class='icon-chioce' src='/icon/f_left.png' onTap='antmoveAction' data-antmove-tap='opens'>
+                      </image>
+                      <image a:if='{{item.isHidden == false}}' data-index='{{index}}' class='icon-chioce' src='/icon/f_bottom.png' onTap='antmoveAction' data-antmove-tap='opens'>
+                      </image>
+                      <text style='color:black;margin-right:10px'  data-index='{{index}}' decode='{{true}}' onTap='antmoveAction' data-antmove-tap='opens'>
+                        &nbsp;{{item.title}} &nbsp;                   
+                           </text>                      
+                        <checkbox-group data-type='bindAll' data-index='{{index}}' onChange='checkboxChangeBindAll'>
+                        <custom-checkbox checked='{{item.bindAll}}'>
+                        </custom-checkbox>
+                           绑定{{item.field}}单元
+                      </checkbox-group>
+                    </view>
+                  </view>                  <view class=' ' hidden='{{item.isHidden}}' a:for='{{item.children}}' a:for-index='index2' a:for-item='item2' a:key='{{id}}' ref-numbers='{{item.children}}'>
+                    <view class='paddingLeft_20 '>
+                      <view class='treeMenuCenter'>
+                        <checkbox-group data-type='checked' data-index='{{index}}' data-index2='{{index2}}' onChange='checkboxChangeAll'>
+                          <custom-checkbox value='{{item2.field}}' checked='{{item2.checked}}'>
+                          </custom-checkbox>
+                        </checkbox-group>
+                        <image a:if='{{item2.isHidden == true}}' data-index='{{index}}' data-index2='{{index2}}' class='icon-chioce' src='/icon/f_left.png' onTap='antmoveAction' data-antmove-tap='opens'>
+                        </image>
+                        <image a:if='{{item2.isHidden == false}}' data-index='{{index}}' data-index2='{{index2}}' class='icon-chioce' src='/icon/f_bottom.png' onTap='antmoveAction' data-antmove-tap='opens'>
+                        </image>
+                        <text style='color:#0094aa;margin-right:10px' data-index='{{index}}' data-index2='{{index2}}' decode='{{true}}' onTap='antmoveAction' data-antmove-tap='opens'>
+                          &nbsp; {{item2.title}}&nbsp; &nbsp;                        </text>                        <checkbox-group data-type='bindAll' data-index='{{index}}' data-index2='{{index2}}' onChange='checkboxChangeBindAll'>
+                          <custom-checkbox checked='{{item2.bindAll}}'>
+                          </custom-checkbox>
+                          绑定{{item2.field}}楼层
+                        </checkbox-group>
+                      </view>
+                    </view>                    <block class=' ' a:for='{{item2.children}}' a:for-item='item3' a:for-index='index3' a:key='{{id}}' ref-numbers='{{item2.children}}'>
+                      <view class='paddingLeft_30 ' hidden='{{item2.isHidden}}'>
+                        <checkbox-group data-type='checked' data-index='{{index}}' data-index2='{{index2}}' data-index3='{{index3}}' onChange='checkboxChangeAll'>
+                          <custom-checkbox value='{{item3.field}}' checked='{{item3.checked}}'>
+                          </custom-checkbox>
+                          {{item3.title}}
+                        </checkbox-group>
+                      </view>
+                    </block>
+                  </view>                 
+                   <view class='paddingBottom_10 '>
+                  </view>
+                  <view class='weui-cells weui-cells_after-title '>
+                  </view>
+                </block>
+              </view>
+            </view>
+          </view>
+        </block>
+      </view>
+    </view>
+  </dialog>
+</view>

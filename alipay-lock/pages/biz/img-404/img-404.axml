@@ -1,0 +1,4 @@
+<view ref='saveChildRef0'>
+  <image style='width: 200px; height: 200px; background-color: #eeeeee;' mode='{{item.mode}}' src='{{src2}}'>
+  </image>
+</view>

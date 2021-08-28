@@ -1,0 +1,10 @@
+{
+	"titleBarColor": "#0094aa",
+	"defaultTitle": "访客申请",
+	"usingComponents": {
+		"custom-form": "../../../__antmove/component/custom-form/custom-form",
+		"custom-input": "../../../__antmove/component/custom-input/custom-input",
+		"btn": "../../../__antmove/component/btn/btn"
+	},
+	"component": true
+}

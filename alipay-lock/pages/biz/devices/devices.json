@@ -1,0 +1,7 @@
+{
+	"usingComponents": {
+		"custom-input": "../../../__antmove/component/custom-input/custom-input"
+	},
+	"defaultTitle": "设备列表",
+	"component": true
+}

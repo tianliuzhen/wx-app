@@ -1,0 +1,12 @@
+{
+	"usingComponents": {
+		"dialog": "../../../component/myDialog/index",
+		"custom-form": "../../../__antmove/component/custom-form/custom-form",
+		"custom-input": "../../../__antmove/component/custom-input/custom-input",
+		"btn": "../../../__antmove/component/btn/btn",
+		"custom-checkbox": "../../../__antmove/component/custom-checkbox/custom-checkbox"
+	},
+	"titleBarColor": "#0094aa",
+	"defaultTitle": "首页",
+	"component": true
+}

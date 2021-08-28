@@ -1,0 +1,11 @@
+{
+	"usingComponents": {
+		"popup": "/component/popup/popup",
+		"dialog": "../../../component/myDialog/index",
+		"custom-input": "../../../__antmove/component/custom-input/custom-input",
+		"custom-label": "../../../__antmove/component/custom-label/custom-label",
+		"custom-checkbox": "../../../__antmove/component/custom-checkbox/custom-checkbox"
+	},
+	"defaultTitle": "用户列表",
+	"component": true
+}

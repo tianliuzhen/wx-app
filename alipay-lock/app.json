@@ -1,0 +1,54 @@
+{
+	"pages": [
+		"pages/biz/registerUser/registerUser",
+		"pages/index/index",
+		"pages/logs/logs",
+		"pages/biz/visit/visit",
+		"pages/biz/img-404/img-404",
+		"pages/biz/banner/banner",
+		"pages/biz/userList/userList",
+		"pages/biz/visitorRecord/visitorRecord",
+		"pages/biz/set/set",
+		"pages/biz/lockRecord/lockRecord",
+		"pages/biz/devices/devices",
+		"pages/biz/tempVisitorQrcode/tempVisitorQrcode",
+		"pages/biz/updateDevicePassWord/updateDevicePassWord",
+		"component/myCheckbox/myCheckbox"
+	],
+	"window": {
+		"backgroundTextStyle": "dark",
+		"navigationBarTextStyle": "black",
+		"backgroundColor": "#fff",
+		"titleBarColor": "#0094aa",
+		"defaultTitle": "我的应用",
+		"pullRefresh": true
+	},
+	"tabBar": {
+		"selectedColor": "#5ea6eb",
+		"backgroundColor": "",
+		"position": "bottom",
+		"textColor": "#000",
+		"items": [
+			{
+				"pagePath": "pages/biz/registerUser/registerUser",
+				"name": "首页",
+				"icon": "icon/_index.png",
+				"activeIcon": "icon/index.png"
+			},
+			{
+				"pagePath": "pages/biz/visit/visit",
+				"name": "访客申请",
+				"icon": "icon/_qrcode.png",
+				"activeIcon": "icon/qrcode.png"
+			},
+			{
+				"pagePath": "pages/biz/set/set",
+				"name": "设置",
+				"icon": "icon/_shezhi.png",
+				"activeIcon": "icon/shezhi.png"
+			}
+		]
+	},
+	"style": "v2",
+	"sitemapLocation": "sitemap.json"
+}

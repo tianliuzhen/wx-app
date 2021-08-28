@@ -19,9 +19,9 @@
             <text style="color:black" 
               decode="{{true}}">&nbsp;{{item.title}} &nbsp;</text>
               </view>
-              <checkbox-group bindchange="checkboxChangeBindAll" data-index="{{index}}"  >
+              <!-- <checkbox-group bindchange="checkboxChangeBindAll" data-index="{{index}}"  >
               <checkbox  checked="{{item.bindAll}}"   />绑定单元
-              </checkbox-group>
+              </checkbox-group> -->
           </view>
            
           </view>
@@ -41,9 +41,9 @@
               <image wx:if="{{item2.isHidden == false}}"   class="icon-chioce" src="{{menuTreeImgBottom}}"></image>
               <text style="color:#0094aa"    decode="{{true}}">&nbsp; {{item2.title}}&nbsp; &nbsp;</text>
             </view>
-              <checkbox-group bindchange="checkboxChangeBindAll" data-index="{{index}}" data-index2="{{index2}}" >
+              <!-- <checkbox-group bindchange="checkboxChangeBindAll" data-index="{{index}}" data-index2="{{index2}}" >
               <checkbox  checked="{{item2.bindAll}}"  />绑定楼层
-              </checkbox-group>
+              </checkbox-group> -->
             </view>
               
             </view>

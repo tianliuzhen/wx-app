@@ -1,0 +1,109 @@
+<view class='page-container-classname' ref='saveChildRef0'>
+  <view a:if='{{isNewUser}}' class='content'>
+    <custom-form onSubmit='formSubmit' onReset='formReset'>
+      <view class='hr'>
+      </view>
+      <view class='item'>
+        <custom-input type='text' disabled='true' value='{{inputValue}}' name='mobile' placeholder='请输入主人手机号、卡号' placeholder-class='holder' bingblur='accountblur'>
+        </custom-input>
+      </view>
+      <view class='item'>
+        <custom-input type='text' name='visitorMobile' placeholder='请输入访客手机号' placeholder-class='holder'>
+        </custom-input>
+      </view>
+      <view class='item'>
+        <custom-input type='text' name='name' placeholder='访客姓名' placeholder-class='holder'>
+        </custom-input>
+      </view>
+      <view class='item2'>
+        有效开始时间：
+      </view>
+      <view class='item3'>
+        <view class='timeChooseDate'>
+          <picker mode='date' value='{{startTime.date}}' data-obj='date' start='2020-00-01' end='2050-00-00' onChange='bindStartTimeChange'>
+            <view class='picker'>
+              <custom-input disabled='true' class='input_base2 input_h30 ' value='{{startTime.date}}' onInput='inputedit'>
+              </custom-input>
+            </view>
+          </picker>
+        </view>
+        <view class='timeChooseTime'>
+          <picker mode='time' value='{{startTime.time}}' data-obj='time' onChange='bindStartTimeChange'>
+            <view class='picker'>
+              <custom-input disabled='true' class='input_base3 input_h30 ' value='{{startTime.time}}' onInput='inputedit'>
+              </custom-input>
+            </view>
+          </picker>
+        </view>
+      </view>
+      <view class='item2'>
+        有效结束时间：
+      </view>
+      <view class='item3'>
+        <view class='timeChooseDate'>
+          <picker mode='date' value='{{endTime.date}}' data-obj='date' start='2021-00-00' end='2050-00-00' onChange='bindEndTimeChange'>
+            <view class='picker'>
+              <custom-input disabled='true' class='input_base2 input_h30 ' value='{{endTime.date}}' onInput='inputedit'>
+              </custom-input>
+            </view>
+          </picker>
+        </view>
+        <view class='timeChooseTime'>
+          <picker mode='time' value='{{endTime.time}}' data-obj='time' onChange='bindEndTimeChange'>
+            <view class='picker'>
+              <custom-input disabled='true' class='input_base3 input_h30 ' value='{{endTime.time}}' onInput='inputedit'>
+              </custom-input>
+            </view>
+          </picker>
+        </view>
+      </view>
+      <view class='item2'>
+        限制次数：
+      </view>
+      <view class='item3'>
+        <view class='computeCount'>
+          <view class='sub_add_input' type='number' onTap='antmoveAction' data-antmove-tap='bindMinus'>
+            <image class='compute_img' src='{{img_sub}}'>
+            </image>
+          </view>
+          <custom-input type='text' style='text-align:center' value='{{count}}'>
+          </custom-input>
+          <view class='sub_add_input' onTap='antmoveAction' data-antmove-tap='bindPlus'>
+            <image class='compute_img' src='{{img_add}}'>
+            </image>
+          </view>
+        </view>
+      </view>
+      <view class='item-button'>
+        <btn formType='submit' style='background-color:{{color}}' onTap='antmoveAction' data-antmove-tap='fun_click_visitor'>
+          生成邀约码
+        </btn>
+      </view>
+    </custom-form>
+  </view>
+  <view class='qrCode' a:if='{{isShowQrCode}}'>
+    <image class='background' src='../../../icon/wx-lock2.jpg' mode='aspectFill'>
+    </image>
+    <block a:if='{{reRegister == false}}'>
+      <view class='hr'>
+      </view>
+      <view style='background-color:#fff;padding: 3px 4px;border-radius:5px;text-align:center;font-family:Microsoft YaHei'>
+        二维码刷新剩余时间：        <text style='color:red'>
+          {{time}}        </text>        <view>
+        </view>
+        <text style='color:#0094aa'>
+          请将二维码靠近设置扫码区域        </text>
+      </view>
+    </block>    <block a:if='{{reRegister == false}}'>
+      <view class='hr'>
+      </view>
+      <image class='qrCodeImage' src='{{qrCode}}' onTap='antmoveAction' data-antmove-tap='reLoadImage'>
+      </image>
+      <view class='hr'>
+      </view>
+      <btn style='background-color:#0094aa;color:#fff;padding: 3px 4px;border-radius:5px;text-align:center;width:100px;' open-type='share'>
+        一键分享
+      </btn>
+    </block>
+  </view>
+</view>

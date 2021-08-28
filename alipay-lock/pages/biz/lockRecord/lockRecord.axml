@@ -1,0 +1,59 @@
+<view class='content' ref='saveChildRef0'>
+  <view class='hr'>
+  </view>
+  <view class='meet'>
+    <view class='frame'>
+      <custom-input placeholder='请输入卡号、设备唯一SN' model:value='{{searchContion}}'>
+      </custom-input>
+    </view>
+    <view class='btn' onTap='antmoveAction' data-antmove-tap='search'>
+      查询
+    </view>
+  </view>
+  <block a:for='{{recordList}}' a:key='{{id}}' ref-numbers='{{recordList}}'>
+    <view class='meet'>
+      <view class='flex_1'>
+        <view class='flex_1_1'>
+          <view class='detail_left'>
+            设备唯一SN号：
+          </view>
+          <view class='detail_right'>
+            <text style='color:#0094aa'>
+              {{item.devSn}}            </text>
+          </view>
+        </view>        <view class='flex_1_1'>
+          <view class='detail_left'>
+            开锁类型：
+          </view>
+          <view class='detail_right'>
+            <text style='color:red'>
+              {{item.recordType}}            </text>
+          </view>
+        </view>        <view class='flex_1_1'>
+          <view class='detail_left'>
+            卡号：
+          </view>
+          <view class='detail_right'>
+            {{item.cardNum}}
+          </view>
+        </view>
+        <view class='flex_1_1'>
+          <view class='detail_left'>
+            权限：
+          </view>
+          <view class='detail_right'>
+            {{item.isVaild}}
+          </view>
+        </view>
+        <view class='flex_1_1'>
+          <view class='detail_left'>
+            开门时间：
+          </view>
+          <view class='detail_right'>
+            {{item.recordTime}}
+          </view>
+        </view>
+      </view>
+    </view>
+  </block>
+</view>

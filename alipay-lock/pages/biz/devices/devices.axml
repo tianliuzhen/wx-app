@@ -1,0 +1,48 @@
+<view class='content' ref='saveChildRef0'>
+  <view class='hr'>
+  </view>
+  <view class='meet'>
+    <view class='frame'>
+      <custom-input placeholder='请输入设备唯一SN' model:value='{{searchContion}}'>
+      </custom-input>
+    </view>
+    <view class='btn' onTap='antmoveAction' data-antmove-tap='search'>
+      查询
+    </view>
+  </view>
+  <block a:for='{{recordList}}' a:key='{{id}}' ref-numbers='{{recordList}}'>
+    <view class='meet'>
+      <view class='flex_1'>
+        <view class='flex_1_1'>
+          <view class='detail_left'>
+            房间号：
+          </view>
+          <view class='detail_right'>
+            {{item.devDoor}}
+          </view>
+        </view>
+        <view class='flex_1_1'>
+          <view class='detail_left'>
+            设备号：
+          </view>
+          <view class='detail_right'>
+            <text style='color:#0094aa'>
+              {{item.devSn}}            </text>
+          </view>
+        </view>        <view class='flex_1_1'>
+          <view class='detail_left'>
+            有效时间：
+          </view>
+          <view class='detail_right'>
+            {{item.effectiveTime}}
+          </view>
+        </view>
+      </view>      <view class='flex_2'>
+        <view decode='{{true}}' data-info='{{item}}' data-id='{{item.id}}' class='flex_2_top ' onTap='antmoveAction' data-antmove-tap='powerDrawer'>
+          <text data-statu='open' decode='{{true}}'>
+            &nbsp;修改密码&nbsp;          </text>
+        </view>
+      </view>
+    </view>
+  </block>
+</view>

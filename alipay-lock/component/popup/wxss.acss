@@ -1,0 +1,5 @@
+.popup-wxss {
+    display: block;
+    height: initial;
+}
+/* component/popup/wxss.wxss */

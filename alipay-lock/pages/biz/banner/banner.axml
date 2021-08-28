@@ -1,0 +1,21 @@
+<view class='page-container-classname' ref='saveChildRef0'>
+  <text>
+    pages/biz/banner/banner.wxml  </text>  <view>
+    <view class='box'>
+      <view class='a'>
+      </view>
+      <view class='b'>
+      </view>
+    </view>
+    <view class='box2'>
+      <view class='c'>
+        123
+      </view>
+      <view class='middle'>
+      </view>
+      <view class='d'>
+        456
+      </view>
+    </view>
+  </view>
+</view>

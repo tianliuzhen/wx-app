@@ -1,0 +1,71 @@
+<view class='myCheckbox-myCheckbox {{className}}' style='{{style}}' ref='saveChildRef0'>
+  <template name='msgItem'>
+    <view class='divcss5-max'>
+      <view class='page-section '>
+        <view class='paddingLeft_10 paddingBottom_10 '>
+          <checkbox-group onChange='allChecked'>
+            <custom-checkbox value='{{allChecked}}' checked='{{allChecked}}'>
+            </custom-checkbox>
+            绑定所有单元
+          </checkbox-group>
+        </view>
+        <view class='weui-cells weui-cells_after-title '>
+        </view>
+        <view>
+          <block class='weui-cell weui-check__label line-center' a:for='{{menuTree}}' a:for-index='index' a:for-item='item' a:key='{{id}}' ref-numbers='{{menuTree}}'>
+            <view class='paddingBottom_10 '>
+            </view>
+            <view class='paddingLeft_10'>
+              <view class='treeMenuCenter'>
+                <checkbox-group data-type='checked' data-index='{{index}}' onChange='checkboxChangeAll'>
+                  <custom-checkbox value='{{item.field}}' checked='{{item.checked}}'>
+                  </custom-checkbox>
+                </checkbox-group>
+                <image a:if='{{item.isHidden == true}}' data-index='{{index}}' class='icon-chioce' src='/icon/f_left.png' onTap='antmoveAction' data-antmove-tap='opens'>
+                </image>
+                <image a:if='{{item.isHidden == false}}' data-index='{{index}}' class='icon-chioce' src='/icon/f_bottom.png' onTap='antmoveAction' data-antmove-tap='opens'>
+                </image>
+                <text style='color:black' data-index='{{index}}' decode='{{true}}' onTap='antmoveAction' data-antmove-tap='opens'>
+                  &nbsp;{{item.title}} &nbsp;                </text>                <checkbox-group data-type='bindAll' data-index='{{index}}' onChange='checkboxChangeBindAll'>
+                  <custom-checkbox checked='{{item.bindAll}}'>
+                  </custom-checkbox>
+                  绑定{{item.field}}单元
+                </checkbox-group>
+              </view>
+            </view>            <view class=" " hidden='{{item.isHidden}}' a:for='{{item.children}}' a:for-index='index2' a:for-item='item2' a:key='{{id}}' ref-numbers='{{item.children}}'>
+              <view class='paddingLeft_20 '>
+                <view class='treeMenuCenter'>
+                  <checkbox-group data-type='checked' data-index='{{index}}' data-index2='{{index2}}' onChange='checkboxChangeAll'>
+                    <custom-checkbox value='{{item2.field}}' checked='{{item2.checked}}'>
+                    </custom-checkbox>
+                  </checkbox-group>
+                  <image a:if='{{item2.isHidden == true}}' data-index='{{index}}' data-index2='{{index2}}' class='icon-chioce' src='/icon/f_left.png' onTap='antmoveAction' data-antmove-tap='opens'>
+                  </image>
+                  <image a:if='{{item2.isHidden == false}}' data-index='{{index}}' data-index2='{{index2}}' class='icon-chioce' src='/icon/f_bottom.png' onTap='antmoveAction' data-antmove-tap='opens'>
+                  </image>
+                  <text style='color:#0094aa' data-index='{{index}}' data-index2='{{index2}}' decode='{{true}}' onTap='antmoveAction' data-antmove-tap='opens'>
+                    &nbsp; {{item2.title}}&nbsp; &nbsp;                  </text>                  <checkbox-group data-type='bindAll' data-index='{{index}}' data-index2='{{index2}}' onChange='checkboxChangeBindAll'>
+                    <custom-checkbox checked='{{item2.bindAll}}'>
+                    </custom-checkbox>
+                    绑定{{item2.field}}楼层
+                  </checkbox-group>
+                </view>
+              </view>              <block class=" " a:for='{{item2.children}}' a:for-item='item3' a:for-index='index3' a:key='{{id}}' ref-numbers='{{item2.children}}'>
+                <view class='paddingLeft_30 ' hidden='{{item2.isHidden}}'>
+                  <checkbox-group data-type='checked' data-index='{{index}}' data-index2='{{index2}}' data-index3='{{index3}}' onChange='checkboxChangeAll'>
+                    <custom-checkbox value='{{item3.field}}' checked='{{item3.checked}}'>
+                    </custom-checkbox>
+                    {{item3.title}}
+                  </checkbox-group>
+                </view>
+              </block>
+            </view>            <view class='paddingBottom_10 '>
+            </view>
+            <view class='weui-cells weui-cells_after-title '>
+            </view>
+          </block>
+        </view>
+      </view>
+    </view>
+  </template>
+</view>

@@ -1,0 +1,7 @@
+{
+	"component": true,
+	"usingComponents": {
+		"custom-form": "../../__antmove/component/custom-form/custom-form",
+		"btn": "../../__antmove/component/btn/btn"
+	}
+}
