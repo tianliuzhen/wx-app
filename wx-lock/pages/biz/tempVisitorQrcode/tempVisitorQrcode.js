@@ -201,9 +201,9 @@ Page({
    if(!check){
       return
    }
-   
 
-    // 2、手机号验证 
+
+    // 2、手机号验证
     if (!reg_tel.test(visitorMobile)) {
       wx.showToast({
         title: '访客手机号码输入有误',
@@ -282,7 +282,7 @@ Page({
               icon: 'none',
               duration: 2000,
             })
-            if (res.data.message === '已经生成此人邀请码！') {
+            if (res.data.message === '已经生成该手机号邀请码！') {
               this.setData({
                 isNewUser: false,
                 isShowQrCode: true,
