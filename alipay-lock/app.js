@@ -1,13 +1,14 @@
 import "./__antmove/component/componentClass.js";
+
 my.global = {};
 my.styleV2 = true;
 const _my = require("./__antmove/api/index.js")(my);
 const wx = _my;
 // app.js
-import { request } from "/component/request/index.js"; 
+import {request} from "/component/request/index.js";
 
-var  domain='http://localhost:9999';
-var  socketDomain='ws://localhost:9999';
+var domain = 'http://localhost:9999';
+var socketDomain = 'ws://localhost:9999';
 
 // var  domain='https://codeok.cn';
 // var  socketDomain= 'wss://codeok.cn';
@@ -23,22 +24,22 @@ App({
         logs.unshift(Date.now());
         wx.setStorageSync("logs", logs); // 登录
         wx.getAuthCode({
-           scopes: 'auth_base', 
-          success: res => {
-            console.log(res);
-            
+            scopes: 'auth_base',
+            success: res => {
+                console.log(res);
 
-            // 发送 res.code 到后台换取 openId, sessionKey, unionId
-          //   request({
-          //     url:this.globalData.api_getUserInfo,
-          //     method: 'get',
-          //     data:{jsCode:res.code}
-          //   }).then(res=>{
-          //     // 存入缓存
-          //     wx.setStorageSync("userInfo", res.data.data)
-          //     this.globalData.userInfo=res.data.data
-          //   })
-          }
+
+                // 发送 res.code 到后台换取 openId, sessionKey, unionId
+                //   request({
+                //     url:this.globalData.api_getUserInfo,
+                //     method: 'get',
+                //     data:{jsCode:res.code}
+                //   }).then(res=>{
+                //     // 存入缓存
+                //     wx.setStorageSync("userInfo", res.data.data)
+                //     this.globalData.userInfo=res.data.data
+                //   })
+            }
         })
     },
 
@@ -94,20 +95,18 @@ App({
     },
 
     /**
-   绑定手机号
-   */
+     绑定手机号
+     */
     getPhoneNumber(e, that) {
-        console.log(e.detail.errMsg);
-        console.log(e.detail.iv);
-        console.log(e.detail.encryptedData);
+        console.log(e);
+
         wx.login({
             success: res => {
                 request({
-                    url: this.globalData.api_decrypt,
+                    url: this.globalData.api_decrypt + "?sdkType=alipay",
                     data: {
                         code: res.code,
-                        iv: e.detail.iv,
-                        encryptedData: e.detail.encryptedData
+                        encryptedData: e.detail.response
                     },
                     method: "POST"
                 }).then(res => {
@@ -117,6 +116,17 @@ App({
                         that.setData({
                             getPhone: res.data.data.phoneNumber
                         });
+                        // 如果改手机号数据在微信小程序已经存在，直接返回二维码页面
+                        if (res.data.data.isExist) {
+                            that.refush();
+                           wx.showToast({
+                            title: "微信平台已经注册该手机号，支付宝平台可直接使用！",
+                            icon: "none",
+                            duration: 3000
+                        });
+                        }
+
+
                     }
 
                     if (!res.data.success) {

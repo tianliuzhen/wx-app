@@ -182,7 +182,7 @@ Page({
                     });
                 }
             });
-        } 
+        }
     },
 
     initSysData() {
@@ -350,6 +350,9 @@ Page({
     },
 
     refush() {
+        this.setData({
+            qrCode:""
+        })
         this.initUser();
     },
 
