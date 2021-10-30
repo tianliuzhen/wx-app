@@ -97,9 +97,6 @@ function toConnectionBlueToothDevice() {
     }
     // 2.1、建立连接
     console.log("建立连接");
-    wx.showLoading({
-        title: '数据连接中...',
-    })
     wx.createBLEConnection({
         deviceId: that.data.deviceId, //搜索设备获得的蓝牙设备 id
         success: function (res) {
@@ -107,11 +104,10 @@ function toConnectionBlueToothDevice() {
             blueData.connectData = '连接蓝牙成功'
             that.setData({
                 blueData: blueData,
-                // todo 手动确认是否连接蓝牙
-                // dialogvisible: true
+                dialogvisible: true
             })
             // =======>  2.2、获取服务UUID
-            getBLEServiceId(that.data.deviceId) 
+            getBLEServiceId(that.data.deviceId)
         },
         fail: function (res) {
             wx.showModal({
@@ -148,7 +144,6 @@ function getBLEServiceId(deviceId) {
                 getBLECharactedId(deviceId, serviceId);
             }
             console.log('service_id:', that.data.service_id);
-            
         },
         fail(res) {
             console.log(res);
@@ -178,7 +173,7 @@ function getBLECharactedId(deviceId, serviceId) {
                     });
                     console.log('写write_id:', that.data.write_id);
                     // todo 自动执行，转为手动执行
-                     sendBLECharacterNotice(that);
+                    //  sendBLECharacterNotice();
                 }
                 if (charc.properties.notify) {
                     that.setData({
@@ -241,15 +236,12 @@ function sendBLECharacterNotice(pointer) {
             })
             // 规定：头部+53，尾部+0D
             console.log("###########");
-            // 关闭 - 数据连接中...
-            wx.hideLoading()
-            wrireToBlueToothDevice("53" + res.data.data + "0D" + "\\n")   
+            wrireToBlueToothDevice("53" + res.data.data + "0D" + "\\n")
+
             // 发送完数据之后，断开连接
             setTimeout(function () {
                 console.log("*************");
                 closeBlueTooth(pointer)
-                // 关闭加载动画
-                wx.hideLoading()
             }, 2000)
 
         }
@@ -271,9 +263,6 @@ function sendBLECharacterNotice(pointer) {
  * 3、 ********* 分片写入数据
  */
 function wrireToBlueToothDevice(msg) {
-    wx.showLoading({
-        title: '蓝牙开门中...',
-      })
     console.log("msg:" + msg);
     let buffer = toAsciiToArrayBuffer(msg);
     let pos = 0;
@@ -336,8 +325,6 @@ function wrireToBlueToothDevice(msg) {
             // })
         }
     }
-    console.log("while end .............................");
-   
 }
 
 
