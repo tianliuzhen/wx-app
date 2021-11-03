@@ -1,7 +1,9 @@
 // app.js
 var chinese = require("utils/Chinese.js")
 var english = require("utils/English.js")
-import {request} from "/component/request/index.js";
+import {
+    request
+} from "/component/request/index.js";
 
 // var  domain='http://localhost:9999';
 // var  socketDomain='ws://localhost:9999';
@@ -81,7 +83,9 @@ App({
         api_decrypt: domain + '/wx-lock-api/decrypt',
         api_websocket: socketDomain + '/socketServer/',
 
-        chinese: chinese
+        // 国际化脚本
+        chinese: chinese,
+        english: english
 
     },
     /**
@@ -120,23 +124,46 @@ App({
             }
         })
     },
-    // 中英文切换按钮
-    changeLanguage(that) {
-        var version = that.data.lanuage;
-        console.log(version);
+    // 中英文切换
+    changeLanguage(that,type) {
+        var version=  that.data.lanuage === "中文" ?  "英文"  : "中文"
+        // 页面 show 加载的时候
+        if(type === "init" ){
+          var  languageTag = wx.getStorageSync('languageTag')        
+            if(languageTag != ""){
+                // 缓存存在取缓存
+                version =  languageTag
+            }else{
+                // 缓存不存在取默认
+                version = that.data.lanuage
+            }
+
+       // 点击切换时
+        }else{
+            wx.setStorageSync('languageTag', version)            
+        }
+       console.log(version);
+       this.setLanguageTag(that,version)
+     
+       
+
+    },
+    // 设置语言标签
+    setLanguageTag(that,version) {
         if (version == "中文") {
-            console.log(1);
-            that.setData({
-                lanuage: "英文",
-                content: chinese.Content
-            })
-        } else {
-            console.log(1);
+            console.log("切换中文...");
             that.setData({
                 lanuage: "中文",
+                content: chinese.Content
+            })
+        }
+        if(version == "英文") {
+            console.log("切换英文...");
+            that.setData({
+                lanuage: "英文",
                 content: english.Content
             })
         }
-    },
+    }
 
 })

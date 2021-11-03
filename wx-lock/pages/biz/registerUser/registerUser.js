@@ -124,7 +124,7 @@ Page({
     this.refushSocket()
     
     // 初始化国际化翻译
-    app.changeLanguage(this)
+    app.changeLanguage(this,"init")
   },
   /**
    * 生命周期函数--监听页面隐藏

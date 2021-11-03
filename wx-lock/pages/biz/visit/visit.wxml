@@ -1,4 +1,4 @@
-<view style=" position: absolute; left: 10px;bottom: 10px;" bindtap="changeLanguage"><button class="codebutton">切换英文</button></view> 
+<!-- <view style=" position: absolute; left: 10px;bottom: 10px;" bindtap="changeLanguage"><button class="codebutton">切换英文</button></view>  -->
  
 
 <!--pages/company/company.wxml-->
