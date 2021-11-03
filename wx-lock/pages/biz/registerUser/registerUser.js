@@ -4,8 +4,6 @@ import {
 } from "../../../component/request/index.js";
 var interval;
 const app = getApp()
-var chinese = require("../../../utils/Chinese.js")
-var english = require("../../../utils/English.js")
 var socket = require("../../../utils/socket")
 var blueTooth = require("../../../utils/blueTooth")
 var myCheckBox = require("../../../utils/myCheckBox")
@@ -32,7 +30,7 @@ Page({
     img_add: '/icon/add.png',
     img_sub: '/icon/sub.png',
     lanuage: "中文",
-    content: chinese.Content,
+    content: app.globalData.chinese.Content,
     color: '#0094aa',
     user: {},
     qrCode: "",
@@ -124,6 +122,9 @@ Page({
 
     // socket 连接处理
     this.refushSocket()
+    
+    // 初始化国际化翻译
+    app.changeLanguage(this)
   },
   /**
    * 生命周期函数--监听页面隐藏
@@ -631,20 +632,6 @@ Page({
       }, ms);
     });
   },
-  changeLanguage() {
-    var version = this.data.lanuage;
-    if (version == "中文") {
-      this.setData({
-        lanuage: "英文",
-        content: chinese.Content
-      })
-    } else {
-      this.setData({
-        lanuage: "中文",
-        content: english.Content
-      })
-    }
-  },
   checkboxChange(e) {
     console.log('checkbox发生change事件，携带value值为：', e.detail.value)
     var checkBoxObj = this.data.checkBoxObj
@@ -714,6 +701,13 @@ Page({
    */
   getPhoneNumber(e) {
     app.getPhoneNumber(e,this)
-  }
+  },
+
+  /**
+   中英文切换
+   */
+  changeLanguage() {
+    app.changeLanguage(this)
+  },
 
 })

@@ -1,8 +1,8 @@
 <!--pages/company/company.wxml-->
 
-<!-- 
-  <view style=" position: absolute; left: 10px;bottom: 10px;" bindtap="changeLanguage"><button>{{content.button}}</button></view> 
-  -->
+
+  <view style=" position: absolute; left: 10px;bottom: 10px;" bindtap="changeLanguage"><button class="codebutton" >{{content.button}}</button></view> 
+ 
 <view wx:if="{{isNewUser}}" class="content">
   <form bindsubmit="formSubmit" bindreset="formReset">
     <view class="hr"></view>

@@ -3,7 +3,7 @@ var Chinese = {
   tipLimitTimeBoottom: "请将二维码靠近设置扫码区域",
   remoteOpenDoor:"远程开门",
   blueToothDoor:"蓝牙开门",
-  button: "English"
+  button: "切换英文"
 }
 module.exports = {
   Content: Chinese

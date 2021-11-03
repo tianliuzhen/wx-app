@@ -1,5 +1,6 @@
 // app.js
-
+var chinese = require("utils/Chinese.js")
+var english = require("utils/English.js")
 import {request} from "/component/request/index.js";
 
 // var  domain='http://localhost:9999';
@@ -79,6 +80,9 @@ App({
         api_getDeviceTreeMenu: domain + '/wx-lock-api/getDeviceTreeMenu',
         api_decrypt: domain + '/wx-lock-api/decrypt',
         api_websocket: socketDomain + '/socketServer/',
+
+        chinese: chinese
+
     },
     /**
      绑定手机号
@@ -115,6 +119,24 @@ App({
                 })
             }
         })
-    }
+    },
+    // 中英文切换按钮
+    changeLanguage(that) {
+        var version = that.data.lanuage;
+        console.log(version);
+        if (version == "中文") {
+            console.log(1);
+            that.setData({
+                lanuage: "英文",
+                content: chinese.Content
+            })
+        } else {
+            console.log(1);
+            that.setData({
+                lanuage: "中文",
+                content: english.Content
+            })
+        }
+    },
 
 })
