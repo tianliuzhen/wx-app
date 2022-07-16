@@ -117,7 +117,7 @@
     
     </view>
     <view class="top grid">
-      <label class="title col-0"> <text style="color: gray;">设备：</text></label>
+      <label class="title col-0"> <text style="color: black;">设备：</text></label>
       <view class="width_200X">
       <block wx:if="{{userinfo.typeStatus}}">
         <input class="input_base input_h30 col-1" disabled="false" bindtap="showDialogDevice"value="{{menuTreeRes}}" ></input>

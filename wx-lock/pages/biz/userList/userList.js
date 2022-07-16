@@ -196,18 +196,17 @@ Page({
   audit(e) {
     var res = e.currentTarget.dataset.userinfo;
     // console.log(res.startTime.substring(0, 10));
-    // console.log(res.startTime.substring(11, 16));
     var status;
     if (res.status === '通过') {
       status = false
     } else {
       status = true
     }
+   var currentUser= wx.getStorageSync("userInfo");
     res["typeStatus"] = false
-    if((res.type =='管理员' || res.type =='普通用户') && res.blacklist=== '否' ){
+    if((currentUser.type ==0 || currentUser.type ==1) && currentUser.blacklist=== 0 ){
       res["typeStatus"]=true
     }
-    
     this.setData({
       areaCopy:res.areaId,
       userinfo: res,

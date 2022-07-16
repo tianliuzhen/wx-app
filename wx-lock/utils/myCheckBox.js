@@ -2,6 +2,10 @@
    const app = getApp()
    
    function initChekBox(pointer,areaId,openId) {
+    doReq(pointer,areaId,openId)
+  }
+
+  function doReq(pointer,areaId,openId){
     var that =pointer
     // 请求数据
     var data=[]
@@ -30,6 +34,12 @@
             }
           }
         }
+        console.log(11111)
+        console.log(data)
+        if(data.length ==  0 && openId!=null){
+          console.log(areaId)
+          doReq(pointer,areaId,"")
+        }
         that.setData({
           menuTree:data
         })
@@ -37,8 +47,6 @@
         // ==============
       }
     })
-    
-    
   }
 
     /**
